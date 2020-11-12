@@ -585,10 +585,18 @@
   <div class="row">
     <div class="portfoliolist col s12"></div>
   </div>
+  <div></div>
+</body>
+  <script>
+  history.pushState(null, null, location.href);
+  window.onpopstate = function () {
+    closePopup()
+    history.go(1);
+  };
+ 
+  </script>
 
-
-
-<script>
+  <script>
         function isMobile(){
           var UserAgent = navigator.userAgent;
           if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
@@ -1080,14 +1088,5 @@ $(".list.profile .title").append('<a href="#" class="logo"  onclick="easyPrintWe
     //default pdf
     localStorage.store = "pdf";
   </script>
-  <div></div>
-</body>
-  <script>
-  history.pushState(null, null, location.href);
-  window.onpopstate = function () {
-    closePopup()
-    history.go(1);
-  };
- 
-  </script>
+
 </html>
