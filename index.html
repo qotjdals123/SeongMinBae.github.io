@@ -587,60 +587,54 @@
   </div>
   <div></div>
 </body>
-  <script>
+<script>
+  var currentSwiper;
+  var fire = 0;
+
+  //뒤로 가기 방지. 팝업 닫기 위해
   history.pushState(null, null, location.href);
   window.onpopstate = function () {
     closePopup()
     history.go(1);
   };
- 
-  </script>
+  
+  function isMobile(){
+    var UserAgent = navigator.userAgent;
+    if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
+      return true;
+    }else{
+      return false;
+    }
+  }
 
-  <script>
-        function isMobile(){
-          var UserAgent = navigator.userAgent;
-          if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
-            return true;
-          }else{
-            return false;
-          }
-        }
+  function totalfilter(c){
+    if(c==1){
+      $('.portfoliolist').html($(".myprofile").html().replace("• 학력사항", "<strong style='font-size:18px'>• 학력사항</strong>").replace("• 경력사항", "<br><strong style='font-size:18px'>• 경력사항</strong>").replace("• 수상내역", "<br><strong style='font-size:18px'>• 수상내역</strong>").replace("• 자격증","<br><strong style='font-size:18px'>• 자격증</strong>").replace("• 특허 및 저작권","<br><strong style='font-size:18px'>• 특허 및 저작권</strong>").replace("• 기타 활동","<br><strong style='font-size:18px'>• 기타 활동</strong>").replace("• 프로젝트","<br>• 프로젝트").replace("• 연구개발","<br>• 연구개발").replace("close",''))
 
-      function totalfilter(c){
-        if(c==1){
-            //$(".portfoliolist .project").show();
-            //$("div.col.s4.portfolio").not('.project').hide();
-            $('.portfoliolist').html($(".myprofile").html().replace("• 학력사항", "<strong style='font-size:18px'>• 학력사항</strong>").replace("• 경력사항", "<br><strong style='font-size:18px'>• 경력사항</strong>").replace("• 수상내역", "<br><strong style='font-size:18px'>• 수상내역</strong>").replace("• 자격증","<br><strong style='font-size:18px'>• 자격증</strong>").replace("• 특허 및 저작권","<br><strong style='font-size:18px'>• 특허 및 저작권</strong>").replace("• 기타 활동","<br><strong style='font-size:18px'>• 기타 활동</strong>").replace("• 프로젝트","<br>• 프로젝트").replace("• 연구개발","<br>• 연구개발").replace("close",''))
-
-              $('#categoryB').css('font-weight',400)
-              $('#categoryA').css('font-weight',700)
-            if(isMobile()){
-              $('.portfoliolist').css('font-size', '11px')
-            }else{
-              $('.portfoliolist').css('font-size', '15px')
-            }
-            $('.mycontent').css('text-align', 'left')
-            $('.list.profile').remove()
-            $('.popCloseButton').css('visibility','hidden')
-        }else if(c==2){
-            //$(".portfoliolist .project").hide();
-            //$("div.col.s4.portfolio").not('.project').show();
-            $('.portfoliolist').html(tmp)
-            $('.popCloseButton').css('visibility','unset')
-            $('#categoryB').css('font-weight',700)
-            $('#categoryA').css('font-weight',400)
-        }
-        else{
-          //$(".portfoliolist").children().show();
-          $("div.col.s4.portfolio").not('.project').show();
-          $(".portfoliolist .project").show();
-        }
+      $('#categoryB').css('font-weight',400)
+      $('#categoryA').css('font-weight',700)
+      
+      if(isMobile()){
+        $('.portfoliolist').css('font-size', '11px')
+      }else{
+        $('.portfoliolist').css('font-size', '15px')
       }
-      </script>
-
-  <script>
-  var currentSwiper;
-  var fire = 0;
+      
+      $('.mycontent').css('text-align', 'left')
+      $('.list.profile').remove()
+      $('.popCloseButton').css('visibility','hidden')
+    }else if(c==2){
+        $('.portfoliolist').html(tmp)
+        $('.popCloseButton').css('visibility','unset')
+        $('#categoryB').css('font-weight',700)
+        $('#categoryA').css('font-weight',400)
+    }
+    else{
+      $("div.col.s4.portfolio").not('.project').show();
+      $(".portfoliolist .project").show();
+    }
+  }
+  
   function openLove(){
     $(".love").show()
     $("#dimmed").show();
