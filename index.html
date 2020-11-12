@@ -873,162 +873,143 @@
     })
     
     $.when(project,develop).done(function(){
+      var profile = $.ajax({
+        url:"data/myprofile.jso",
+        dataType:'JSON',
+        success:function(data){
+          $(".wrapper").prepend('<div class="myprofile modal modal-fixed-footer" style="width: 50%; height: 80%; max-height: 100%; box-shadow: none; z-index: 99999; display:none;"></div>');
+          $(".myprofile").append("<div class='modal-content' style=''></div>");
 
+          $(".myprofile > .modal-content").append("<div class='mycontent' style=''></div>");
+          $(".myprofile .mycontent").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
 
-              var profile = $.ajax({
-                url: "data/myprofile.jso",
-                dataType : 'JSON',
-                success:function(data){
-                  $(".wrapper").prepend('<div class="myprofile modal modal-fixed-footer" style="width: 50%; height: 80%; max-height: 100%; box-shadow: none; z-index: 99999; display:none;"></div>');
-                  $(".myprofile").append("<div class='modal-content' style=''></div>")
+          //정규직 경력
+          var today = new Date();  
+          var dateString = "2016-12-19";    
+          var dateArray = dateString.split("-");  
+          var dateObj = new Date(dateArray[0], Number(dateArray[1])-1, dateArray[2]);  
+          var betweenDay = (today.getTime() - dateObj.getTime())/1000/60/60/24;  
+          betweenDay = parseInt(betweenDay);
+          yy = parseInt(betweenDay/365);
+          dd = betweenDay - (365 * yy);
+          mm = parseInt(dd/30);
+          dd = dd - (30 * mm);
 
-                  //$(".myprofile > .modal-content").append("<div class='myphoto' style='background-image:url(\"img/profile.jpg\");'></div>")
-                  $(".myprofile > .modal-content").append("<div class='mycontent' style=''></div>")
-                  $(".myprofile .mycontent").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
+          //프리랜서 경력
+          var today2 = new Date();  
+          var dateString2 = "2019-4-18";    
+          var dateArray2 = dateString2.split("-");  
+          var dateObj2 = new Date(dateArray2[0], Number(dateArray2[1])-1, dateArray2[2]);  
+          var betweenDay2 = (today2.getTime() - dateObj2.getTime())/1000/60/60/24;  
+          betweenDay2 = parseInt(betweenDay2);
+          yy2 = parseInt(betweenDay2/365);
+          dd2 = betweenDay2 - (365 * yy2);
+          mm2 = parseInt(dd2/30);
+          dd2 = dd2 - (30 * mm2);
 
-                  //정규직 경력
-                  var today = new Date();  
-                  var dateString = "2016-12-19";    
-                  var dateArray = dateString.split("-");  
-                  var dateObj = new Date(dateArray[0], Number(dateArray[1])-1, dateArray[2]);  
-                  var betweenDay = (today.getTime() - dateObj.getTime())/1000/60/60/24;  
-                  betweenDay = parseInt(betweenDay);
-                  yy = parseInt(betweenDay/365);
-                  dd = betweenDay - (365 * yy);
-                  mm = parseInt(dd/30);
-                  dd = dd - (30 * mm);
+          old = (function calcAge(birth) {                
+              var date = new Date();
+              var year = date.getFullYear();
+              var month = (date.getMonth() + 1);
+              var day = date.getDate();       
+              if (month < 10) month = '0' + month;
+              if (day < 10) day = '0' + day;
+              var monthDay = month + day;
+              birth = birth.replace('-', '').replace('-', '');
+              var birthdayy = birth.substr(0, 4);
+              var birthdaymd = birth.substr(4, 4);
+              var age = monthDay < birthdaymd ? year - birthdayy - 1 : year - birthdayy;
+              return age;
+          }('19950901'))
 
-                  //프리랜서 경력
-                  var today2 = new Date();  
-                  var dateString2 = "2019-4-18";    
-                  var dateArray2 = dateString2.split("-");  
-                  var dateObj2 = new Date(dateArray2[0], Number(dateArray2[1])-1, dateArray2[2]);  
-                  var betweenDay2 = (today2.getTime() - dateObj2.getTime())/1000/60/60/24;  
-                  betweenDay2 = parseInt(betweenDay2);
-                  yy2 = parseInt(betweenDay2/365);
-                  dd2 = betweenDay2 - (365 * yy2);
-                  mm2 = parseInt(dd2/30);
-                  dd2 = dd2 - (30 * mm2);
+          //addProfileList("detail",'배성민',data[0],"detail");
+          addProfileList("profile",'배성민 [1995 개발자/ 만 ' + old + '세]',data[0],"profile");
 
-                  old = (function calcAge(birth) {                
-                      var date = new Date();
-                      var year = date.getFullYear();
-                      var month = (date.getMonth() + 1);
-                      var day = date.getDate();       
-                      if (month < 10) month = '0' + month;
-                      if (day < 10) day = '0' + day;
-                      var monthDay = month + day;
-                      birth = birth.replace('-', '').replace('-', '');
-                      var birthdayy = birth.substr(0, 4);
-                      var birthdaymd = birth.substr(4, 4);
-                      var age = monthDay < birthdaymd ? year - birthdayy - 1 : year - birthdayy;
-                      return age;
-                  }('19950901'))
+          $(".list.profile .title").append('<a href="#" class="logo"  onclick="easyPrintWebPage({elementid:\'.myprofile .mycontent\'})" style="color:black; margin-top:3px; margin-left:3px;" onmouseover="$(this).css(\'color\',\'\'); $(this).css(\'cursor\',\'pointer\')" onmouseout="$(this).css(\'color\',\'black\')" ></a>');
 
-                  //addProfileList("detail",'배성민',data[0],"detail");
-                  addProfileList("profile",'배성민 [1995 개발자/ 만 ' + old + '세]',data[0],"profile");
+          addProfileList("study",'• 학력사항',data[0],"study");
+          addProfileList("detail",'• 경력사항 [' + yy + '년 ' + mm + '개월 ' + dd +'일]',data[0],"detail");
+          addProfileList("prize",'• 수상내역',data[0],"prize");
+          addProfileList("cert",'• 자격증',data[0],"cert");
+          addProfileList("patent",'• 특허 및 저작권',data[0],"patent");
+          addProfileList("etc",'• 기타 활동',data[0],"etc");
+          
+          shortlist["project"].sort(function(a,b){
+            return (a.date < b.date) ? 1 :(a.date > b.date) ? 0 : 1;
+          })
+          shortlist["develop"].sort(function(a,b){
+            return (a.date < b.date) ? 1 :(a.date > b.date) ? 0 : 1;
+          })
+          
+          $(".wrapper").prepend('<div class="love modal modal-fixed-footer" style="width: 50%; height: 80%; max-height: 100%; box-shadow: none; z-index: 99999; display:none;"></div>');
+          $(".love").append("<div class='modal-content' style=''></div>");
 
+          var content = "<strong>이메일 보내기<br>(bsm9100@naver.com)</strong>";
+          var email = "<div class='pcontent'>e-mail : bsm9100@naver.com</div>";
+          var title = '<div class="input-field"><input id="name" type="text" class="validate"><label for="first_name">제목</label></div>';
+          var phone = '<div class="input-field"><input id="phone" type="text" class="validate"><label for="first_name">휴대폰</label></div>';
+          var email = '<div class="input-field"><input id="email" type="text" class="validate"><label for="first_name">이메일</label></div>';
+          var textarea = '<div class="input-field"><textarea id="message" class="materialize-textarea"></textarea><label for="textarea1">내용</label></div></div>';
+          var button = '<button class="btn waves-effect waves-light" style="float:right; margin-left: 10px;" type="button" name="action" onclick="sendMail()">Submit<i class="material-icons right">send</i></button>';
+          content = "<div class='list'>"+content + title + phone + email + textarea  +button +"</div>";
+          $(".love > .modal-content").append("<div class='mycontent' style=''>"+content+"</div>");
+          $(".love .mycontent").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
+          $('.portfoliolist').css('visibility','unset');
+          totalFilter(1);
 
-$(".list.profile .title").append('<a href="#" class="logo"  onclick="easyPrintWebPage({elementid:\'.myprofile .mycontent\'})" style="color:black; margin-top:3px; margin-left:3px;" onmouseover="$(this).css(\'color\',\'\'); $(this).css(\'cursor\',\'pointer\')" onmouseout="$(this).css(\'color\',\'black\')" ></a>');
-
-                  addProfileList("study",'• 학력사항',data[0],"study");
-                  addProfileList("detail",'• 경력사항 [' + yy + '년 ' + mm + '개월 ' + dd +'일]',data[0],"detail");
-                  //addProfileList("freelancer",'• 계약직 경력 [' + yy2 + '년 ' + mm2 + '개월 ' + dd2 +'일]',data[0],"freelancer");
-                  addProfileList("prize",'• 수상내역',data[0],"prize");
-                  addProfileList("cert",'• 자격증',data[0],"cert");
-                  addProfileList("patent",'• 특허 및 저작권',data[0],"patent");
-                  addProfileList("etc",'• 기타 활동',data[0],"etc");
-                  //addProfileList("paper",'• 논문 및 학회 발표',data[0],"paper");
-
-                  shortlist["project"].sort(function(a,b){
-                    return (a.date < b.date) ? 1 :(a.date > b.date) ? 0 : 1;
-                  })
-                  shortlist["develop"].sort(function(a,b){
-                    return (a.date < b.date) ? 1 :(a.date > b.date) ? 0 : 1;
-                  })
-                  
-                  //addProfileList("project",'• 프로젝트',shortlist,"project");
-
-                  $(".wrapper").prepend('<div class="love modal modal-fixed-footer" style="width: 50%; height: 80%; max-height: 100%; box-shadow: none; z-index: 99999; display:none;"></div>');
-                  $(".love").append("<div class='modal-content' style=''></div>")
-
-                 // $(".love > .modal-content").append("<div class='myphoto' style='background-image:url(\"img/profile.jpg\");'></div>")
-                  var content = "<strong>이메일 보내기<br>(bsm9100@naver.com)</strong>";
-                  var email = "<div class='pcontent'>e-mail : bsm9100@naver.com</div>";
-                  var title = '<div class="input-field"><input id="name" type="text" class="validate"><label for="first_name">제목</label></div>';
-                  var phone = '<div class="input-field"><input id="phone" type="text" class="validate"><label for="first_name">휴대폰</label></div>';
-                  var email = '<div class="input-field"><input id="email" type="text" class="validate"><label for="first_name">이메일</label></div>';
-                  var textarea = '<div class="input-field"><textarea id="message" class="materialize-textarea"></textarea><label for="textarea1">내용</label></div></div>';
-                  var button = '<button class="btn waves-effect waves-light" style="float:right; margin-left: 10px;" type="button" name="action" onclick="sendMail()">Submit<i class="material-icons right">send</i></button>';
-                  content = "<div class='list'>"+content + title + phone + email + textarea  +button +"</div>";
-                  $(".love > .modal-content").append("<div class='mycontent' style=''>"+content+"</div>")
-
-                  $(".love .mycontent").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
-              $('.portfoliolist').css('visibility','unset')
-              totalFilter(1)
-
-                  if(isIE9()){
-                      $(".material-icons").hide();
-                      $(".ieicon").show();
-                      $(".totaltop.row").hide();
-                      $(".waves-effect.waves-light.btn.flow-text").css({"width":"200px","height":"30px"})
-                      $(".comment.row").css("padding-left","100px");
-                      $(".photowrap").css({
-                        "width":"100%",
-                        "height":"",
-                        "display":"block",
-                        "overflow":"visible"
-                      })
-                      $(".photo.swiper-wrapper").css({
-                        "width":"100%",
-                        "white-space":"normal"
-                      })
-                      $(".content").css({
-                        "width":"100%",
-                        "display":"block",
-                        "overflow":"visible"
-                      })
-                      $(".modal.modal-fixed-footer").css({
-                        "top":"0px",
-                        "width":"100%",
-                        "height":"100%"
-                      })
-
-                      $(".love").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
-                      $(".love .modal-content").append("<div class='mycontent'></div>")
-                      var title = '<div><label for="first_name">제목</label></div><div><input id="name" name="name" type="text"></div>';
-                      var phone = '<div><label for="first_name">휴대폰</label></div><div><input id="phone" name="phone" type="text"></div>';
-                      var email = '<div><label for="first_name">이메일</label></div><div><input id="email" name="email" type="text"></div>';
-                      var textareas = '<div><label for="textarea1">내용</label></div><div><textarea id="message" name="message" style="height:700px;"></textarea></div>';
-                      var button = '<div><input style="margin-left: 10px;" type="submit" value="Submit"></input></div>';
-                      var contentt = "<div class='list'><form id='ieform' action='./backup/mail/contact_me.php' method='POST'>"+ title + phone + email + textareas  +button +"</form></div>";
-                      console.log(contentt);
-                      try{
-                        $(".love .mycontent").append(contentt);
-                      }catch(e){console.log(e)}
-
-
-                          $(".popCloseButton").css("z-index","999999");
-                          $(".popCloseButton").each(function(){
-                            $(this).children().remove();
-                          });
-                          $(".popCloseButton").append("<img src='img/icon/close.png' style='width:20px;height:20px;'/>")
-                  }
-                }
-              })
-
-              $(".totalcnt").append(totalcount);
-              tmp = $('.portfoliolist').html()
-              $('.portfoliolist').css('visibility','hidden')
+          if(isIE9()){
+            $(".material-icons").hide();
+            $(".ieicon").show();
+            $(".totaltop.row").hide();
+            $(".waves-effect.waves-light.btn.flow-text").css({"width":"200px","height":"30px"})
+            $(".comment.row").css("padding-left","100px");
+            $(".photowrap").css({
+              "width":"100%",
+              "height":"",
+              "display":"block",
+              "overflow":"visible"
+            })
+            $(".photo.swiper-wrapper").css({
+              "width":"100%",
+              "white-space":"normal"
+            })
+            $(".content").css({
+              "width":"100%",
+              "display":"block",
+              "overflow":"visible"
+            })
+            $(".modal.modal-fixed-footer").css({
+              "top":"0px",
+              "width":"100%",
+              "height":"100%"
             })
 
+            $(".love").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
+            $(".love .modal-content").append("<div class='mycontent'></div>")
+            var title = '<div><label for="first_name">제목</label></div><div><input id="name" name="name" type="text"></div>';
+            var phone = '<div><label for="first_name">휴대폰</label></div><div><input id="phone" name="phone" type="text"></div>';
+            var email = '<div><label for="first_name">이메일</label></div><div><input id="email" name="email" type="text"></div>';
+            var textareas = '<div><label for="textarea1">내용</label></div><div><textarea id="message" name="message" style="height:700px;"></textarea></div>';
+            var button = '<div><input style="margin-left: 10px;" type="submit" value="Submit"></input></div>';
+            var contentt = "<div class='list'><form id='ieform' action='./backup/mail/contact_me.php' method='POST'>"+ title + phone + email + textareas  +button +"</form></div>";
+            
+            try{
+              $(".love .mycontent").append(contentt);
+            }catch(e){}
+
+            $(".popCloseButton").css("z-index","999999");
+            $(".popCloseButton").each(function(){
+              $(this).children().remove();
+            });
+            $(".popCloseButton").append("<img src='img/icon/close.png' style='width:20px;height:20px;'/>");
+          }
+        }
+      })
+
+      $(".totalcnt").append(totalcount);
+      tmp = $('.portfoliolist').html();
+      $('.portfoliolist').css('visibility','hidden');
+    })
   }
-
-
-//      $(".portfoliolist").append('<div class="col s4"><%= people[i] %></div>');
-    
-    //default pdf
-    localStorage.store = "pdf";
   </script>
-
 </html>
