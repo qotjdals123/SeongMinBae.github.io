@@ -559,11 +559,11 @@
       </div>
       
       <div class="totaltop row">
-        <div class="col m4" onclick="totalfilter(1);" style="cursor:pointer">
+        <div class="col m4" onclick="totalFilter(1);" style="cursor:pointer">
           <span class="nowrap class">프로필</span> 
           <span class="nowrap"></span>
         </div>
-        <div class="col m4" onclick="totalfilter(2);" style="cursor:pointer">
+        <div class="col m4" onclick="totalFilter(2);" style="cursor:pointer">
           <span class="nowrap class">프로젝트</span> 
           <span class="nowrap"></span>
         </div>
@@ -572,11 +572,11 @@
   </div>
 
   <div class="row total">
-    <div class="col s6" onclick="totalfilter(1);" id="categoryA" style="cursor:pointer">
+    <div class="col s6" onclick="totalFilter(1);" id="categoryA" style="cursor:pointer">
       <div class="profileTitle no_tab_highlight" style="-webkit-tap-highlight-color:transparent;">프로필</div>
       <div></div>
     </div>
-    <div class="col s6" onclick="totalfilter(2);" id="categoryB" style="cursor:pointer">
+    <div class="col s6" onclick="totalFilter(2);" id="categoryB" style="cursor:pointer">
       <div class="projectTitle no_tab_highlight" style="-webkit-tap-highlight-color:transparent;">프로젝트</div>
       <div></div>
     </div>
@@ -594,7 +594,7 @@
   //뒤로 가기 방지. 팝업 닫기 위해
   history.pushState(null, null, location.href);
   window.onpopstate = function () {
-    closePopup()
+    closePopup();
     history.go(1);
   };
   
@@ -607,27 +607,27 @@
     }
   }
 
-  function totalfilter(c){
+  function totalFilter(c){
     if(c==1){
-      $('.portfoliolist').html($(".myprofile").html().replace("• 학력사항", "<strong style='font-size:18px'>• 학력사항</strong>").replace("• 경력사항", "<br><strong style='font-size:18px'>• 경력사항</strong>").replace("• 수상내역", "<br><strong style='font-size:18px'>• 수상내역</strong>").replace("• 자격증","<br><strong style='font-size:18px'>• 자격증</strong>").replace("• 특허 및 저작권","<br><strong style='font-size:18px'>• 특허 및 저작권</strong>").replace("• 기타 활동","<br><strong style='font-size:18px'>• 기타 활동</strong>").replace("• 프로젝트","<br>• 프로젝트").replace("• 연구개발","<br>• 연구개발").replace("close",''))
+      $('.portfoliolist').html($(".myprofile").html().replace("• 학력사항", "<strong style='font-size:18px'>• 학력사항</strong>").replace("• 경력사항", "<br><strong style='font-size:18px'>• 경력사항</strong>").replace("• 수상내역", "<br><strong style='font-size:18px'>• 수상내역</strong>").replace("• 자격증","<br><strong style='font-size:18px'>• 자격증</strong>").replace("• 특허 및 저작권","<br><strong style='font-size:18px'>• 특허 및 저작권</strong>").replace("• 기타 활동","<br><strong style='font-size:18px'>• 기타 활동</strong>").replace("• 프로젝트","<br>• 프로젝트").replace("• 연구개발","<br>• 연구개발").replace("close",''));
 
-      $('#categoryB').css('font-weight',400)
-      $('#categoryA').css('font-weight',700)
+      $('#categoryB').css('font-weight',400);
+      $('#categoryA').css('font-weight',700);
       
       if(isMobile()){
-        $('.portfoliolist').css('font-size', '11px')
+        $('.portfoliolist').css('font-size', '11px');
       }else{
-        $('.portfoliolist').css('font-size', '15px')
+        $('.portfoliolist').css('font-size', '15px');
       }
       
-      $('.mycontent').css('text-align', 'left')
-      $('.list.profile').remove()
-      $('.popCloseButton').css('visibility','hidden')
+      $('.mycontent').css('text-align', 'left');
+      $('.list.profile').remove();
+      $('.popCloseButton').css('visibility','hidden');
     }else if(c==2){
-        $('.portfoliolist').html(tmp)
-        $('.popCloseButton').css('visibility','unset')
-        $('#categoryB').css('font-weight',700)
-        $('#categoryA').css('font-weight',400)
+      $('.portfoliolist').html(tmp);
+      $('.popCloseButton').css('visibility','unset');
+      $('#categoryB').css('font-weight',700);
+      $('#categoryA').css('font-weight',400);
     }
     else{
       $("div.col.s4.portfolio").not('.project').show();
@@ -636,23 +636,25 @@
   }
   
   function openLove(){
-    $(".love").show()
+    $(".love").show();
     $("#dimmed").show();
   }
+
   function popupDetail(url){
     fire++;
     if(fire > 1){
-    window.open(
-      url,
-      '_blank' // <- This is what makes it open in a new window.
-    );
-    fire = 0;
+      window.open(
+        url,
+        '_blank' // <- This is what makes it open in a new window.
+      );
+      fire = 0;
     }else{
       setTimeout(function(){
         fire = 0;
       },500);
     }
   }
+
   function closePopup(){
     $(".wrapper > div[class='row']").show();
     $("div[id*='modal']").hide();
@@ -661,35 +663,19 @@
     $(".love").hide()
     $("body").css("overflow","")
   }
+  
   function openMyProfile(){
     $("body").css("overflow","hidden");
     $(".myprofile").show();
     $("#dimmed").show();
   }
-  function print(){                                  
-    var popupWindow = window.open("", "_blank" );
-    popupWindow.document.write( "<head>"); //head 제대로 쓰니까..티스토리 에러가...
-    popupWindow.document.write( "<style>.title{font-size:20px;}.pcontent{font-size:10px;padding-left:10px;}*{font-family:'Noto Sans'}@media{a{color:black; text-decoration: none; }}</style>" );
-    popupWindow.document.write( '</head>' );
-
-    var $table = $("화면에 표시할 컨텐츠");
-     
-    popupWindow.document.write( '<body>');
-    popupWindow.document.write( '<div>');
-
-    popupWindow.document.write('<img src="http://nagosoft.com/seongmin/img/print_profile.png">' + $(".myprofile").html().replace("• 수상내역", "<br>• 수상내역").replace("• 자격증","<br>• 자격증").replace("• 특허 및 저작권","<br>• 특허 및 저작권").replace("• 프로젝트","<br>• 프로젝트").replace("• 연구개발","<br>• 연구개발").replace("close",'') );
-    popupWindow.document.write( '</div></body>' );
-
-    setTimeout(function () { popupWindow.print(); }, 300);
-    popupWindow.onfocus = function () { setTimeout(function () { popupWindow.close(); }, 300); }
-    window.onfocus = function () { setTimeout(function () { popupWindow.close(); }, 300); }      
-  }
+  
   function closeMyProfile(){
-
-    $("body").css("overflow","")
+    $("body").css("overflow","");
     $(".myprofile").hide();
     $("#dimmed").hide();
   }
+  
   function togglePopup(selector){
 
     $("body").css("overflow","hidden");
@@ -1017,7 +1003,7 @@ $(".list.profile .title").append('<a href="#" class="logo"  onclick="easyPrintWe
 
                   $(".love .mycontent").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
               $('.portfoliolist').css('visibility','unset')
-              totalfilter(1)
+              totalFilter(1)
 
                   if(isIE9()){
                       $(".material-icons").hide();
