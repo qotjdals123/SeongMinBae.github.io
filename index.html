@@ -591,6 +591,11 @@
   var currentSwiper;
   var fire = 0;
 
+  var totalcount = 0;
+  var shortlist = {"project":[],"develop":[]};
+
+  var develop;
+
   //뒤로 가기 방지. 팝업 닫기 위해
   history.pushState(null, null, location.href);
   window.onpopstate = function () {
@@ -675,55 +680,50 @@
     $(".myprofile").hide();
     $("#dimmed").hide();
   }
-  
-  function togglePopup(selector){
 
+  function togglePopup(selector){
     $("body").css("overflow","hidden");
     if($(selector).css("display") == "none"){
       $(selector).show();
       setTimeout(function(){
-      //  $(".wrapper > div[class='row']").hide();
-      if(isIE9()){
+        if(isIE9()){
 
-      }else{
-        currentSwiper = new Swiper(selector+" .photowrap", {
-           pagination: '.swiper-pagination',
-           paginationClickable: true,
-           onInit:function(){
+        }else{
+          currentSwiper = new Swiper(selector+" .photowrap", {
+            pagination: '.swiper-pagination',
+            paginationClickable: true,
+            onInit:function(){
              Materialize.Toast.removeAll();
-             //Materialize.toast($(selector+ " .swiper-slide-active .descriptions").text(), 5000, 'rounded')
-           },
-           onSlideChangeStart : function(){
+            },
+            onSlideChangeStart : function(){
               Materialize.Toast.removeAll();
-              //Materialize.toast($(selector+ " .swiper-slide-active .descriptions").text(), 5000, 'rounded')
-           }
-         });
-      }
+            }
+          });
+        }
       },1);
       $("#dimmed").show();
       $(".btn").css("z-index","-1");
     }else{
-    //  $(".wrapper > div[class='row']").show();
       $("#dimmed").hide();
       $(selector).hide();
       $(".btn").css("z-index","1");
     }
   }
-  var totalcount = 0;
-  var shortlist = {"project":[],"develop":[]};
+
   function addProfileList(name,title,data,content){
     var detail = "span";
     if(localStorage.detail != undefined){
       detail = "a";
     }
 
-    $(".myprofile > .modal-content > .mycontent").append("<div class='list "+name+"'></div>")
+    $(".myprofile > .modal-content > .mycontent").append("<div class='list "+name+"'></div>");
     if(name == "detail"){
       $(".myprofile > .modal-content > .mycontent .list."+name).append("<div class='title'>"+title+"</div>");
     }else{
       $(".myprofile > .modal-content > .mycontent .list."+name).append("<div class='title'>"+title+"</div>");
     }
     $(".myprofile > .modal-content > .mycontent .list."+name).append("<div class='pcontent'></div>");
+    
     $(data[content]).each(function(){
       if(name == "prize"){
         if(this.name == "네이버 소프트웨어센터 보안 프로그램 Best30"){
@@ -747,13 +747,13 @@
           
       }else{
           $(".myprofile > .modal-content > .mycontent .list."+name+" .pcontent").append("<div class='title' style='display:block;'>"+this.name+" ("+this.date+")</div>");  
-      }
-      
+      }  
     })
   }
+
   var project = $.ajax({
-    url: "data/project.jso",
-    dataType : "JSON",
+    url:"data/project.jso",
+    dataType:"JSON",
     success:function(data){
       totalcount += $(data).length;
       $(".projectcnt").append($(data).length);
@@ -762,45 +762,40 @@
         listelement["name"] = this.title;
         listelement["date"] = this.date;
         shortlist["project"].push(listelement);
-      //  $(".portfoliolist").append('<div onclick="togglePopup(\'#modalProject'+idx+'\')" class="col s4 portfolio project" style="background-image:url('+this.firstImage+');position:relative;"></div>');
+        
         if(isIE9()){
           $(".portfoliolist").append('<img onclick="togglePopup(\'#modalProject'+idx+'\')" src="'+this.firstImage+'" style="width:30%;height:30%;padding:10px;"/>');
         }else{
           $(".portfoliolist").append('<div onclick="togglePopup(\'#modalProject'+idx+'\')" class="col s4 portfolio project" style="background-image:url('+this.firstImage+');position:relative;"></div>');
         }
 
-        $(".popup").append('<div id="modalProject'+idx+'" class="modal modal-fixed-footer" style="width: 50%;height: 80%;max-height: 100%;display:none;box-shadow:none;z-index:99999;"></div>')
+        $(".popup").append('<div id="modalProject'+idx+'" class="modal modal-fixed-footer" style="width: 50%;height: 80%;max-height: 100%;display:none;box-shadow:none;z-index:99999;"></div>');
+
         var target = "#modalProject"+idx;
         $(target).append('<div class="modal-content" style="padding:0px;height:100%;"></div>');
         $(target+" > div").append('<div class="photowrap" style="height:100%;overflow:hidden;width:70%;float:left;display:inline-block;"></div>');
         $(target+" > div > .photowrap").append('<div class="photo swiper-wrapper" style="white-space: nowrap;width:70%;float:left;display:inline-block;"></div>');
 
         for(var i=0;i<this.DetailImages.length;i++){
-
           if(isIE9()){
-            $(target+" > div .photo").append('<img src="'+this.DetailImages[i]["image"]+'" onclick="popupDetail(\''+this.DetailImages[i]["image"]+'\');" style="width:100%;height:100%;"></img><div class="descriptions">'+this.DetailImages[i]["descriptions"]+'</div>')
+            $(target+" > div .photo").append('<img src="'+this.DetailImages[i]["image"]+'" onclick="popupDetail(\''+this.DetailImages[i]["image"]+'\');" style="width:100%;height:100%;"></img><div class="descriptions">'+this.DetailImages[i]["descriptions"]+'</div>');
           }else{
-            $(target+" > div .photo").append('<div class="swiper-slide" onclick="popupDetail(\''+this.DetailImages[i]["image"]+'\');" style="display:inline-block;background-size: contain;background-color:black;background-position:center center;background-repeat:no-repeat;background-image:url('+this.DetailImages[i]["image"]+');width:100%;height:100%;"><div class="descriptions">'+this.DetailImages[i]["descriptions"]+'</div></div>')
+            $(target+" > div .photo").append('<div class="swiper-slide" onclick="popupDetail(\''+this.DetailImages[i]["image"]+'\');" style="display:inline-block;background-size: contain;background-color:black;background-position:center center;background-repeat:no-repeat;background-image:url('+this.DetailImages[i]["image"]+');width:100%;height:100%;"><div class="descriptions">'+this.DetailImages[i]["descriptions"]+'</div></div>');
           }
-
         }
-        $(target+" > div> .photowrap").append('<div class="swiper-pagination"></div>');
 
+        $(target+" > div> .photowrap").append('<div class="swiper-pagination"></div>');
         $(target+" > div").append('<div class="content" style="width:30%;float:left;display:inline-block;"></div>');
         $(target+" > div .content").append('<div style="padding:20px;display:block;height:10%;border:0px;font-size:12px;border-color:#eee;border-bottom-width:1px;border-style:solid;text-overflow: ellipsis;overflow: hidden;">'+this.title+'</div>');
         $(target+" > div .content").append('<div class="rcontent" style="padding:20px;display:block;height:70%;font-size:12px;text-overflow: ellipsis;">'+this.content+'</div>');
         $(target+" > div .content").append('<div style="padding:10px 20px 20px 20px;display:block;height:10%;color:#252525;border:0px;font-size:12px;border-color:#eee;border-top-width:1px;border-style:solid;">'+("#"+this.language.split(",").join(" #"))+'</div>');
         $(target+" > div .content").append('<div style="padding:10px 20px 20px 20px;display:block;height:5%;color:#aaa;border:0px;font-size:12px;border-color:#eee;border-top-width:1px;border-style:solid;">'+this.date+'</div>');
         $(target+" > div .content").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
-
       })
       InitDevelop();
     }
   })
 
-
-
-  var develop;
   function sendMail(){
     closePopup();
     $.ajax({
