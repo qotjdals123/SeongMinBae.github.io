@@ -1,413 +1,512 @@
 <!DOCTYPE html>
-<html oncontextmenu='return false' onselectstart='return false' ondragstart='return false' style="overflow:scroll;">
+<html oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 <head>
-  <meta charset='utf-8'>
+  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="robots" content="noindex, nofollow"/>
   <meta property="og:title" content="Baelab">
-  <meta property="og:description" content="95 Kimchi Developer">
+  <meta property="og:description" content="95 Developer">
   <meta property="og:image" content="http://nagosoft.com/seongmin/img/bsm.jpg">
   <link rel="shortcut icon" href="/img/favicon.ico"></link>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="css/materialize.css"></link>
   <link rel="stylesheet" href="css/swiper.min.css"></link>
   <script src="js/jquery.min.js"></script>
-
-  <!--[if lt IE 9]>
-  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <![endif]-->
   <script src="js/materialize.js"></script>
   <script src="js/swiper.min.js"></script>
-  <script src="js/easyprint/print.js"></script>
+  
   <style>
   @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
   *{
-    font-family: 'Noto Sans KR', 'Arial';
-    -webkit-tap-highlight-color:transparent;
+    font-family : 'Noto Sans KR', 'Arial';
+    -webkit-tap-highlight-color : transparent;
   }
-  .no_tab_highlight {
-  outline:none;
-  -webkit-tap-highlight-color:rgba(0,0,0,0);
-  -webkit-tap-highlight-color:transparent;
-}
+  .no_tab_highlight{
+    outline : none;
+    -webkit-tap-highlight-color : rgba(0,0,0,0);
+    -webkit-tap-highlight-color : transparent;
+  }
   #toast-container{
-    z-index:99999999;
+    z-index : 99999999;
   }
   .comment.row div{
-    padding-left:10px !important;
+    padding-left : 10px !important;
   }
-  div.descriptions {
-    display:none !important;
+  div.descriptions{
+    display : none !important;
   }
   .nav-extended{
-    background-color: white;
-      box-shadow : none;
-      border: 0px;
-      border-bottom-width: 1px;
-      border-color: #eee;
-      border-style: solid;
-      z-index : 100000;
+    background-color : white;
+    box-shadow : none;
+    border : 0px;
+    border-bottom-width : 1px;
+    border-color : #eee;
+    border-style : solid;
+    z-index : 100000;
   }
   .nav-extended a{
-    height:56px;
-    color:black !important;
+    height : 56px;
+    color : black !important;
   }
   .ieicon{
-    display:none;
+    display : none;
   }
-
   .logo{
-    display: inline-block;
-    vertical-align: middle;
-    margin:0px;
+    display : inline-block;
+    vertical-align : middle;
+    margin : 0px;
   }
   img.logo{
-    height:56px !important;
+    height : 56px !important;
   }
   .swiper-pagination-bullet{
-    background-color: #aaa;
+    background-color : #aaa;
   }
   .logo.divider{
-    margin:10px 20px 10px 20px;
-    border:0px;
-    border-left-width: 1px;
-    height:30px !important;
-    border-style: solid;
+    margin : 10px 20px 10px 20px;
+    border : 0px;
+    border-left-width : 1px;
+    height : 30px !important;
+    border-style : solid;
     border-left-color : #eee;
   }
-  .logo.leftborder{
+  .logo.right{
+    padding-left : 5px;
+    padding-right : 5px;
   }
-  .nav-extended{
+  .nowrap{
+    white-space : nowrap;
   }
-
-  .logo.right{padding-left:5px;padding-right:5px;}
-  .nowrap{white-space:nowrap}
   .nav-wrapper{
-    margin: 0 auto;
-    max-width: 1000px;
+    margin : 0 auto;
+    max-width : 1000px;
   }
   .wrapper{
-    margin: 0 auto;
-    max-width: 850px;
+    margin : 0 auto;
+    max-width : 850px;
   }
   .portfoliolist{
-    margin:0 auto !important;
-    text-align: center !important;
-    padding-top:20px;
+    margin :0 auto !important;
+    text-align : center !important;
+    padding-top : 20px;
   }
   .col.s4.portfolio{
-    float:none !important;
+    float : none !important;
     padding : 20px;
-    border-radius: 20px;
-    background-color: white;
-    display:inline-block;
-    background-size: 100%;background-position:center center;background-repeat:no-repeat;
-    margin:10px;
+    border-radius : 20px;
+    background-color : white;
+    display : inline-block;
+    background-size : 100%;
+    background-position : center center;
+    background-repeat : no-repeat;
+    margin : 10px;
   }
-  .swiper-slide {
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
-    /* Center slide text vertically */
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-}
-
+  .swiper-slide{
+    text-align : center;
+    font-size : 18px;
+    background : #fff;
+    display : -webkit-box;
+    display : -ms-flexbox;
+    display : -webkit-flex;
+    display : flex;
+    -webkit-box-pack : center;
+    -ms-flex-pack : center;
+    -webkit-justify-content : center;
+    justify-content : center
+    -webkit-box-align : center;
+    -ms-f lex-align : center;
+    -webkit -align-items : center;
+    align-it ems : center;
+    }
   .myprofile .modal-content{
-    padding:0px;height:100% !important;white-space:nowrap;overflow:hidden !important;
-  }
-  .myprofile .myphoto{
-    /*padding:0px;height:100%;width:45%;display:inline-block;background-repeat:no-repeat;background-size:contain;background-position:center center;*/
-  }
-  .myprofile .mycontent{
-    text-align:left;padding:0px;height:100%;width:100%;display:inline-block;overflow:scroll
+    padding : 0px;
+    height : 10
+    % !important;
+  
+    white-space : nowrap;
+      overflow :
+       hidden !important;
+ 
+  } 
+  .myprofile 
+  .mycontent{
+    text-align : left;
+    padding : 0px;
+    height : 100%;
+    width : 100%;
+    display : inline-block;
+    overflow : scroll;
   }
   @media screen and (min-width: 850px) {
-
     #toast-container {
-      top: auto !important;
-      right: auto !important;
-      bottom: 10%;
-      left:7%;
+      top : auto !important;
+      right : auto !important;
+      bottom : 10%;
+      left : 7%;
     }
 
-    div.rcontent {overflow:hidden;}
-  div.photowrap{width:70% !important;}
-  div.photowrap{height:100% !important;}
-  div.content {width:30% !important;}
-  div.content {height:100% !important;}
-    .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{width:70% !important;}
+    div.rcontent{
+      overflow : hidden;
+    }
+    div.photowrap{
+      width : 70% !important;
+    }
+    div.photowrap{
+      height : 100% !important;
+    }
+    div.content{
+      width : 30% !important;
+    }
+    div.content{
+      height : 100% !important;
+    }
+    .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+      width : 70% !important;
+    }
     .col.s4.portfolio{
       padding : 0px;
-      width:250px !important;
-      height:250px !important;
+      width : 250px !important;
+      height : 250px !important;
     }
     .total{
-      display:none;
+      display : none;
     }
     .brand-logo{
-      margin-left:30px;
+      margin-left : 30px;
     }
   }
-
-  @media screen and (max-width: 850px) and (min-width: 760px) {
-
-
-    #toast-container {
-      top: auto !important;
-      right: auto !important;
-      bottom: 10%;
-      left:7%;
+  @media screen and (max-width: 850px) and (min-width: 760px){
+    #toast-container{
+      top : auto !important;
+      right : auto !important;
+      bottom : 10%;
+      left : 7%;
     }
-
-  div.photowrap{width:70% !important;}
-  div.photowrap{height:100% !important;}
-  div.content {width:30% !important;}
-  div.content {height:100% !important;}
-    .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{width:70% !important;}
+    div.photowrap{
+      width : 70% !important;
+    }
+    div.photowrap{
+      height : 100% !important;
+    }
+    div.content{
+      width : 30% !important;
+    }
+    div.content{
+      height : 100% !important;
+    }
+    .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+      width : 70% !important;
+    }
     .col.s4.portfolio{
-      width:220px !important;
-      height:220px !important;
+      width : 220px !important;
+      height : 220px !important;
     }
     .total{
-      display:none;
+      display : none;
     }
     .brand-logo{
-      margin-left:30px;
+      margin-left : 30px;
     }
   }
 
-    @media screen and (max-width: 760px) and (min-width: 640px) {
-    div.photowrap{width:70% !important;}
-    div.photowrap{height:100% !important;}
-    div.content {width:30% !important;}
-    div.content {height:100% !important;}
-    div.rcontent {overflow:hidden;}
-
-      .col.s4.portfolio{
-        display:inline-block;
-        width:180px !important;
-        height:180px !important;
-      }
-      .followbutton{
-        display: block;
-        width:100%;
-      }
-      .followbutton>a{
-        width:100%;
-      }
-      .followbutton>a>div{
-        width:100%;
-      }
-      .totaltop{
-        display:none;
-      }
-      .total{
-        display:block;
-      }
-
-      .brand-logo{
-        margin-left:30px;
-      }
-
+  @media screen and (max-width: 760px) and (min-width: 640px) {
+    div.photowrap{
+      width : 70% !important;
+    }
+    div.photowrap{
+      height : 100% !important;
+    }
+    div.content{
+      width : 30% !important;
+    }
+    div.content{
+      height : 100% !important;
+    }
+    div.rcontent{
+      overflow : hidden;
     }
 
-      @media screen and (max-width: 640px) and (min-width: 400px) {
-        .myprofile .modal-content{
-          white-space:normal;overflow:auto !important;
-        }
-        .myprofile .myphoto{
-          /*width:100%;*/
-        }
-        .myprofile .mycontent{
-          width:100%;
-          overflow:scroll;
-        }
+    .col.s4.portfolio{
+      display : inline-block;
+      width : 180px !important;
+      height : 180px !important;
+    }
+    .followbutton{
+      display : block;
+      width :100%;
+    }
+    .followbutton>a{
+      width : 100%;
+    }
+    .followbutton>a>div{
+      width : 100%;
+    }
+    .totaltop{
+      display : none;
+    }
+    .total{
+      display : block;
+    }
+    .brand-logo{
+      margin-left : 30px;
+    }
+  }
 
-                .comment.row div{
-                  padding-left:0px !important;
-                }
-        .popCloseButton{width:80px !imporant;z-index:999999 !important;color:#aaa!important;right:15px!important;}
-            div.photowrap > div{width:100% !important;}
-            div.photowrap{width:100% !important;}
-            div.photowrap{height:70% !important;}
-            div.content {width:100% !important;}
-            div.content {height:20% !important;}
-            .modal.modal-fixed-footer{width:100% !important;height:100% !important;top:0px !important;}
-            div.rcontent {overflow:scroll;}
-        .col.s4.portfolio{
-          display:inline-block;
-          width:100px !important;
-          height:100px !important;
-        }
-        .totaltop{
-          display:none;
-        }
-        .brand-logo{
-          margin-left:20px;
-        }
-        .brand-logo-right{
-          margin-right:20px;
-        }
+  @media screen and (max-width: 640px) and (min-width: 400px){
+    .myprofile .modal-content{
+      white-space : normal;
+      overflow : auto !important;
+    }
+    .myprofile .mycontent{
+      width : 100%;
+      overflow : scroll;
+    }
 
-      }
+    .comment.row div{
+      padding-left : 0px !important;
+    }
+    .popCloseButton{
+      width : 80px !important;
+      z-index : 999999 !important;
+      color : #aaa !important;
+      right : 15px !important;
+    }
+    div.photowrap > div{
+      width : 100% !important;
+    }
+    div.photowrap{
+      width : 100% !important;
+    }
+    div.photowrap{
+      height : 70% !important;
+    }
+    div.content{
+      width : 100% !important;
+    }
+    div.content{
+      height : 20% !important;
+    }
+    .modal.modal-fixed-footer{
+      width : 100% !important;
+      height : 100% !important;
+      top : 0px !important;
+    }
+    div.rcontent{
+      overflow : scroll;
+    }
+    .col.s4.portfolio{
+      display : inline-block;
+      width : 100px !important;
+      height : 100px !important;
+    }
+    .totaltop{
+      display : none;
+    }
+    .brand-logo{
+      margin-left : 20px;
+    }
+    .brand-logo-right{
+      margin-right : 20px;
+    }
+  }
 
-      @media screen and (max-width: 400px) and (min-width: 368px) {
-        .myprofile .modal-content{
-          white-space:normal;overflow:auto !important;
-        }
-        .myprofile .myphoto{
-          /*width:100%;*/
-        }
-        .myprofile .mycontent{
-          width:100%;
-          overflow:scroll;
-        }
-              .comment.row div{
-                padding-left:0px !important;
-              }
-        .popCloseButton{width:80px !imporant;z-index:999999 !important;color:#aaa!important;right:15px!important;}
-            div.photowrap{width:100% !important;}
-            div.photowrap > div{width:100% !important;}
-            div.photowrap{height:70% !important;}
-            div.content {height:20% !important;}
-            div.content {width:100% !important;}
-            div.rcontent {overflow:scroll;}
-            .modal.modal-fixed-footer{width:100% !important;height:100% !important;top:0px !important;}
-        .col.s4.portfolio{
-          display:inline-block;
-          width:90px !important;
-          height:90px !important;
-        }
-        .totaltop{
-          display:none;
-        }
-        .brand-logo{
-          margin-left:20px;
-        }
-        .brand-logo-right{
-          margin-right:20px;
-        }
-      }
+  @media screen and (max-width: 400px) and (min-width: 368px){
+    .myprofile .modal-content{
+      white-space : normal;
+      overflow : auto !important;
+    }
+    .myprofile .mycontent{
+      width : 100%;
+      overflow : scroll;
+    }
+    .comment.row div{
+      padding-left : 0px !important;
+    }
+    .popCloseButton{
+      width : 80px !important;
+      z-index : 999999 !important;
+      color : #aaa !important;
+      right : 15px!important;
+    }
+    div.photowrap{
+      width : 100% !important;
+    }
+    div.photowrap > div{
+      width : 100% !important;
+    }
+    div.photowrap{
+      height : 70% !important;
+    }
+    div.content{
+      height : 20% !important;
+    }
+    div.content{
+      width : 100% !important;
+    }
+    div.rcontent{
+      overflow : scroll;
+    }
+    .modal.modal-fixed-footer{
+      width : 100% !important;
+      height : 100% !important;
+      top : 0px !important;
+    }
+    .col.s4.portfolio{
+      display : inline-block;
+      width : 90px !important;
+      height : 90px !important;
+    }
+    .totaltop{
+      display : none;
+    }
+    .brand-logo{
+      margin-lef t :20px;
+    }
+    .brand-logo-right{
+      margin-right : 20px;
+    }
+  }
 
-      @media screen and (max-width: 368px) and (min-width: 354px){
-        .myprofile .modal-content{
-          white-space:normal;overflow:auto !important;
-        }
-        .myprofile .myphoto{
-          /*width:100%;*/
-        }
-        .myprofile .mycontent{
-          width:100%;
-          overflow:scroll;
-        }
-              .comment.row div{
-                padding-left:0px !important;
-              }
-        .popCloseButton{width:80px !imporant;z-index:999999 !important;color:#aaa!important;right:15px!important;}
-            div.photowrap{width:100% !important;}
-            div.photowrap > div{width:100% !important;}
-            div.photowrap{height:70% !important;}
-            div.content {height:20% !important;}
-            div.content {width:100% !important;}
-            div.rcontent {overflow:scroll;}
-            .modal.modal-fixed-footer{width:100% !important;height:100% !important;top:0px !important;}
-        .col.s4.portfolio{
-          display:inline-block;
-          width:27% !important;
-          height:80px !important;
-        }
-        .totaltop{
-          display:none;
-        }
-        .brand-logo{
-          margin-left:20px;
-        }
-        .brand-logo-right{
-          margin-right:20px;
-        }
-       /*  .logo.divider, .logo.divider+div{
-         display:none;
-       } */
-      }
+  @media screen and (max-width: 368px) and (min-width: 354px){
+    .myprofile .modal-content{
+      white-space : normal;
+      overflow : auto !important;
+    }
+    .myprofile .mycontent{
+      width : 100%;
+      overflow : scroll;
+    }
+    .comment.row div{
+      padding-left : 0px !important;
+    }
+    .popCloseButton{
+      width : 80px !important;
+      z-index : 999999 !important;
+      color : #aaa !important;
+      right : 15px!important;
+    }
+    div.photowrap{
+      width : 100% !important;
+    }
+    div.photowrap > div{
+      width : 100% !important;
+    }
+    div.photowrap{
+      height : 70% !important;
+    }
+    div.content{
+      height : 20% !important;
+    }
+    div.content{
+      width : 100% !important;
+    }
+    div.rcontent{
+      overflow : scroll;
+    }
+    .modal.modal-fixed-footer{
+      width : 100% !important;
+      height : 100% !important;
+      top : 0px !important;
+    }
+    .col.s4.portfolio{
+      display : inline-block;
+      width : 27% !important;
+      height : 80px !important;
+    }
+    .totaltop{
+      display : none;
+    }
+    .brand-logo{
+      margin-left : 20px;
+    }
+    .brand-logo-right{
+      margin-right : 20px;
+    }
+  }
 
-      @media screen and (max-width: 353px){
-        .myprofile .modal-content{
-          white-space:normal;overflow:auto !important;
-        }
-        .myprofile .myphoto{
-          /*width:100%;*/
-        }
-        .myprofile .mycontent{
-          width:100%;
-          overflow:scroll;
-        }
-              .comment.row div{
-                padding-left:0px !important;
-              }
-        .popCloseButton{width:80px !imporant;z-index:999999 !important;color:#aaa!important;right:15px!important;}
-            div.photowrap{width:100% !important;}
-            div.photowrap > div{width:100% !important;}
-            div.photowrap{height:70% !important;}
-            div.content {height:20% !important;}
-            div.content {width:100% !important;}
-            div.rcontent {overflow:scroll;}
-            .modal.modal-fixed-footer{width:100% !important;height:100% !important;top:0px !important;}
-        .col.s4.portfolio{
-          display:inline-block;
-          width:20% !important;
-          height:70px !important;
-        }
-        .totaltop{
-          display:none;
-        }
-        .brand-logo{
-          margin-left:20px;
-        }
-        .brand-logo-right{
-          margin-right:20px;
-        }
-      }
+  @media screen and (max-width: 353px){
+    .myprofile .modal-content{
+      white-space : normal;
+      overflow : auto !important;
+    }
+    .myprofile .mycontent{
+      width : 100%;
+      overflow : scroll;
+    }
+    .comment.row div{
+      padding-left : 0px !important;
+    }
+    .popCloseButton{
+      width : 80px !important;
+      z-index : 999999 !important;
+      color : #aaa !important;
+      right : 15px !important;
+    }
+    div.photowrap{
+      width : 100% !important;
+    }
+    div.photowrap > div{
+      width : 100% !important;
+    }
+    div.photowrap{
+      height : 70% !important;
+    }
+    div.content{
+      height : 20% !important;
+    }
+    div.content{
+      width : 100% !important;
+    }
+    div.rcontent{
+      overflow : scroll;
+    }
+    .modal.modal-fixed-footer{
+      width : 100% !important;
+      height : 100% !important;
+      top : 0px !important;
+    }
+    .col.s4.portfolio{
+      display : inline-block;
+      width : 20% !important;
+      height : 70px !important;
+    }
+    .totaltop{
+      display : none;
+    }
+    .brand-logo{
+      margin-left : 20px;
+    }
+    .brand-logo-right{
+      margin-right : 20px;
+    }
+  }
 
-      .total{
-        width:100%;
-        border:0;
-        padding-top:10px;
-        border-color: #eee;
-        border-style:solid;
-        border-top-width: 1px;
-      }
-      .total > div >div{
-        text-align: center;
-        font-size:16px;
-        color:#252525;
-      }
-      .total > div >div:first-child{
-        font-size:14px;
-        color:#999;
-      }
-
-      .totaltop{
-        font-size:14px;
-      }
-
-      .totaltop > div > span{
-        font-weight:700;
-      }
-
-      .totaltop > div > span:first-child{
-        font-weight:300;
-      }
+  .total{
+    width : 100%;
+    border : 0;
+    padding-top : 10px;
+    border-color : #eee;
+    border-style : solid;
+    border-top-width : 1px;
+  }
+  .total > div >div{
+    text-align : center;
+    font-size : 16px;
+    color : #252525;
+  }
+  .total > div >div:first-child{
+    font-size : 14px;
+    color : #999;
+  }
+  .totaltop{
+    font-size : 14px;
+  }
+  .totaltop > div > span{
+    font-weight : 700;
+  }
+  .totaltop > div > span:first-child{
+    font-weight : 300;
+  }
   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script src="js/ejs.min.js"></script>
