@@ -523,69 +523,28 @@
         <div class="logo flow-text" style="vertical-align:top;">Baelab</div>
       </a>
 
-      <!--상단 우측뷰-->
+      <!--상단 우측 뷰-->
       <div class="brand-logo-right right"></div>
     </div>
   </nav>
   
   <div id="printArea" class="wrapper">
-    <div class="popup">
-
+    <div class="popup"></div>
+    <div class="row" style="padding:20px 0px 10px 20px;">
+    <div class="col s6 m3" style="text-align:center;">
+      <img class="responsive-img circle s6" src="img/bsm.png" ondragstart="return false;"/>
     </div>
-  <div class="row" style="padding:20px 0px 10px 20px;">
-    <div class="col s6 m3" style="text-align:center;"><img class="responsive-img circle s6" src="img/bsm.png" ondragstart="return false;"/></div>
 
-    <!--해시태그지워서br-->
     <br><br>
     <div class="col s6 m7">
       <div class="row" style="margin-top:30px;">
-        <div class="col s12 m7"><span class="flow-text" style="font-weight: bold;">Bae Seong Min</span> <br><span>1995 Developer</span></div>
-        <!--<div class="followbutton col s12 m4" style="margin-top:10px;" onclick="openMyProfile()"><a class="waves-effect waves-light btn flow-text" style="background-color:#3897f0;"><div class="nowrap">프로필</div></a></div>-->
+        <div class="col s12 m7">
+          <span class="flow-text" style="font-weight: bold;">Bae Seong Min</span> 
+          <br>
+          <span>1995 Developer</span>
+        </div>
       </div>
-      <style>
-
-      </style>
-      <script>
-        function isMobile(){
-          var UserAgent = navigator.userAgent;
-          if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
-            return true;
-          }else{
-            return false;
-          }
-        }
-
-      function totalfilter(c){
-        if(c==1){
-            //$(".portfoliolist .project").show();
-            //$("div.col.s4.portfolio").not('.project').hide();
-            $('.portfoliolist').html($(".myprofile").html().replace("• 학력사항", "<strong style='font-size:18px'>• 학력사항</strong>").replace("• 경력사항", "<br><strong style='font-size:18px'>• 경력사항</strong>").replace("• 수상내역", "<br><strong style='font-size:18px'>• 수상내역</strong>").replace("• 자격증","<br><strong style='font-size:18px'>• 자격증</strong>").replace("• 특허 및 저작권","<br><strong style='font-size:18px'>• 특허 및 저작권</strong>").replace("• 기타 활동","<br><strong style='font-size:18px'>• 기타 활동</strong>").replace("• 프로젝트","<br>• 프로젝트").replace("• 연구개발","<br>• 연구개발").replace("close",''))
-
-              $('#categoryB').css('font-weight',400)
-              $('#categoryA').css('font-weight',700)
-            if(isMobile()){
-              $('.portfoliolist').css('font-size', '11px')
-            }else{
-              $('.portfoliolist').css('font-size', '15px')
-            }
-            $('.mycontent').css('text-align', 'left')
-            $('.list.profile').remove()
-            $('.popCloseButton').css('visibility','hidden')
-        }else if(c==2){
-            //$(".portfoliolist .project").hide();
-            //$("div.col.s4.portfolio").not('.project').show();
-            $('.portfoliolist').html(tmp)
-            $('.popCloseButton').css('visibility','unset')
-            $('#categoryB').css('font-weight',700)
-            $('#categoryA').css('font-weight',400)
-        }
-        else{
-          //$(".portfoliolist").children().show();
-          $("div.col.s4.portfolio").not('.project').show();
-          $(".portfoliolist .project").show();
-        }
-      }
-      </script>
+      
       <div class="totaltop row">
         <!--<div class="col m4" onclick="totalfilter(3)" style="cursor:pointer"><span class="nowrap">총 게시물</span> <span class="nowrap totalcnt"></span></div>-->
         <!--<div class="col m4" onclick="totalfilter(1)" style="cursor:pointer"><span class="nowrap">프로필</span> <span class="nowrap projectcnt"></span></div>-->
@@ -630,6 +589,51 @@
 }
 
 </style>
+
+
+
+<script>
+        function isMobile(){
+          var UserAgent = navigator.userAgent;
+          if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
+            return true;
+          }else{
+            return false;
+          }
+        }
+
+      function totalfilter(c){
+        if(c==1){
+            //$(".portfoliolist .project").show();
+            //$("div.col.s4.portfolio").not('.project').hide();
+            $('.portfoliolist').html($(".myprofile").html().replace("• 학력사항", "<strong style='font-size:18px'>• 학력사항</strong>").replace("• 경력사항", "<br><strong style='font-size:18px'>• 경력사항</strong>").replace("• 수상내역", "<br><strong style='font-size:18px'>• 수상내역</strong>").replace("• 자격증","<br><strong style='font-size:18px'>• 자격증</strong>").replace("• 특허 및 저작권","<br><strong style='font-size:18px'>• 특허 및 저작권</strong>").replace("• 기타 활동","<br><strong style='font-size:18px'>• 기타 활동</strong>").replace("• 프로젝트","<br>• 프로젝트").replace("• 연구개발","<br>• 연구개발").replace("close",''))
+
+              $('#categoryB').css('font-weight',400)
+              $('#categoryA').css('font-weight',700)
+            if(isMobile()){
+              $('.portfoliolist').css('font-size', '11px')
+            }else{
+              $('.portfoliolist').css('font-size', '15px')
+            }
+            $('.mycontent').css('text-align', 'left')
+            $('.list.profile').remove()
+            $('.popCloseButton').css('visibility','hidden')
+        }else if(c==2){
+            //$(".portfoliolist .project").hide();
+            //$("div.col.s4.portfolio").not('.project').show();
+            $('.portfoliolist').html(tmp)
+            $('.popCloseButton').css('visibility','unset')
+            $('#categoryB').css('font-weight',700)
+            $('#categoryA').css('font-weight',400)
+        }
+        else{
+          //$(".portfoliolist").children().show();
+          $("div.col.s4.portfolio").not('.project').show();
+          $(".portfoliolist .project").show();
+        }
+      }
+      </script>
+
   <script>
   var currentSwiper;
   var fire = 0;
@@ -803,7 +807,7 @@
         $(target+" > div .content").append('<div class="rcontent" style="padding:20px;display:block;height:70%;font-size:12px;text-overflow: ellipsis;">'+this.content+'</div>');
         $(target+" > div .content").append('<div style="padding:10px 20px 20px 20px;display:block;height:10%;color:#252525;border:0px;font-size:12px;border-color:#eee;border-top-width:1px;border-style:solid;">'+("#"+this.language.split(",").join(" #"))+'</div>');
         $(target+" > div .content").append('<div style="padding:10px 20px 20px 20px;display:block;height:5%;color:#aaa;border:0px;font-size:12px;border-color:#eee;border-top-width:1px;border-style:solid;">'+this.date+'</div>');
-        $(target+" > div .content").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0">close</i></div>');
+        $(target+" > div .content").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
 
       })
       InitDevelop();
@@ -911,7 +915,7 @@
           $(target+" > div .content").append('<div class="rcontent" style="padding:20px;display:block;height:70%;font-size:12px;">'+contents+'</div>');
         $(target+" > div .content").append('<div style="padding:10px 20px 20px 20px;display:block;height:10%;color:#252525;border:0px;font-size:12px;border-color:#eee;border-top-width:1px;border-style:solid;">'+("#"+this.language.split(",").join(" #"))+'</div>');
         $(target+" > div .content").append('<div style="padding:10px 20px 20px 20px;display:block;height:5%;color:#aaa;border:0px;font-size:12px;border-color:#eee;border-top-width:1px;border-style:solid;">'+this.date+'</div>');
-        $(target+" > div .content").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0">close</i></div>');
+        $(target+" > div .content").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
 
       })
 
@@ -934,7 +938,7 @@
 
                   //$(".myprofile > .modal-content").append("<div class='myphoto' style='background-image:url(\"img/profile.jpg\");'></div>")
                   $(".myprofile > .modal-content").append("<div class='mycontent' style=''></div>")
-                  $(".myprofile .mycontent").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0">close</i></div>');
+                  $(".myprofile .mycontent").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
 
                   //정규직 경력
                   var today = new Date();  
@@ -1013,7 +1017,7 @@ $(".list.profile .title").append('<a href="#" class="logo"  onclick="easyPrintWe
                   content = "<div class='list'>"+content + title + phone + email + textarea  +button +"</div>";
                   $(".love > .modal-content").append("<div class='mycontent' style=''>"+content+"</div>")
 
-                  $(".love .mycontent").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0">close</i></div>');
+                  $(".love .mycontent").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
               $('.portfoliolist').css('visibility','unset')
               totalfilter(1)
 
@@ -1044,7 +1048,7 @@ $(".list.profile .title").append('<a href="#" class="logo"  onclick="easyPrintWe
                         "height":"100%"
                       })
 
-                      $(".love").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0">close</i></div>');
+                      $(".love").append('<div class="popCloseButton" style="width:20px;height:20px;position:absolute;top:0;right:5px;" onclick="closePopup()"><i class="material-icons" style="margin:0; float:right;">close</i></div>');
                       $(".love .modal-content").append("<div class='mycontent'></div>")
                       var title = '<div><label for="first_name">제목</label></div><div><input id="name" name="name" type="text"></div>';
                       var phone = '<div><label for="first_name">휴대폰</label></div><div><input id="phone" name="phone" type="text"></div>';
