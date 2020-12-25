@@ -1,5 +1,61 @@
 [
 {
+  "title":"- 충북대학교 소프트웨어학과 빅데이터분석시각화 텀 프로젝트",
+  "date":"2020",
+  "content":"충북대학교 소프트웨어학과 빅데이터분석시각화 텀 프로젝트 covid19 dashboard 개발",
+  "language":"Python, mongoDB",
+  "firstImage":"img/portfolio/chungbuk/2.png",
+  "DetailImages":[{
+    "image":"img/portfolio/chungbuk/2.png",
+    "descriptions":"충북대학교 소프트웨어학과 빅데이터분석시각화 텀 프로젝트 covid19 dashboard 개발"
+  },{
+    "image":"img/portfolio/chungbuk/11.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/12.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/13.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/14.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/15.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/16.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/17.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/18.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/19.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/20.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/21.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/22.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/23.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/24.png",
+    "descriptions":""
+  },{
+    "image":"img/portfolio/chungbuk/25.png",
+    "descriptions":""
+  }]
+},
+{
   "title":"- 충북대학교 소프트웨어학과 클라우드컴퓨팅 텀 프로젝트",
   "date":"2020",
   "content":"충북대학교 소프트웨어학과 클라우드컴퓨팅 텀 프로젝트 AWS-SDK를 이용한 컨트롤 프로그램 개발",
