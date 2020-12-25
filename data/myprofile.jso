@@ -1,0 +1,163 @@
+[{
+  "profile":[
+    {
+        "name":"배성민"
+    }
+  ],
+  "study":[
+    {
+        "name":"- 충북대학교 소프트웨어학과 학사"
+    },
+    {
+        "name":"- 한양대학교사범대학부속고등학교 졸업"
+    }
+  ],
+  "detail":[
+    {
+         "name":"- 서울 소재 공공기관 데이터사이언스 연구소(임용 유예)",
+         "date":"2021 상반기 ~"
+    },
+    {
+         "name":"- 네이버 커넥트재단 코드리뷰어(학업병행)",
+         "date":"2019-05-01 ~"
+    },
+    {
+        "name":"- 나고소프트 연구개발팀 대리(학업병행)",
+        "date":"2019-02-26 ~ 2020-08-31"
+    },
+    {
+        "name":"- 나고소프트 연구개발팀 사원(IT병역특례)",
+        "date":"2017-08-23 ~ 2019-02-26"
+    },
+    {
+        "name":"- 슈어엠 기술연구소 매니저(IT병역특례)",
+        "date":"2016-12-19 ~ 2017-08-23"
+    }
+  ],
+  "prize":[
+    {
+      "name":"- 충북대학교 TOPCIT(소프트웨어역량지수) 최고득점",
+      "date":"2020",
+      "src" : "http://nagosoft.com/seongmin/img/mil.jpg"
+    },
+    {
+      "name":"- 충북대학교 오픈소스SW동아리 장려상",
+      "date":"2020",
+      "src" : "http://nagosoft.com/seongmin/img/mil.jpg"
+    },
+    {
+      "name":"- 충북대학교 2019년도 우수마일리지 분야 최우수상 ",
+      "date":"2019",
+      "src" : "http://nagosoft.com/seongmin/img/mil.jpg"
+    },
+    {
+      "name":"- 충북대학교 오픈소스SW 커뮤니티 동상",
+      "date":"2019",
+      "src" : "http://nagosoft.com/seongmin/img/oss.jpg"
+    },
+    {
+      "name":"- 한국전력공사,한국인터넷진흥원 Energy Security 해커톤 장려상",
+      "date":"2019",
+      "src" : "http://nagosoft.com/seongmin/img/security.png"
+    },
+    {
+      "name":"- 컴퓨터교육협의회 서울IT창의성대회 웹프로그램부문 장려상",
+      "date":"2019",
+      "src" : "http://nagosoft.com/seongmin/img/creative.jpg"
+    },
+    {
+      "name":"- 서울특별시 에코마일리지 홈페이지 개선 공모전 장려상",
+      "date":"2018",
+      "src" : "http://nagosoft.com/seongmin/img/seoul.png"
+    },
+    {
+      "name":"- 한국인터넷전문가협회 인터넷에코어워드 웹표준활성화 분야 대상",
+      "date":"2018",
+      "src" : "http://nagosoft.com/seongmin/img/ieco.png"
+    },
+    {
+      "name":"- 네이버 소프트웨어센터 보안 프로그램 Best30",
+      "date":"2016",
+      "src" : "https://software.naver.com/software/summary.nhn?softwareId=GWS_002040"
+    }
+  ],
+  "cert":[
+  {
+    "name":"- 국가공인 정보처리기사",
+    "date":"2020",
+    "src":"http://nagosoft.com/seongmin/img/network.png"
+  },
+  {
+    "name":"- 민간자격 개인정보보호사(PIP)",
+    "date":"2020",
+    "src":"http://nagosoft.com/seongmin/img/pip.png"
+  },
+  {
+    "name":"- 국가공인 네트워크 관리사",
+    "date":"2018",
+    "src":"http://nagosoft.com/seongmin/img/network.png"
+  },
+  {
+    "name":"- 국가공인 리눅스 마스터",
+    "date":"2018",
+    "src":"http://nagosoft.com/seongmin/img/linux.png"
+  },
+  {
+    "name":"- 국가공인 인터넷 정보 관리사",
+    "date":"2018",
+    "src":"http://nagosoft.com/seongmin/img/internetinfo.png"
+  },
+  {
+    "name":"- 국제공인 OCJP (Oracle Certified Java Programmer)",
+    "date":"2016",
+    "src":"http://nagosoft.com/seongmin/img/OCJP.png"
+  }],
+  "patent":[
+  {
+    "name":"- NPM 통합 솔루션",
+    "date":"Kr C-2017-028226",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+  {
+    "name":"- USB감시 보안 프로그램(SpyCatcher)",
+    "date":"Kr C-2016-016661",
+    "src" : "http://nagosoft.com/seongmin/img/usb.png"
+  }],
+  "paper":[
+  {
+    "name":"- 한국지능정보시스템학회 2019년 춘계학술대회 웹 표준을 위한 인쇄 기법 발표",
+    "date":"2019",
+    "src" : "http://nagosoft.com/seongmin/img/paper1.pdf"
+  }],
+  "etc":[
+  {
+    "name":"- KT DS 신입사원 교육 멘토",
+    "date":"2020",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+  {
+    "name":"- 정보통신기획평가원 지원 오픈소스SW 동아리 OPENLAB 회장",
+    "date":"2020",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+  {
+    "name":"- 정보통신기획평가원 산하 홈페이지 TOPCIT 취약점 제보",
+    "date":"2020",
+    "src" : "http://nagosoft.com/seongmin/img/usb.png"
+  },
+  {
+    "name":"- 부산은행 localstorage 취약점 제보",
+    "date":"2019",
+    "src" : "http://nagosoft.com/seongmin/img/usb.png"
+  },
+  {
+    "name":"- 한국인터넷전문가협회 아이어워드 평가위원",
+    "date":"2019",
+    "src" : "http://nagosoft.com/seongmin/img/usb.png"
+  },
+  {
+    "name":"- 한국코드페어 IT멘토",
+    "date":"2019",
+    "src" : "http://nagosoft.com/seongmin/img/usb.png"
+  }]
+}]
