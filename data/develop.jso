@@ -6,6 +6,9 @@
   "language":"Frontend",
   "firstImage":"img/portfolio/boostcourse/0.png",
   "DetailImages":[{
+    "image":"img/portfolio/boostcourse/0.png",
+    "descriptions":""
+  },{
     "image":"img/portfolio/boostcourse/1.jpg",
     "descriptions":""
   },{
