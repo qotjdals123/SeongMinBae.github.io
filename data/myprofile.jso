@@ -14,7 +14,7 @@
   ],
   "detail":[
     {
-         "name":"- 서울 소재 공공기관 데이터사이언스 연구소(임용 유예)",
+         "name":"- 서울 소재 공공기관 연구소(임용 유예)",
          "date":"2021 상반기 ~"
     },
     {
@@ -46,7 +46,7 @@
       "src" : "http://nagosoft.com/seongmin/img/mil.jpg"
     },
     {
-      "name":"- 충북대학교 2019년도 우수마일리지 분야 최우수상 ",
+      "name":"- 충북대학교 우수마일리지 분야 최우수상 ",
       "date":"2019",
       "src" : "http://nagosoft.com/seongmin/img/mil.jpg"
     },
@@ -93,22 +93,22 @@
     "src":"http://nagosoft.com/seongmin/img/pip.png"
   },
   {
-    "name":"- 국가공인 네트워크 관리사",
+    "name":"- 국가공인 네트워크관리사",
     "date":"2018",
     "src":"http://nagosoft.com/seongmin/img/network.png"
   },
   {
-    "name":"- 국가공인 리눅스 마스터",
+    "name":"- 국가공인 리눅스마스터",
     "date":"2018",
     "src":"http://nagosoft.com/seongmin/img/linux.png"
   },
   {
-    "name":"- 국가공인 인터넷 정보 관리사",
+    "name":"- 국가공인 인터넷정보관리사",
     "date":"2018",
     "src":"http://nagosoft.com/seongmin/img/internetinfo.png"
   },
   {
-    "name":"- 국제공인 OCJP (Oracle Certified Java Programmer)",
+    "name":"- 국제공인 OCJP(Oracle Certified Java Programmer)",
     "date":"2016",
     "src":"http://nagosoft.com/seongmin/img/OCJP.png"
   }],
