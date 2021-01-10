@@ -753,7 +753,7 @@
   }
 
   var project = $.ajax({
-    url:"data/project.jso",
+    url:"data/project.json",
     dataType:"JSON",
     success:function(data){
       totalcount += $(data).length;
@@ -821,7 +821,7 @@
 
   function InitDevelop(){
     develop = $.ajax({
-      url: "data/develop.jso",
+      url: "data/develop.json",
       dataType : "JSON",
       error:function(e){
         console.log(e);
