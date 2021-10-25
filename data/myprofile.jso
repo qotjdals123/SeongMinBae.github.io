@@ -134,6 +134,27 @@
     "date":"2016",
     "src":"http://nagosoft.com/seongmin/img/OCJP.png"
   }],
+  "seminar":[
+  {
+    "name":"- 금융보안원 금융권 개인정보보호 실무 교육 수료",
+    "date":"2021",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+  {
+    "name":"- 금융보안원 금융권IT 컴플라이언스 교육 수료",
+    "date":"2021",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+  {
+    "name":"- 행정안전부 개인정보보호법 교육 수료",
+    "date":"2018",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+  {
+    "name":"- 행정안전부 개인정보안정성 확보조치 교육 수료",
+    "date":"2018",
+    "src" : "http://nagosoft.com/seongmin/img/usb.png"
+  }],
   "patent":[
   {
     "name":"- NPM 통합 솔루션",
