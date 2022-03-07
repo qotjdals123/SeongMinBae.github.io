@@ -11,6 +11,10 @@
   ],
   "lecture":[
     {
+        "name":"- SEF2021(Sofrware Edu Festival) 강의 진행",
+        "date":"2021"
+    },
+    {
         "name":"- 네이버 커넥트재단 부스트코스 코치와 함께하는 라이브 강의 진행",
         "date":"2021"
     },
@@ -37,7 +41,7 @@
         "date":"2017-08-23 ~ 2019-02-26"
     },
     {
-        "name":"- 슈어엠 기술연구소 매니저(IT병역특례)",
+        "name":"- 슈어엠 기술연구소 웹팀 매니저(IT병역특례)",
         "date":"2016-12-19 ~ 2017-08-23"
     }
   ],
@@ -95,14 +99,9 @@
   ],
   "cert":[
   {
-    "name":"- 국가공인 전자계산기조직응용기사",
-    "date":"2021",
-    "src":"http://nagosoft.com/seongmin/img/network.png"
-  },
-  {
-    "name":"- 국가공인 정보처리기사",
-    "date":"2020",
-    "src":"http://nagosoft.com/seongmin/img/network.png"
+    "name":"- 국제공인 IBM Cybersecurity Analyst Certificate",
+    "date":"2022",
+    "src":"http://nagosoft.com/seongmin/img/pip.png"
   },
   {
     "name":"- 민간자격 개인정보관리사(CPPG)",
@@ -113,6 +112,16 @@
     "name":"- 민간자격 개인정보보호사(PIP)",
     "date":"2020",
     "src":"http://nagosoft.com/seongmin/img/pip.png"
+  },
+  {
+    "name":"- 국가공인 전자계산기조직응용기사",
+    "date":"2021",
+    "src":"http://nagosoft.com/seongmin/img/network.png"
+  },
+  {
+    "name":"- 국가공인 정보처리기사",
+    "date":"2020",
+    "src":"http://nagosoft.com/seongmin/img/network.png"
   },
   {
     "name":"- 국가공인 네트워크관리사",
