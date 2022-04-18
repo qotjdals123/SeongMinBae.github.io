@@ -33,7 +33,7 @@
 <br>
 <div class="back"></div>
 
-<div class="heart" onclick="heartbeat()"></div>
+<div class="heart" ></div>
 
 <style>
 @import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
@@ -422,6 +422,7 @@ button {
 
   cnt = 0;
   var tmp = 1;
+  /*
   function heartbeat(){
     if(document.querySelector('.heart').style.transform == ''){
       document.querySelector('.heart').style.transform = "scale(1.1) rotate(-45deg)";
@@ -434,8 +435,8 @@ button {
         alert('멈추어어어어어~~');
       }   
   }
+*/
 
-/*
   document.querySelector(".heart").animate([
     // keyframes
     { transform: 'scale(' + tmp + ') rotate(-45deg)' }, 
@@ -445,5 +446,28 @@ button {
     duration: 2000,
     iterations: Infinity
   });
-*/
+
+  document.querySelector('.heart').onclick = function(e){
+    if(document.querySelector('.heart').style.transform == ''){
+      document.querySelector('.heart').style.transform = "scale(1.1) rotate(-45deg)";
+    }else{
+      cnt++;
+      tmp = document.querySelector('.heart').style.transform.split('scale(')[1].split(') rotate(-45deg)')[0];
+      document.querySelector('.heart').style.transform = "scale(" + parseFloat(parseFloat(tmp)+1) + ") rotate(-45deg)";
+      debugger;
+      if(cnt == 10){
+        alert('멈추어어어어어~~');
+      }   
+
+      document.querySelector(".heart").animate([
+        // keyframes
+        { transform: 'scale(' + tmp + ') rotate(-45deg)' }, 
+        { transform: 'scale(' + parseFloat(tmp/2) + ') rotate(-45deg)' }
+      ], { 
+        // timing options
+        duration: 2000,
+        iterations: Infinity
+      });
+    }
+  }
 </script>
