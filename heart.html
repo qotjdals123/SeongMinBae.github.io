@@ -182,9 +182,11 @@ button {
     height: 50px;
     width: 50px;
     transform: rotate(-45deg);
+    /*
     animation-name: beat;
     animation-duration: 1s;
     animation-iteration-count: infinite;
+    */
   }
 
   .heart:after {
@@ -218,10 +220,10 @@ button {
 /*
   @keyframes beat {
     0% {
-      transform: scale(1) rotate(-45deg);
+      transform: scale(var(tmp)) rotate(-45deg);
     }
     50% {
-      transform: scale(0.6) rotate(-45deg);
+      transform: scale(var(tmp)) rotate(-45deg);
     }
   }
   */
@@ -244,7 +246,7 @@ button {
   }, false);
   //더블클릭 방지
 
-    
+
 
   function func1(){
     alert('시켜줘,,')
@@ -419,17 +421,29 @@ button {
   }
 
   cnt = 0;
+  var tmp = 1;
   function heartbeat(){
     if(document.querySelector('.heart').style.transform == ''){
       document.querySelector('.heart').style.transform = "scale(1.1) rotate(-45deg)";
     }else{
       cnt++;
-      var tmp = document.querySelector('.heart').style.transform.split('scale(')[1].split(') rotate(-45deg)')[0];
-      document.querySelector('.heart').style.transform = "scale(" + parseFloat(parseFloat(tmp)+0.1) + ") rotate(-45deg)";}
+      tmp = document.querySelector('.heart').style.transform.split('scale(')[1].split(') rotate(-45deg)')[0];
+      document.querySelector('.heart').style.transform = "scale(" + parseFloat(parseFloat(tmp)+1) + ") rotate(-45deg)";}
 
       if(cnt == 10){
         alert('멈추어어어어어~~');
-      }
-      
+      }   
   }
+
+/*
+  document.querySelector(".heart").animate([
+    // keyframes
+    { transform: 'scale(' + tmp + ') rotate(-45deg)' }, 
+    { transform: 'scale(' + parseFloat(tmp/2) + ') rotate(-45deg)' }
+  ], { 
+    // timing options
+    duration: 2000,
+    iterations: Infinity
+  });
+*/
 </script>
