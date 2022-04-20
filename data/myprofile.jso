@@ -188,6 +188,11 @@
   }],
   "etc":[
   {
+    "name":"- 삼성 소프트웨어 마에스트로(멘토)",
+    "date":"2022",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+  {
     "name":"- 충북대학교 소프트웨어중심대학 가디언(멘토)",
     "date":"2021",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
