@@ -212,6 +212,11 @@
   }],
   "etc":[
   {
+    "name":"- 코멘토 리드멘토",
+    "date":"2022",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+  {
     "name":"- 소프트웨어 마에스트로 멘토",
     "date":"2022",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
