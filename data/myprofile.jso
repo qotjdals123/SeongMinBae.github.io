@@ -79,6 +79,11 @@
   ],
   "prize":[
     {
+      "name":"- 금융보안원 금융보안관리사 성적우수상",
+      "date":"2022",
+      "src" : "http://nagosoft.com/seongmin/img/mil.jpg"
+    },
+    {
       "name":"- KISTI HPC 기반 AI 응용 경진대회 최우수상",
       "date":"2021",
       "src" : "http://nagosoft.com/seongmin/img/mil.jpg"
