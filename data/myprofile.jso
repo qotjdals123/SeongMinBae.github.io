@@ -11,6 +11,10 @@
   ],
   "lecture":[
     {
+        "name":"- 캐치클래스 올라운더 개발자의 #인턴부터취뽀까지 라이브특강 진행",
+        "date":"2022"
+    }, 
+    {
         "name":"- SW마에스트로 데이터 은닉 기술 특강 진행",
         "date":"2022"
     },
@@ -244,6 +248,11 @@
     "src" : "http://nagosoft.com/seongmin/img/paper1.pdf"
   }],
   "etc":[
+  {
+    "name":"- 캐치클래스 강사",
+    "date":"2022",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
   {
     "name":"- 한국코드페어 공모전 초등부 심사위원",
     "date":"2022",
