@@ -151,6 +151,16 @@
       "name":"- 네이버 소프트웨어센터 보안 프로그램 Best30",
       "date":"2016",
       "src" : "https://software.naver.com/software/summary.nhn?softwareId=GWS_002040"
+    },
+    {
+      "name":"- 정보통신기획평가원 산하 홈페이지 TOPCIT 취약점 제보",
+      "date":"2020",
+      "src" : "http://nagosoft.com/seongmin/img/usb.png"
+    },
+    {
+      "name":"- 부산은행 localstorage 취약점 제보",
+      "date":"2019",
+      "src" : "http://nagosoft.com/seongmin/img/usb.png"
     }
   ],
   "cert":[
@@ -304,18 +314,8 @@
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
-    "name":"- 정보통신기획평가원 산하 홈페이지 TOPCIT 취약점 제보",
-    "date":"2020",
-    "src" : "http://nagosoft.com/seongmin/img/usb.png"
-  },
-  {
     "name":"- 네이버 지식In 코딩 엑스퍼트",
     "date":"2020~2021",
-    "src" : "http://nagosoft.com/seongmin/img/usb.png"
-  },
-  {
-    "name":"- 부산은행 localstorage 취약점 제보",
-    "date":"2019",
     "src" : "http://nagosoft.com/seongmin/img/usb.png"
   },
   {
