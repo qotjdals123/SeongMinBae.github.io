@@ -11,7 +11,11 @@
   ],
   "lecture":[
     {
-        "name":"- 캐치클래스 올라운더 개발자의 #인턴부터취뽀까지 라이브특강",
+        "name":"- 스마트인재개발원 데이터와 보안 특강",
+        "date":"2022"
+    }, 
+    {
+        "name":"- 진학사 캐치클래스 올라운더 개발자의 #인턴부터취뽀까지 라이브특강",
         "date":"2022"
     }, 
     {
@@ -239,12 +243,17 @@
   }],
   "etc":[
   {
-    "name":"- 소프트웨어 마에스트로 13기 성실도 평가위원",
-    "date":"2022",
+    "name":"- 스마트인재개발원 강사",
+    "date":"2023~",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
-    "name":"- 캐치클래스 강사",
+    "name":"- 소프트웨어 마에스트로 13기,14기 성실도 평가위원",
+    "date":"2022~",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+  {
+    "name":"- 진학사 캐치클래스 강사",
     "date":"2022",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
@@ -255,27 +264,27 @@
   },
   {
     "name":"- 프로보노 멘토",
-    "date":"2022",
+    "date":"2022~",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
     "name":"- 한이음 멘토",
-    "date":"2022",
+    "date":"2022~",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
     "name":"- 코멘토 직무부트캠프/실무PT 리드멘토",
-    "date":"2022",
+    "date":"2022~",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
-    "name":"- 소프트웨어 마에스트로 13기 멘토",
-    "date":"2022",
+    "name":"- 소프트웨어 마에스트로 13기, 14기 멘토",
+    "date":"2022~",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
     "name":"- 충북대학교 소프트웨어중심대학 가디언(멘토)",
-    "date":"2021",
+    "date":"2021~",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
