@@ -251,8 +251,13 @@
   }],
   "etc":[
   {
+    "name":"- 강원대학교 현직자 특강(11.29)",
+    "date":"2023",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+  {
     "name":"- 한국외국어대학교 글로벌캠퍼스 캡스톤특강(10.11) 강사",
-    "date":"2023~",
+    "date":"2023",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
@@ -262,12 +267,12 @@
   },
   {
     "name":"- 충북바이오헬스산업혁신센터 정밀의료,의료기기사업단 한국교통대학교 직무부트캠프 5주과정 멘토",
-    "date":"2023~",
+    "date":"2023",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
     "name":"- 한국정보보호산업협회 2023년 개인정보보호관리운영 분야 국가직무능력표준(NCS) 산업현장 검증 인력",
-    "date":"2023~",
+    "date":"2023",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
