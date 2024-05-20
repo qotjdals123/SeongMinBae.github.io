@@ -11,6 +11,10 @@
   ],
   "lecture":[
     {
+        "name":"- 2024씨티은행-JA Korea 온라인 특별한 JOB담 금융IT 현직자 멘토링",
+        "date":"2024"
+    },
+    {
         "name":"- 강원대학교 웹 접근성 톺아보기 특강",
         "date":"2023"
     },
@@ -254,6 +258,11 @@
     "src" : "http://nagosoft.com/seongmin/img/paper1.pdf"
   }],
   "etc":[
+{
+    "name":"- 2024씨티은행-JA Korea 온라인 특별한 JOB담 멘토",
+    "date":"2024~2025",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },  
   {
     "name":"- 양천구 Y취업멘토단 IT멘토",
     "date":"2024~2025",
