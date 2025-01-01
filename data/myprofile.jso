@@ -271,6 +271,11 @@
   }],
   "etc":[
 {
+    "name":"- 연세대학교 현직자 특강(11.14) 강사",
+    "date":"2024",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+{
     "name":"- 원광대학교 SW벤처인재양성사업단 멘토",
     "date":"2024",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
@@ -301,12 +306,7 @@
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
-    "name":"- 오즈코딩스쿨 4기 프론트엔드 스터디리더",
-    "date":"2024",
-    "src" : "http://nagosoft.com/seongmin/img/npm.png"
-  },
-  {
-    "name":"- 오즈코딩스쿨 2기, 4기 프론트엔드 개발 멘토",
+    "name":"- 오즈코딩스쿨 2기, 4기, 6기 프론트엔드 개발 멘토",
     "date":"2024",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
