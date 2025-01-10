@@ -11,6 +11,10 @@
   ],
   "lecture":[
     {
+        "name":"- 숭실대학교 IT커리어 특강",
+        "date":"2025"
+    },
+    {
         "name":"- 연세대학교 현직자 특강(웹표준 및 웹접근성 톺아보기)",
         "date":"2024"
     },
@@ -270,6 +274,11 @@
     "src" : "http://nagosoft.com/seongmin/img/paper1.pdf"
   }],
   "etc":[
+{
+    "name":"- 숭실대학교 특강(1.6) 강사",
+    "date":"2025",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
 {
     "name":"- 연세대학교 현직자 특강(11.14) 강사",
     "date":"2024",
