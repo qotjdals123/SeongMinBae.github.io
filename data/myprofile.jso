@@ -60,7 +60,7 @@
     },
     {
         "name":"- 코멘토 800개 이상의 프로젝트를 리뷰한 현직자와 함께하는 웹 접근성, 웹 표준 직무체험 특강",
-        "date":"2022~2024"
+        "date":"2022~2025"
     },
     {
         "name":"- SW마에스트로 홈페이지 이용약관, 개인정보처리방침 특강",
@@ -275,6 +275,11 @@
   }],
   "etc":[
 {
+    "name":"- Play4JOB 프로그램 현직자 멘토",
+    "date":"2025",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+{
     "name":"- 숭실대학교 특강(1.6) 강사",
     "date":"2025",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
@@ -296,7 +301,7 @@
   },
 {
     "name":"- 이노베이션아카데미(42Seoul) SW현업전문가",
-    "date":"2024",
+    "date":"2024~",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
 {
@@ -316,7 +321,7 @@
   },
   {
     "name":"- 오즈코딩스쿨 2기, 4기, 6기 프론트엔드 개발 멘토",
-    "date":"2024",
+    "date":"2024~2025",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
