@@ -279,6 +279,11 @@
   }],
   "etc":[
 {
+    "name":"- 제로베이스부트캠프 프론트엔드 멘토",
+    "date":"2025",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+{
     "name":"- 구름 Deep Dive Full-stack 개발자 과정 특강 강사",
     "date":"2025",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
