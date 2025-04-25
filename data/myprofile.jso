@@ -279,6 +279,11 @@
   }],
   "etc":[
 {
+    "name":"- 서울핀테크랩 IT멘토",
+    "date":"2025",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+{
     "name":"- 제로베이스부트캠프 프론트엔드 멘토",
     "date":"2025",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
