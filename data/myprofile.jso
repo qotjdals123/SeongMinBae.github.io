@@ -11,6 +11,10 @@
   ],
   "lecture":[
     {
+        "name":"- 양천구 현직자 직무특강",
+        "date":"2025"
+    },
+    {
         "name":"- 성결대학교 웹표준,웹접근성,SEO최적화 특강",
         "date":"2025"
     },
@@ -282,6 +286,11 @@
     "src" : "http://nagosoft.com/seongmin/img/paper1.pdf"
   }],
   "etc":[
+{
+    "name":"- IA(이노베이션아카데미) × AI(인공지능) 해커톤 멘토",
+    "date":"2025",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
 {
     "name":"- ICT콤플렉스 전문가 멘토",
     "date":"2025~2027",
