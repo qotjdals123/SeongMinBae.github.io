@@ -287,6 +287,11 @@
   }],
   "etc":[
 {
+    "name":"- 제로베이스 '취업정보회사' 멘토",
+    "date":"2025",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
+{
     "name":"- IA(이노베이션아카데미) × AI(인공지능) 해커톤 멘토",
     "date":"2025",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
@@ -458,7 +463,7 @@
   },
   {
     "name":"- 충북대학교 소프트웨어중심대학 가디언(멘토)",
-    "date":"2021~",
+    "date":"2021~2024",
     "src" : "http://nagosoft.com/seongmin/img/npm.png"
   },
   {
