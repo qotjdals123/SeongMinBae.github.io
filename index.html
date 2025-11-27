@@ -517,6 +517,11 @@
       font-size : 20px;
       font-weight : bold;
     }
+
+    .myprofile > .modal-content .list > .title > .titleSpan{
+      font-size : 15px;
+      font-weight : bold;
+    }    
     .myprofile > .modal-content .list > .pcontent{
       font-size : 12px;
       padding-left : 10px;
@@ -737,7 +742,7 @@
       }else if(name == "patent"){
           $(".myprofile > .modal-content > .mycontent .list."+name+" .pcontent").append("<div class='title' style='display:block;'><"+detail+" target='_blank' href='"+ this.src + "'>" + this.name+" ("+this.date+")</span></div>");
       }else if(name == "etc"){
-          $(".myprofile > .modal-content > .mycontent .list."+name+" .pcontent").append("<div class='title' style='display:block;'><"+detail+" target='_blank' href='"+ this.src + "'>" + this.name+" <span style='font-size:12px'>("+this.date+")</span></span></div>");
+          $(".myprofile > .modal-content > .mycontent .list."+name+" .pcontent").append("<div class='title' style='display:block;'><"+detail+" target='_blank' href='"+ this.src + "'>" + this.name+" <span class='title_span' style='font-size:12px'>("+this.date+")</span></span></div>");
       }else if(name == "paper"){
           $(".myprofile > .modal-content > .mycontent .list."+name+" .pcontent").append("<div class='title' style='display:block;'><"+detail+" target='_blank' href='"+ this.src + "'>" + this.name+" ("+this.date+")</span></div>");
       }else if(name == "conference"){
@@ -751,7 +756,7 @@
       }else if(name == "profile"){
           
       }else{
-          $(".myprofile > .modal-content > .mycontent .list."+name+" .pcontent").append("<div class='title' style='display:block;'>"+this.name+" <span style='font-size:12px'>("+this.date+")</span></div>");  
+          $(".myprofile > .modal-content > .mycontent .list."+name+" .pcontent").append("<div class='title' style='display:block;'>"+this.name+" <span class='title_span' style='font-size:12px'>("+this.date+")</span></div>");  
       }  
     })
   }
