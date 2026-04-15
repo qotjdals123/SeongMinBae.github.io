@@ -16,11 +16,11 @@
   "lecture":[
     {
         "name":"- 오즈코딩스쿨 개발자 양성 부트캠프 취업특강", 
-        "date":"2025"
+        "date":"2025~2026"
     },
     {
         "name":"- 양천구 현직자 직무특강",
-        "date":"2025"
+        "date":"2025~2026"
     },
     {
         "name":"- 성결대학교 웹표준,웹접근성,SEO최적화 특강",
@@ -289,6 +289,11 @@
     "src" : "http://nagosoft.com/seongmin/img/paper1.pdf"
   }],
   "etc":[
+{
+    "name":"- 2026 글로벌 피우다프로젝트 전문 멘토",
+    "date":"2026",
+    "src" : "http://nagosoft.com/seongmin/img/npm.png"
+  },
 {
     "name":"- 한국정보산업연합회 전문위원 위촉",
     "date":"2026~2027",
