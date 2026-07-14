@@ -251,3 +251,75 @@ button { font: inherit; }
     font-size: 13px;
   }
 }
+
+.company-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.company-info h3 {
+  margin: 0;
+}
+
+.position-timeline {
+  position: relative;
+  display: grid;
+  gap: 22px;
+  margin-top: 22px;
+  padding-left: 22px;
+}
+
+.position-timeline::before {
+  position: absolute;
+  top: 7px;
+  bottom: 7px;
+  left: 5px;
+  width: 1px;
+  background: #52698f;
+  content: "";
+}
+
+.position-item {
+  position: relative;
+}
+
+.position-item::before {
+  position: absolute;
+  top: 7px;
+  left: -22px;
+  width: 11px;
+  height: 11px;
+  border: 2px solid #1f55a5;
+  border-radius: 50%;
+  background: #202020;
+  content: "";
+}
+
+.position-period {
+  margin: 0 0 5px;
+  color: #858b96;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.position-title {
+  margin: 0;
+  color: #f4f4f4;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.position-type {
+  display: inline-block;
+  margin-top: 5px;
+  color: #a6abb5;
+  font-size: 14px;
+}
