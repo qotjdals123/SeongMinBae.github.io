@@ -281,19 +281,31 @@ function renderEducation(items) {
 function renderExperience(items) {
   const children = items.map((item) => {
     const article = createElement('article', 'record-item');
-    const period = createElement('p', 'record-period', formatExperiencePeriod(item));
-    const content = createElement('div', 'record-content');
-
-    content.append(
-      createElement('h3', '', item.company),
-      createElement('p', '', item.position)
+    const period = createElement(
+      'p',
+      'record-period',
+      formatExperiencePeriod(item)
     );
 
+    const content = createElement('div', 'record-content');
+
+    // 회사명과 재직 상태를 같은 행으로 구성
+    const companyRow = createElement('div', 'company-row');
+    const companyName = createElement('h3', '', item.company);
+
+    companyRow.append(companyName);
+
     if (item.status) {
-      content.append(createElement('span', 'status-badge', item.status));
+      companyRow.append(
+        createElement('span', 'status-badge', item.status)
+      );
     }
 
+    const position = createElement('p', '', item.position);
+
+    content.append(companyRow, position);
     article.append(period, content);
+
     return article;
   });
 
