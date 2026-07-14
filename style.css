@@ -100,15 +100,17 @@ button { font: inherit; }
 }
 
 .certificate-list article {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 24px;
-  align-items: start;
+  width: 100%;
   padding: 23px 0;
   border-bottom: 1px solid var(--line);
 }
 
 .certificate-info {
+  flex: 1;
   min-width: 0;
 }
 
@@ -117,17 +119,19 @@ button { font: inherit; }
   font-size: 18px;
   line-height: 1.45;
   letter-spacing: -.012em;
+  word-break: keep-all;
 }
 
 .certificate-issuer {
-  margin: 5px 0 0;
+  margin: 6px 0 0;
   color: var(--text-light);
   font-size: 12px;
   line-height: 1.5;
 }
 
 .certificate-year {
-  justify-self: end;
+  flex-shrink: 0;
+  margin-left: auto;
   padding-top: 2px;
   color: var(--text-light);
   font-size: 12px;
@@ -192,7 +196,7 @@ button { font: inherit; }
   .record-item { grid-template-columns: 1fr; gap: 8px; padding: 25px 0; }
   .record-period { margin: 0; }
 
-  .certificate-list article { grid-template-columns: minmax(0, 1fr) auto; gap: 16px;}
+  .certificate-list article { gap: 16px; }
   
   .activity-year-group { grid-template-columns: 1fr; gap: 22px; padding: 30px 0; }
   .activity-year-group > h3 { font-size: 20px; }
@@ -208,7 +212,6 @@ button { font: inherit; }
   .intro-section h1 { font-size: 48px; }
   .summary-list div { grid-template-columns: 1fr; gap: 3px; }
   .certificate-list article {
-    grid-template-columns: minmax(0, 1fr) auto;
     gap: 12px;
   }
 
@@ -220,7 +223,6 @@ button { font: inherit; }
   .certificate-year {
     font-size: 11px;
   }
-  .certificate-list h3 { font-size: 16px; }
   .contact-inner > a { font-size: 18px; }
   .footer-inner { align-items: flex-start; flex-direction: column; }
 }
