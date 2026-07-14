@@ -379,7 +379,7 @@ function normalizeCareerDetailGroups(item) {
       },
       {
         key: 'programOperations',
-        label: '프로그램 운영 경험',
+        label: '시스템 운영 경험',
         items: []
       },
       {
