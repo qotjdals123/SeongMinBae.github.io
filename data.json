@@ -227,28 +227,20 @@
       "position": "연구개발팀 대리 · 학업병행",
       "startDate": "2019-02-26",
       "endDate": "2020-08-31",
-      "duties": [
-        "금융권 차세대 SI프로젝트 투입",
-        "웹 프린팅 솔루션(EasyPrint, Printmade3) 개발"
+      "positions": [
+        {
+          "title": "연구개발팀 대리",
+          "type": "학업병행",
+          "startDate": "2019-02-26",
+          "endDate": "2020-08-31"
+        },
+        {
+          "title": "연구개발팀 사원",
+          "type": "IT병역특례",
+          "startDate": "2017-08-23",
+          "endDate": "2019-02-26"
+        }
       ],
-      "projectDetails": {
-        "projects": [
-          {
-            "title": "주요 업무시스템 운영 및 개선",
-            "period": "2021.06 ~ 현재",
-            "role": "운영 PM",
-            "summary": "금융권 협회 주요 업무시스템의 안정적인 운영과 개선 과제를 관리합니다."
-          }
-        ],
-        "programOperations": [],
-        "solutionOperations": []
-      }
-    },
-    {
-      "company": "나고소프트",
-      "position": "연구개발팀 사원 · IT병역특례",
-      "startDate": "2017-08-23",
-      "endDate": "2019-02-26",
       "duties": [
         "금융권 차세대 SI프로젝트 투입",
         "웹 프린팅 솔루션(EasyPrint, Printmade3) 개발"
