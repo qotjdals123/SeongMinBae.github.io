@@ -116,7 +116,7 @@ button { font: inherit; }
 
 .certificate-list h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.45;
   letter-spacing: -.012em;
   word-break: keep-all;
@@ -125,7 +125,7 @@ button { font: inherit; }
 .certificate-issuer {
   margin: 6px 0 0;
   color: var(--text-light);
-  font-size: 12px;
+  font-size: 15px;
   line-height: 1.5;
 }
 
@@ -134,7 +134,7 @@ button { font: inherit; }
   margin-left: auto;
   padding-top: 2px;
   color: var(--text-light);
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 650;
   line-height: 1.5;
   text-align: right;
@@ -144,14 +144,14 @@ button { font: inherit; }
 .activities-section { padding-bottom: 110px; }
 .activity-list { border-top: 2px solid var(--line-strong); }
 .activity-year-group { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 36px; padding: 34px 0; border-bottom: 1px solid var(--line); }
-.activity-year-group > h3 { margin: 2px 0 0; font-size: 18px; line-height: 1.4; }
+.activity-year-group > h3 { margin: 2px 0 0; font-size: 20px; line-height: 1.4; }
 .activity-year-group ul { margin: 0; padding: 0; list-style: none; }
 .activity-year-group li { display: grid; grid-template-columns: minmax(0, 1fr) 170px 90px; gap: 20px; padding: 13px 0; border-bottom: 1px solid #e8e8e5; align-items: start; }
 .activity-year-group li:first-child { padding-top: 0; }
 .activity-year-group li:last-child { padding-bottom: 0; border-bottom: 0; }
-.activity-year-group strong { font-size: 14px; font-weight: 650; line-height: 1.55; }
-.activity-year-group span { color: var(--text-muted); font-size: 13px; line-height: 1.55; }
-.activity-year-group time { color: var(--text-light); font-size: 11px; text-align: right; white-space: nowrap; }
+.activity-year-group strong { font-size: 15px; font-weight: 650; line-height: 1.55; }
+.activity-year-group span { color: var(--text-muted); font-size: 15px; line-height: 1.55; }
+.activity-year-group time { color: var(--text-light); font-size: 15px; text-align: right; white-space: nowrap; }
 
 .contact-section { padding: 72px 0; background: #1b1b1b; color: #fff; scroll-margin-top: var(--header-height); }
 .contact-inner { display: flex; align-items: end; justify-content: space-between; gap: 50px; }
