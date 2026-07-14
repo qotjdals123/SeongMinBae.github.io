@@ -75,6 +75,29 @@ button { font: inherit; }
 .record-content > p { margin: 5px 0 0; color: var(--text-muted); font-size: 15px; }
 .record-note { display: inline-block; margin-top: 9px; color: var(--text-light); font-size: 12px; }
 .status-badge { display: inline-flex; margin-top: 11px; padding: 3px 8px; border: 1px solid #b8c7e8; color: var(--accent); background: #f4f7ff; font-size: 10px; font-weight: 750; }
+.status-badge { margin-top: 0; }
+.company-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.company-row h3 {
+  margin: 0;
+}
+
+.company-row + p {
+  margin-top: 6px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: 0;
+}
 
 .certificate-list article { display: grid; grid-template-columns: 100px 1fr; gap: 36px; align-items: baseline; padding: 23px 0; border-bottom: 1px solid var(--line); }
 .certificate-list span { color: var(--text-light); font-size: 12px; font-weight: 650; }
