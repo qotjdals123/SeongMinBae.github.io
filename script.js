@@ -727,11 +727,14 @@ async function loadResumeData() {
   }
 }
 
-const topButton = document.querySelector('.brand');
-topButton.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
+document.querySelectorAll('.brand').forEach((brand) => {
+  brand.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   });
 });
 
