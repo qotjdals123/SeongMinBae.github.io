@@ -199,6 +199,7 @@ function scheduleCareerRefresh() {
 
   careerRefreshTimer = window.setTimeout(() => {
     updateCareerDuration();
+    updateBirthAge();
     scheduleCareerRefresh();
   }, nextMidnight.getTime() - now.getTime());
 }
@@ -221,6 +222,7 @@ function renderProfile(profile, site) {
   const summaryItems = [
     { label: '총 경력', value: '', key: 'total-career' },
     { label: '현 소속', value: profile.currentPosition },
+    { label: '출생', value: '', key: 'birth' },
     { label: '학력', value: profile.educationSummary, multiple: true },
     { label: '이메일', value: profile.email, email: true }
   ];
@@ -251,12 +253,14 @@ function renderProfile(profile, site) {
   });
 
   replaceChildren(document.querySelector('#summary-list'), summaryChildren);
-
+  
   const contactEmail = document.querySelector('#contact-email');
   if (contactEmail) {
     contactEmail.textContent = profile.email;
     contactEmail.href = `mailto:${profile.email}`;
   }
+
+  updateBirthAge();
 }
 
 function renderEducation(items) {
@@ -730,5 +734,45 @@ topButton.addEventListener('click', () => {
     behavior: 'smooth'
   });
 });
+
+function calculateFullAge(birthDateValue, today = getLocalToday()) {
+  const birthDate = parseDate(birthDateValue);
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  const birthdayHasPassed =
+    today.getMonth() > birthDate.getMonth() ||
+    (
+      today.getMonth() === birthDate.getMonth() &&
+      today.getDate() >= birthDate.getDate()
+    );
+
+  if (!birthdayHasPassed) {
+    age -= 1;
+  }
+
+  return age;
+}
+
+function formatBirthInfo(birthDateValue) {
+  const birthDate = parseDate(birthDateValue);
+  const age = calculateFullAge(birthDateValue);
+
+  return `${birthDate.getFullYear()}년 ${
+    birthDate.getMonth() + 1
+  }월 (만 ${age}세)`;
+}
+
+function updateBirthAge() {
+  if (!resumeData?.profile?.birthDate) return;
+
+  const birthElement = document.querySelector('[data-summary="birth"]');
+
+  if (birthElement) {
+    birthElement.textContent = formatBirthInfo(
+      resumeData.profile.birthDate
+    );
+  }
+}
 
 loadResumeData();
