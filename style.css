@@ -57,7 +57,7 @@ button { font: inherit; }
 .summary-list div { display: grid; grid-template-columns: 82px 1fr; gap: 18px; padding: 17px 0; border-bottom: 1px solid var(--line); }
 .summary-list dt { color: var(--text-light); font-size: 12px; font-weight: 650; }
 .summary-list dd { margin: 0; font-size: 14px; font-weight: 650; }
-.summary-list a { text-decoration: underline; text-underline-offset: 3px; }
+.summary-list a { /*text-decoration: underline;*/ text-underline-offset: 3px; }
 
 .resume-section { padding: 92px 0; scroll-margin-top: var(--header-height); }
 .section-muted { background: var(--background-muted); }
