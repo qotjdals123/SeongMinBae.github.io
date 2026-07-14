@@ -677,15 +677,40 @@ function renderExperience(items) {
 
 function renderCertifications(items) {
   const children = items.map((item) => {
-    const article = createElement('article');
-    article.append(
-      createElement('span', '', item.year),
-      createElement('h3', '', item.name)
+    const article = createElement('article', 'certificate-item');
+
+    const info = createElement('div', 'certificate-info');
+    const name = createElement('h3', '', item.name);
+
+    info.append(name);
+
+    if (item.issuer) {
+      info.append(
+        createElement(
+          'p',
+          'certificate-issuer',
+          `발급기관 · ${item.issuer}`
+        )
+      );
+    }
+
+    const year = createElement(
+      'time',
+      'certificate-year',
+      item.year
     );
+
+    year.dateTime = item.year;
+
+    article.append(info, year);
+
     return article;
   });
 
-  replaceChildren(document.querySelector('#certification-list'), children);
+  replaceChildren(
+    document.querySelector('#certification-list'),
+    children
+  );
 }
 
 function renderActivities(groups) {
