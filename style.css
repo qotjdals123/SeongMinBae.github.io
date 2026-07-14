@@ -56,7 +56,7 @@ button { font: inherit; }
 .summary-list { margin: 0; border-top: 2px solid var(--line-strong); }
 .summary-list div { display: grid; grid-template-columns: 82px 1fr; gap: 18px; padding: 17px 0; border-bottom: 1px solid var(--line); }
 .summary-list dt { color: var(--text-light); font-size: 12px; font-weight: 650; }
-.summary-list dd { margin: 0; font-size: 14px; font-weight: 650; }
+.summary-list dd { margin: 0; font-size: 15px; font-weight: 650; }
 .summary-list a { /*text-decoration: underline;*/ text-underline-offset: 3px; }
 
 .resume-section { padding: 60px 0; scroll-margin-top: var(--header-height); }
@@ -65,15 +65,15 @@ button { font: inherit; }
 .section-heading { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-content: start; }
 .section-number { margin: 1px 0 0; color: var(--text-light); font-size: 11px; font-weight: 700; }
 .section-heading h2 { margin: 9px 0 0; font-size: 31px; line-height: 1.2; letter-spacing: -.035em; }
-.section-summary { margin: 12px 0 0; color: var(--text-muted); font-size: 13px; line-height: 1.6; }
+.section-summary { margin: 12px 0 0; color: var(--text-muted); font-size: 15px; line-height: 1.6; }
 
 .record-list, .certificate-list { border-top: 2px solid var(--line-strong); }
 .record-item { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 36px; padding: 29px 0; border-bottom: 1px solid var(--line); }
-.record-period { margin: 3px 0 0; color: var(--text-light); font-size: 12px; font-weight: 650; letter-spacing: .01em; }
+.record-period { margin: 3px 0 0; color: var(--text-light); font-size: 15px; font-weight: 650; letter-spacing: .01em; }
 .record-content { position: relative; }
 .record-content h3 { margin: 0; font-size: 20px; line-height: 1.4; letter-spacing: -.015em; }
 .record-content > p { margin: 5px 0 0; color: var(--text-muted); font-size: 15px; }
-.record-note { display: inline-block; margin-top: 9px; color: var(--text-light); font-size: 12px; }
+.record-note { display: inline-block; margin-top: 9px; color: var(--text-light); font-size: 15px; }
 .status-badge { display: inline-flex; margin-top: 11px; padding: 3px 8px; border: 1px solid #b8c7e8; color: var(--accent); background: #f4f7ff; font-size: 10px; font-weight: 750; }
 .status-badge { margin-top: 0; }
 .company-row {
@@ -356,7 +356,7 @@ button { font: inherit; }
 .position-period {
   margin: 0 0 5px;
   color: #858b96;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 }
 
