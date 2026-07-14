@@ -451,28 +451,6 @@ function createCareerDetailCard(detail) {
     article.append(meta);
   }
 
-  if (Array.isArray(detail.tasks) && detail.tasks.length > 0) {
-    const taskSection = createElement('div', 'project-detail-card__section');
-    taskSection.append(createElement('h5', '', '주요 수행 내용'));
-    const taskList = createElement('ul');
-    detail.tasks.forEach((task) => {
-      taskList.append(createElement('li', '', task));
-    });
-    taskSection.append(taskList);
-    article.append(taskSection);
-  }
-
-  if (Array.isArray(detail.techStack) && detail.techStack.length > 0) {
-    const stackSection = createElement('div', 'project-detail-card__section');
-    stackSection.append(createElement('h5', '', '기술 및 환경'));
-    const stackList = createElement('div', 'project-detail-card__tags');
-    detail.techStack.forEach((technology) => {
-      stackList.append(createElement('span', '', technology));
-    });
-    stackSection.append(stackList);
-    article.append(stackSection);
-  }
-
   return article;
 }
 
