@@ -399,4 +399,12 @@ async function loadResumeData() {
   }
 }
 
+const topButton = document.querySelector('.brand');
+topButton.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+
 loadResumeData();
