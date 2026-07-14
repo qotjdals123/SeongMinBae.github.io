@@ -132,7 +132,12 @@
             "period": "2021.6 ~ 2024.6"
           }
         ],
-        "solutionOperations": []
+        "solutionOperations": [
+          {
+            "title": "통합테스트 서버 구축 및 운영(협회 내 전체 시스템의 테스트 환경 구축)",
+            "period": "2025.9 ~ "
+          }
+        ]
       }
     },
     {
