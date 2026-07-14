@@ -556,7 +556,8 @@ function closeProjectModal() {
 
 function renderExperience(items) {
   const children = items.map((item) => {
-    const article = createElement('article', 'record-item experience-record');
+    const article = createElement('article', 'record-item company-record');
+
     const period = createElement(
       'p',
       'record-period',
@@ -564,64 +565,114 @@ function renderExperience(items) {
     );
 
     const content = createElement('div', 'record-content');
-    const topRow = createElement('div', 'experience-top-row');
-    const heading = createElement('div', 'experience-heading');
 
-    const companyRow = createElement('div', 'company-row');
+    const companyHeader = createElement('div', 'company-header');
+    const companyInfo = createElement('div', 'company-info');
     const companyName = createElement('h3', '', item.company);
-    companyRow.append(companyName);
+
+    companyInfo.append(companyName);
 
     if (item.status) {
-      companyRow.append(
+      companyInfo.append(
         createElement('span', 'status-badge', item.status)
       );
     }
 
-    const position = createElement(
-      'p',
-      'experience-position',
-      item.position
-    );
+    companyHeader.append(companyInfo);
 
-    heading.append(companyRow, position);
+    if (item.projectDetails) {
+      const detailButton = createElement(
+        'button',
+        'experience-detail-button',
+        '자세히보기'
+      );
 
-    const detailButton = createElement(
-      'button',
-      'experience-detail-button',
-      '자세히보기'
-    );
-    detailButton.type = 'button';
-    detailButton.setAttribute('aria-haspopup', 'dialog');
-    detailButton.setAttribute(
-      'aria-label',
-      `${item.company} 경력 상세 내역 자세히 보기`
-    );
-    detailButton.addEventListener('click', () => {
-      openProjectModal(item, detailButton);
-    });
+      detailButton.type = 'button';
+      detailButton.addEventListener('click', () => {
+        openExperienceModal(item);
+      });
 
-    topRow.append(heading, detailButton);
-    content.append(topRow);
+      companyHeader.append(detailButton);
+    }
+
+    content.append(companyHeader);
+
+    if (Array.isArray(item.positions)) {
+      const positionTimeline = createElement(
+        'div',
+        'position-timeline'
+      );
+
+      item.positions.forEach((position) => {
+        const positionItem = createElement(
+          'div',
+          'position-item'
+        );
+
+        const positionPeriod = createElement(
+          'p',
+          'position-period',
+          formatExperiencePeriod(position)
+        );
+
+        const positionTitle = createElement(
+          'p',
+          'position-title',
+          position.title
+        );
+
+        positionItem.append(positionPeriod, positionTitle);
+
+        if (position.type) {
+          positionItem.append(
+            createElement(
+              'span',
+              'position-type',
+              position.type
+            )
+          );
+        }
+
+        positionTimeline.append(positionItem);
+      });
+
+      content.append(positionTimeline);
+    } else if (item.position) {
+      content.append(
+        createElement(
+          'p',
+          'experience-position',
+          item.position
+        )
+      );
+    }
 
     if (Array.isArray(item.duties) && item.duties.length > 0) {
       const duties = createElement('div', 'experience-duties');
-      duties.append(
-        createElement('p', 'experience-duties-title', '주요 수행 업무')
+      const dutiesTitle = createElement(
+        'p',
+        'experience-duties-title',
+        '주요 수행 업무'
       );
-
       const dutiesList = createElement('ul');
+
       item.duties.forEach((duty) => {
         dutiesList.append(createElement('li', '', duty));
       });
-      duties.append(dutiesList);
+
+      duties.append(dutiesTitle, dutiesList);
       content.append(duties);
     }
 
     article.append(period, content);
+
     return article;
   });
 
-  replaceChildren(document.querySelector('#experience-list'), children);
+  replaceChildren(
+    document.querySelector('#experience-list'),
+    children
+  );
 }
 
 function renderCertifications(items) {
