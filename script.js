@@ -7,6 +7,9 @@ const yearElement = document.querySelector('#current-year');
 
 let resumeData = null;
 let careerRefreshTimer = null;
+let projectModal = null;
+let projectModalCloseTimer = null;
+let lastFocusedElement = null;
 
 if (yearElement) {
   yearElement.textContent = new Date().getFullYear();
@@ -278,10 +281,232 @@ function renderEducation(items) {
   replaceChildren(document.querySelector('#education-list'), children);
 }
 
+function createProjectModal() {
+  if (projectModal) return projectModal;
+
+  const modal = createElement('div', 'project-modal');
+  modal.hidden = true;
+  modal.setAttribute('aria-hidden', 'true');
+
+  const backdrop = createElement('div', 'project-modal__backdrop');
+  backdrop.dataset.modalClose = 'true';
+
+  const dialog = createElement('section', 'project-modal__dialog');
+  dialog.setAttribute('role', 'dialog');
+  dialog.setAttribute('aria-modal', 'true');
+  dialog.setAttribute('aria-labelledby', 'project-modal-title');
+  dialog.setAttribute('aria-describedby', 'project-modal-subtitle');
+  dialog.tabIndex = -1;
+
+  const header = createElement('header', 'project-modal__header');
+  const headingArea = createElement('div', 'project-modal__heading');
+  const eyebrow = createElement('p', 'project-modal__eyebrow', 'PROJECT DETAILS');
+  const title = createElement('h2', '', '프로젝트 수행 내역');
+  title.id = 'project-modal-title';
+  const subtitle = createElement('p', '', '');
+  subtitle.id = 'project-modal-subtitle';
+  headingArea.append(eyebrow, title, subtitle);
+
+  const closeButton = createElement('button', 'project-modal__close');
+  closeButton.type = 'button';
+  closeButton.setAttribute('aria-label', '프로젝트 상세 팝업 닫기');
+  closeButton.innerHTML = '<span aria-hidden="true"></span>';
+  closeButton.dataset.modalClose = 'true';
+
+  header.append(headingArea, closeButton);
+
+  const body = createElement('div', 'project-modal__body');
+  body.id = 'project-modal-body';
+
+  dialog.append(header, body);
+  modal.append(backdrop, dialog);
+  document.body.append(modal);
+
+  modal.addEventListener('click', (event) => {
+    if (event.target.closest('[data-modal-close="true"]')) {
+      closeProjectModal();
+    }
+  });
+
+  modal.addEventListener('keydown', (event) => {
+    if (event.key !== 'Tab') return;
+
+    const focusableElements = [...modal.querySelectorAll(
+      'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )].filter((element) => !element.hidden && element.offsetParent !== null);
+
+    if (focusableElements.length === 0) {
+      event.preventDefault();
+      dialog.focus();
+      return;
+    }
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements.at(-1);
+
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+    } else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && projectModal && !projectModal.hidden) {
+      closeProjectModal();
+    }
+  });
+
+  projectModal = modal;
+  return modal;
+}
+
+function renderProjectModalContent(item) {
+  const modal = createProjectModal();
+  const title = modal.querySelector('#project-modal-title');
+  const subtitle = modal.querySelector('#project-modal-subtitle');
+  const body = modal.querySelector('#project-modal-body');
+
+  title.textContent = `${item.company} 프로젝트 수행 내역`;
+  subtitle.textContent = `${item.position} · ${formatExperiencePeriod(item)}`;
+
+  const projects = Array.isArray(item.projectDetails)
+    ? item.projectDetails
+    : [];
+
+  const children = [];
+
+  if (projects.length > 0) {
+    projects.forEach((project) => {
+      const article = createElement('article', 'project-detail-card');
+      const cardHeader = createElement('div', 'project-detail-card__header');
+      const cardHeading = createElement('div');
+      const projectTitle = createElement('h3', '', project.title || '프로젝트');
+      cardHeading.append(projectTitle);
+
+      if (project.summary) {
+        cardHeading.append(
+          createElement('p', 'project-detail-card__summary', project.summary)
+        );
+      }
+
+      cardHeader.append(cardHeading);
+
+      if (project.period) {
+        cardHeader.append(
+          createElement('span', 'project-detail-card__period', project.period)
+        );
+      }
+
+      article.append(cardHeader);
+
+      const metaItems = [];
+      if (project.role) metaItems.push({ label: '역할', value: project.role });
+      if (project.client) metaItems.push({ label: '대상', value: project.client });
+
+      if (metaItems.length > 0) {
+        const meta = createElement('dl', 'project-detail-card__meta');
+        metaItems.forEach((metaItem) => {
+          const group = createElement('div');
+          group.append(
+            createElement('dt', '', metaItem.label),
+            createElement('dd', '', metaItem.value)
+          );
+          meta.append(group);
+        });
+        article.append(meta);
+      }
+
+      if (Array.isArray(project.tasks) && project.tasks.length > 0) {
+        const taskSection = createElement('div', 'project-detail-card__section');
+        taskSection.append(createElement('h4', '', '주요 수행 내용'));
+        const taskList = createElement('ul');
+        project.tasks.forEach((task) => {
+          taskList.append(createElement('li', '', task));
+        });
+        taskSection.append(taskList);
+        article.append(taskSection);
+      }
+
+      if (Array.isArray(project.techStack) && project.techStack.length > 0) {
+        const stackSection = createElement('div', 'project-detail-card__section');
+        stackSection.append(createElement('h4', '', '기술 및 환경'));
+        const stackList = createElement('div', 'project-detail-card__tags');
+        project.techStack.forEach((technology) => {
+          stackList.append(createElement('span', '', technology));
+        });
+        stackSection.append(stackList);
+        article.append(stackSection);
+      }
+
+      children.push(article);
+    });
+  } else if (Array.isArray(item.duties) && item.duties.length > 0) {
+    const article = createElement('article', 'project-detail-card');
+    const cardHeader = createElement('div', 'project-detail-card__header');
+    cardHeader.append(
+      createElement('h3', '', '주요 수행 업무')
+    );
+    article.append(cardHeader);
+
+    const taskSection = createElement('div', 'project-detail-card__section');
+    const taskList = createElement('ul');
+    item.duties.forEach((duty) => {
+      taskList.append(createElement('li', '', duty));
+    });
+    taskSection.append(taskList);
+    article.append(taskSection);
+    children.push(article);
+  } else {
+    const emptyState = createElement('div', 'project-modal__empty');
+    emptyState.append(
+      createElement('strong', '', '프로젝트 수행 내역을 준비 중입니다.'),
+      createElement('p', '', 'data.json의 projectDetails 항목에 내용을 추가하면 이 영역에 자동으로 표시됩니다.')
+    );
+    children.push(emptyState);
+  }
+
+  body.replaceChildren(...children);
+}
+
+function openProjectModal(item, triggerElement) {
+  const modal = createProjectModal();
+  if (projectModalCloseTimer) {
+    clearTimeout(projectModalCloseTimer);
+    projectModalCloseTimer = null;
+  }
+
+  renderProjectModalContent(item);
+  lastFocusedElement = triggerElement || document.activeElement;
+  modal.hidden = false;
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+
+  window.requestAnimationFrame(() => {
+    modal.classList.add('is-open');
+    modal.querySelector('.project-modal__close')?.focus();
+  });
+}
+
+function closeProjectModal() {
+  if (!projectModal || projectModal.hidden) return;
+
+  projectModal.classList.remove('is-open');
+  projectModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('modal-open');
+
+  projectModalCloseTimer = window.setTimeout(() => {
+    projectModal.hidden = true;
+    projectModalCloseTimer = null;
+    lastFocusedElement?.focus();
+  }, 180);
+}
+
 function renderExperience(items) {
   const children = items.map((item) => {
-    const article = createElement('article', 'record-item');
-
+    const article = createElement('article', 'record-item experience-record');
     const period = createElement(
       'p',
       'record-period',
@@ -289,11 +514,11 @@ function renderExperience(items) {
     );
 
     const content = createElement('div', 'record-content');
+    const topRow = createElement('div', 'experience-top-row');
+    const heading = createElement('div', 'experience-heading');
 
-    // 회사명과 재직 상태
     const companyRow = createElement('div', 'company-row');
     const companyName = createElement('h3', '', item.company);
-
     companyRow.append(companyName);
 
     if (item.status) {
@@ -302,46 +527,51 @@ function renderExperience(items) {
       );
     }
 
-    // 직책
     const position = createElement(
       'p',
       'experience-position',
       item.position
     );
 
-    content.append(companyRow, position);
+    heading.append(companyRow, position);
 
-    // 수행 업무
+    const detailButton = createElement(
+      'button',
+      'experience-detail-button',
+      '자세히보기'
+    );
+    detailButton.type = 'button';
+    detailButton.setAttribute('aria-haspopup', 'dialog');
+    detailButton.setAttribute(
+      'aria-label',
+      `${item.company} 프로젝트 수행 내역 자세히 보기`
+    );
+    detailButton.addEventListener('click', () => {
+      openProjectModal(item, detailButton);
+    });
+
+    topRow.append(heading, detailButton);
+    content.append(topRow);
+
     if (Array.isArray(item.duties) && item.duties.length > 0) {
       const duties = createElement('div', 'experience-duties');
-
-      const dutiesTitle = createElement(
-        'p',
-        'experience-duties-title',
-        '주요 수행 업무'
+      duties.append(
+        createElement('p', 'experience-duties-title', '주요 수행 업무')
       );
 
       const dutiesList = createElement('ul');
-
       item.duties.forEach((duty) => {
-        dutiesList.append(
-          createElement('li', '', duty)
-        );
+        dutiesList.append(createElement('li', '', duty));
       });
-
-      duties.append(dutiesTitle, dutiesList);
+      duties.append(dutiesList);
       content.append(duties);
     }
 
     article.append(period, content);
-
     return article;
   });
 
-  replaceChildren(
-    document.querySelector('#experience-list'),
-    children
-  );
+  replaceChildren(document.querySelector('#experience-list'), children);
 }
 
 function renderCertifications(items) {
