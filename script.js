@@ -232,7 +232,7 @@ function renderProfile(profile, site) {
     }
 
     if (item.multiple){
-      
+      detail.classList.add('education-summary');
     }
     
     if (item.email) {
