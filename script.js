@@ -281,6 +281,7 @@ function renderEducation(items) {
 function renderExperience(items) {
   const children = items.map((item) => {
     const article = createElement('article', 'record-item');
+
     const period = createElement(
       'p',
       'record-period',
@@ -289,7 +290,7 @@ function renderExperience(items) {
 
     const content = createElement('div', 'record-content');
 
-    // 회사명과 재직 상태를 같은 행으로 구성
+    // 회사명과 재직 상태
     const companyRow = createElement('div', 'company-row');
     const companyName = createElement('h3', '', item.company);
 
@@ -301,15 +302,46 @@ function renderExperience(items) {
       );
     }
 
-    const position = createElement('p', '', item.position);
+    // 직책
+    const position = createElement(
+      'p',
+      'experience-position',
+      item.position
+    );
 
     content.append(companyRow, position);
+
+    // 수행 업무
+    if (Array.isArray(item.duties) && item.duties.length > 0) {
+      const duties = createElement('div', 'experience-duties');
+
+      const dutiesTitle = createElement(
+        'p',
+        'experience-duties-title',
+        '주요 수행 업무'
+      );
+
+      const dutiesList = createElement('ul');
+
+      item.duties.forEach((duty) => {
+        dutiesList.append(
+          createElement('li', '', duty)
+        );
+      });
+
+      duties.append(dutiesTitle, dutiesList);
+      content.append(duties);
+    }
+
     article.append(period, content);
 
     return article;
   });
 
-  replaceChildren(document.querySelector('#experience-list'), children);
+  replaceChildren(
+    document.querySelector('#experience-list'),
+    children
+  );
 }
 
 function renderCertifications(items) {
