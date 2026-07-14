@@ -689,7 +689,7 @@ function renderCertifications(items) {
         createElement(
           'p',
           'certificate-issuer',
-          `발급기관 · ${item.issuer}`
+          `${item.issuer}`
         )
       );
     }
