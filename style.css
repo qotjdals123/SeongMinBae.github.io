@@ -47,7 +47,7 @@ button { font: inherit; }
 .menu-button { display: none; width: 42px; height: 42px; padding: 0; border: 0; background: transparent; }
 .menu-button span:not(.sr-only) { display: block; width: 22px; height: 1.5px; margin: 6px auto; background: var(--text); transition: transform .2s ease; }
 
-.intro-section { padding: 92px 0 82px; border-bottom: 1px solid var(--line); }
+.intro-section { padding: 60px 0 82px; border-bottom: 1px solid var(--line); }
 .intro-layout { display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 100px; align-items: end; }
 .eyebrow, .section-label { margin: 0; color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .14em; }
 .intro-section h1 { margin: 15px 0 0; font-size: clamp(52px, 7vw, 60px); line-height: 1; letter-spacing: -.055em; }
