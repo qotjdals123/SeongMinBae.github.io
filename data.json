@@ -34,6 +34,22 @@
       "status": "재직중",
       "startDate": "2021-06-01",
       "endDate": null,
+      "positions": [
+        {
+          "title": "디지털운영팀 책임",
+          "startDate": "2019-02-26"
+        },
+        {
+          "title": "ICT관리팀 주임",
+          "startDate": "2023-06-01",
+          "endDate": "2026-12-30"
+        },
+        {
+          "title": "ICT관리팀 선임",
+          "startDate": "2021-06-01",
+          "endDate": "2023-06-01"
+        }
+      ],
       "duties": [
         "IT정보시스템 및 대외계 시스템 운영PM 업무",
         "차세대 프로젝트 발주사PM 업무"
