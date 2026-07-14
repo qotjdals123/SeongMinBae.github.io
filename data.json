@@ -1,0 +1,152 @@
+{
+  "site": {
+    "brand": "BAELAB",
+    "title": "BAELAB — 배성민 경력 포트폴리오",
+    "description": "배성민의 학력, 경력, 자격 및 대외활동을 소개하는 경력 포트폴리오 BAELAB입니다."
+  },
+  "profile": {
+    "name": "배성민",
+    "role": "금융 IT 시스템 운영 · 소프트웨어 개발 · 정보보안",
+    "description": "개발 실무에서 출발해 금융권 핵심 업무 시스템의 운영과 프로젝트 관리를 담당하고 있습니다. 정보보안 전문성을 확장하는 동시에 강의, 심사, 멘토링 활동을 통해 현업 경험을 공유하고 있습니다.",
+    "totalCareer": "9년 6개월 29일",
+    "currentPosition": "금융권협회 전산직 책임",
+    "educationSummary": "고려대학교 정보보호대학원 석사 진행중",
+    "email": "bsm9100@naver.com"
+  },
+  "education": [
+    {
+      "period": "진행중",
+      "school": "고려대학교 정보보호대학원",
+      "major": "융합보안학과 석사"
+    },
+    {
+      "period": "학사",
+      "school": "충북대학교",
+      "major": "소프트웨어학과",
+      "note": "학점 4.15 / 4.5"
+    }
+  ],
+  "experience": [
+    {
+      "period": "2021.06.01 ~",
+      "company": "금융권협회",
+      "position": "전산직 책임",
+      "status": "재직중"
+    },
+    {
+      "period": "2019.05.01 ~ 2023.06.31",
+      "company": "네이버 커넥트재단",
+      "position": "코드리뷰어 · 프리랜서"
+    },
+    {
+      "period": "2019.02.26 ~ 2020.08.31",
+      "company": "나고소프트",
+      "position": "연구개발팀 대리 · 학업병행"
+    },
+    {
+      "period": "2017.08.23 ~ 2019.02.26",
+      "company": "나고소프트",
+      "position": "연구개발팀 사원 · IT병역특례"
+    },
+    {
+      "period": "2016.12.19 ~ 2017.08.23",
+      "company": "슈어엠",
+      "position": "기술연구소 웹팀 매니저 · IT병역특례"
+    }
+  ],
+  "certifications": [
+    { "year": "2026", "name": "ISO27001 인증심사원" },
+    { "year": "2022", "name": "금융보안관리사" },
+    { "year": "2021", "name": "개인정보관리사(CPPG)" },
+    { "year": "2021", "name": "전자계산기조직응용기사" },
+    { "year": "2020", "name": "정보처리기사" }
+  ],
+  "activities": [
+    {
+      "year": "2026",
+      "items": [
+        { "organization": "한국정보산업연합회 발주용역 선정위원회", "role": "평가위원", "period": "2026" },
+        { "organization": "2026 글로벌 피우다프로젝트", "role": "전문 멘토", "period": "2026" },
+        { "organization": "한국정보산업연합회", "role": "전문위원 위촉", "period": "2026~2027" }
+      ]
+    },
+    {
+      "year": "2025",
+      "items": [
+        { "organization": "오즈코딩스쿨 개발자 양성 부트캠프", "role": "취업특강 강사", "period": "2025~2026" },
+        { "organization": "오즈코딩스쿨 개발자 양성 부트캠프", "role": "수료생 이력서 포트폴리오 멘토", "period": "2025~2026" },
+        { "organization": "제로베이스 '취업정보회사'", "role": "멘토", "period": "2025" },
+        { "organization": "IA(이노베이션아카데미) × AI(인공지능) 해커톤", "role": "멘토", "period": "2025" },
+        { "organization": "ICT콤플렉스", "role": "전문가 멘토", "period": "2025~2027" },
+        { "organization": "성결대학교 특강(7.15)", "role": "강사", "period": "2025" },
+        { "organization": "서울핀테크랩", "role": "IT멘토", "period": "2025" },
+        { "organization": "제로베이스부트캠프", "role": "프론트엔드 멘토", "period": "2025" },
+        { "organization": "구름 Deep Dive Full-stack 개발자 과정", "role": "특강 강사", "period": "2025" },
+        { "organization": "Play4JOB 프로그램", "role": "현직자 멘토", "period": "2025" },
+        { "organization": "숭실대학교 특강(1.6)", "role": "강사", "period": "2025" }
+      ]
+    },
+    {
+      "year": "2024",
+      "items": [
+        { "organization": "연세대학교 현직자 특강(11.14)", "role": "강사", "period": "2024" },
+        { "organization": "원광대학교 SW벤처인재양성사업단", "role": "멘토", "period": "2024" },
+        { "organization": "2024 벤처스타트업 SW개발인재 매칭 페스티벌", "role": "오프라인 멘토", "period": "2024" },
+        { "organization": "이노베이션아카데미(42Seoul)", "role": "SW현업전문가", "period": "2024~" },
+        { "organization": "2024 씨티은행-JA Korea 온라인 특별한 JOB담", "role": "멘토", "period": "2024" },
+        { "organization": "양천구 Y취업멘토단", "role": "IT멘토", "period": "2024~2026" },
+        { "organization": "벤처기업협회 2024 벤처스타트업 아카데미(SW/콘텐츠) 사업", "role": "SW기술멘토", "period": "2024~2025" },
+        { "organization": "오즈코딩스쿨 2기, 4기, 6기", "role": "프론트엔드 개발 멘토", "period": "2024~2025" }
+      ]
+    },
+    {
+      "year": "2023",
+      "items": [
+        { "organization": "강원대학교 현직자 특강(11.29)", "role": "강사", "period": "2023" },
+        { "organization": "한국외국어대학교 글로벌캠퍼스 캡스톤특강(23.10, 24.11)", "role": "강사", "period": "2023~2024" },
+        { "organization": "TTA 국제회의 지원", "role": "신진 표준 전문가 선정", "period": "2023~2026" },
+        { "organization": "충북바이오헬스산업혁신센터 정밀의료·의료기기사업단 한국교통대학교 직무부트캠프 5주과정", "role": "멘토", "period": "2023" },
+        { "organization": "한국정보보호산업협회 2023년 개인정보보호관리운영 분야 국가직무능력표준(NCS)", "role": "산업현장 검증 인력", "period": "2023" },
+        { "organization": "코리아스타트업포럼", "role": "SW개발자 멘토", "period": "2023~" },
+        { "organization": "충북대학교 취업지원본부", "role": "졸업생멘토", "period": "2023~" },
+        { "organization": "한국정보보호산업협회", "role": "정보보호 전문강사", "period": "2023~" },
+        { "organization": "스마트인재개발원", "role": "특강 강사", "period": "2023" }
+      ]
+    },
+    {
+      "year": "2022",
+      "items": [
+        { "organization": "소프트웨어 마에스트로 13기, 14기", "role": "성실도 평가위원", "period": "2022~2023" },
+        { "organization": "진학사 캐치클래스", "role": "강사", "period": "2022" },
+        { "organization": "한국코드페어 공모전 초등부", "role": "심사위원", "period": "2022" },
+        { "organization": "한국정보산업연합회 스마트해상물류", "role": "멘토", "period": "2022~" },
+        { "organization": "한국정보산업연합회 프로보노", "role": "멘토", "period": "2022~" },
+        { "organization": "한국정보산업연합회 한이음", "role": "멘토", "period": "2022~" },
+        { "organization": "코멘토 직무부트캠프/실무PT", "role": "리드멘토", "period": "2022~" },
+        { "organization": "소프트웨어 마에스트로 13기, 14기", "role": "멘토", "period": "2022~2023" }
+      ]
+    },
+    {
+      "year": "2021",
+      "items": [
+        { "organization": "네이버커넥트재단 SEF2021(Software Edu Festival)", "role": "코드리뷰 연사", "period": "2021" },
+        { "organization": "충북대학교 소프트웨어중심대학", "role": "가디언(멘토)", "period": "2021~2024" },
+        { "organization": "부스트코스 웹UI 개발 코칭스터디 1기", "role": "코치", "period": "2021" }
+      ]
+    },
+    {
+      "year": "2020",
+      "items": [
+        { "organization": "KT DS 신입사원 교육", "role": "멘토", "period": "2020" },
+        { "organization": "네이버 지식In 코딩", "role": "엑스퍼트", "period": "2020~2021" }
+      ]
+    },
+    {
+      "year": "2019",
+      "items": [
+        { "organization": "한국인터넷전문가협회 아이어워드", "role": "평가위원", "period": "2019" },
+        { "organization": "한국코드페어", "role": "IT멘토", "period": "2019" }
+      ]
+    }
+  ]
+}
