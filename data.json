@@ -35,7 +35,32 @@
       "endDate": null,
       "duties": [
         "업무시스템 프로젝트 운영PM 업무"
-      ]
+      ],
+      "projectDetails": {
+        "projects": [
+          {
+            "title": "주요 업무시스템 운영 및 개선",
+            "period": "2021.06 ~ 현재",
+            "role": "운영 PM",
+            "summary": "금융권 협회 주요 업무시스템의 안정적인 운영과 개선 과제를 관리합니다.",
+            "tasks": [
+              "현업 요구사항 분석 및 개선 과제 정의",
+              "개발·테스트·배포 일정과 협력업체 수행 범위 관리",
+              "장애 및 운영 이슈 분석과 유관 부서 대응",
+              "정보보안·개인정보보호 기준을 고려한 시스템 개선"
+            ],
+            "techStack": [
+              "Java",
+              "JSP",
+              "Tibero·Oracle",
+              "JEUS·WebtoB",
+              "Linux·AIX"
+            ]
+          }
+        ],
+        "programOperations": [],
+        "solutionOperations": []
+      }
     },
     {
       "company": "네이버 커넥트재단",
@@ -44,7 +69,32 @@
       "endDate": "2023-06-30",
       "duties": [
         "네이버 프로젝트 웹/UI 코드리뷰"
-      ]
+      ],
+      "projectDetails": {
+        "projects": [
+          {
+            "title": "주요 업무시스템 운영 및 개선",
+            "period": "2021.06 ~ 현재",
+            "role": "운영 PM",
+            "summary": "금융권 협회 주요 업무시스템의 안정적인 운영과 개선 과제를 관리합니다.",
+            "tasks": [
+              "현업 요구사항 분석 및 개선 과제 정의",
+              "개발·테스트·배포 일정과 협력업체 수행 범위 관리",
+              "장애 및 운영 이슈 분석과 유관 부서 대응",
+              "정보보안·개인정보보호 기준을 고려한 시스템 개선"
+            ],
+            "techStack": [
+              "Java",
+              "JSP",
+              "Tibero·Oracle",
+              "JEUS·WebtoB",
+              "Linux·AIX"
+            ]
+          }
+        ],
+        "programOperations": [],
+        "solutionOperations": []
+      }
     },
     {
       "company": "나고소프트",
@@ -54,7 +104,32 @@
       "duties": [
         "금융권 차세대 SI프로젝트 투입",
         "웹 프린팅 솔루션(EasyPrint, Printmade3) 개발"
-      ]
+      ],
+      "projectDetails": {
+        "projects": [
+          {
+            "title": "주요 업무시스템 운영 및 개선",
+            "period": "2021.06 ~ 현재",
+            "role": "운영 PM",
+            "summary": "금융권 협회 주요 업무시스템의 안정적인 운영과 개선 과제를 관리합니다.",
+            "tasks": [
+              "현업 요구사항 분석 및 개선 과제 정의",
+              "개발·테스트·배포 일정과 협력업체 수행 범위 관리",
+              "장애 및 운영 이슈 분석과 유관 부서 대응",
+              "정보보안·개인정보보호 기준을 고려한 시스템 개선"
+            ],
+            "techStack": [
+              "Java",
+              "JSP",
+              "Tibero·Oracle",
+              "JEUS·WebtoB",
+              "Linux·AIX"
+            ]
+          }
+        ],
+        "programOperations": [],
+        "solutionOperations": []
+      }
     },
     {
       "company": "나고소프트",
@@ -64,7 +139,32 @@
       "duties": [
         "금융권 차세대 SI프로젝트 투입",
         "웹 프린팅 솔루션(EasyPrint, Printmade3) 개발"
-      ]
+      ],
+      "projectDetails": {
+        "projects": [
+          {
+            "title": "주요 업무시스템 운영 및 개선",
+            "period": "2021.06 ~ 현재",
+            "role": "운영 PM",
+            "summary": "금융권 협회 주요 업무시스템의 안정적인 운영과 개선 과제를 관리합니다.",
+            "tasks": [
+              "현업 요구사항 분석 및 개선 과제 정의",
+              "개발·테스트·배포 일정과 협력업체 수행 범위 관리",
+              "장애 및 운영 이슈 분석과 유관 부서 대응",
+              "정보보안·개인정보보호 기준을 고려한 시스템 개선"
+            ],
+            "techStack": [
+              "Java",
+              "JSP",
+              "Tibero·Oracle",
+              "JEUS·WebtoB",
+              "Linux·AIX"
+            ]
+          }
+        ],
+        "programOperations": [],
+        "solutionOperations": []
+      }
     },
     {
       "company": "슈어엠",
@@ -74,7 +174,32 @@
       "duties": [
         "사내시스템 개발 및 외부 SI프로젝트 투입",
         "카카오 알림톡·SMS RestAPI 설계"
-      ]
+      ],
+      "projectDetails": {
+        "projects": [
+          {
+            "title": "주요 업무시스템 운영 및 개선",
+            "period": "2021.06 ~ 현재",
+            "role": "운영 PM",
+            "summary": "금융권 협회 주요 업무시스템의 안정적인 운영과 개선 과제를 관리합니다.",
+            "tasks": [
+              "현업 요구사항 분석 및 개선 과제 정의",
+              "개발·테스트·배포 일정과 협력업체 수행 범위 관리",
+              "장애 및 운영 이슈 분석과 유관 부서 대응",
+              "정보보안·개인정보보호 기준을 고려한 시스템 개선"
+            ],
+            "techStack": [
+              "Java",
+              "JSP",
+              "Tibero·Oracle",
+              "JEUS·WebtoB",
+              "Linux·AIX"
+            ]
+          }
+        ],
+        "programOperations": [],
+        "solutionOperations": []
+      }
     }
   ],
   "certifications": [
