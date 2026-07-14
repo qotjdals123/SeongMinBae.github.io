@@ -202,3 +202,52 @@ button { font: inherit; }
 .education-summary {
   white-space: pre-line;
 }
+
+.experience-position {
+  margin: 6px 0 0;
+  color: #626873;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.experience-duties {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e4e8;
+}
+
+.experience-duties-title {
+  margin: 0 0 9px;
+  color: #234da0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.experience-duties ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.experience-duties li {
+  color: #4f5661;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.experience-duties li::marker {
+  color: #234da0;
+}
+
+@media (max-width: 720px) {
+  .experience-duties {
+    margin-top: 14px;
+    padding-top: 13px;
+  }
+
+  .experience-duties li {
+    font-size: 13px;
+  }
+}
