@@ -300,8 +300,8 @@ function createProjectModal() {
 
   const header = createElement('header', 'project-modal__header');
   const headingArea = createElement('div', 'project-modal__heading');
-  const eyebrow = createElement('p', 'project-modal__eyebrow', 'PROJECT DETAILS');
-  const title = createElement('h2', '', '프로젝트 수행 내역');
+  const eyebrow = createElement('p', 'project-modal__eyebrow', 'CAREER DETAILS');
+  const title = createElement('h2', '', '경력 상세 내역');
   title.id = 'project-modal-title';
   const subtitle = createElement('p', '', '');
   subtitle.id = 'project-modal-subtitle';
@@ -309,7 +309,7 @@ function createProjectModal() {
 
   const closeButton = createElement('button', 'project-modal__close');
   closeButton.type = 'button';
-  closeButton.setAttribute('aria-label', '프로젝트 상세 팝업 닫기');
+  closeButton.setAttribute('aria-label', '경력 상세 팝업 닫기');
   closeButton.innerHTML = '<span aria-hidden="true"></span>';
   closeButton.dataset.modalClose = 'true';
 
@@ -363,112 +363,180 @@ function createProjectModal() {
   return modal;
 }
 
+function normalizeCareerDetailGroups(item) {
+  const detailSource = item.projectDetails;
+
+  if (Array.isArray(detailSource)) {
+    return [
+      {
+        key: 'projects',
+        label: '수행 프로젝트',
+        items: detailSource
+      },
+      {
+        key: 'programOperations',
+        label: '프로그램 운영 경험',
+        items: []
+      },
+      {
+        key: 'solutionOperations',
+        label: '솔루션 운영 및 관리 경험',
+        items: []
+      }
+    ];
+  }
+
+  return [
+    {
+      key: 'projects',
+      label: '수행 프로젝트',
+      items: Array.isArray(detailSource?.projects)
+        ? detailSource.projects
+        : []
+    },
+    {
+      key: 'programOperations',
+      label: '프로그램 운영 경험',
+      items: Array.isArray(detailSource?.programOperations)
+        ? detailSource.programOperations
+        : []
+    },
+    {
+      key: 'solutionOperations',
+      label: '솔루션 운영 및 관리 경험',
+      items: Array.isArray(detailSource?.solutionOperations)
+        ? detailSource.solutionOperations
+        : []
+    }
+  ];
+}
+
+function createCareerDetailCard(detail) {
+  const article = createElement('article', 'project-detail-card');
+  const cardHeader = createElement('div', 'project-detail-card__header');
+  const cardHeading = createElement('div');
+  const detailTitle = createElement('h4', '', detail.title || '상세 내역');
+  cardHeading.append(detailTitle);
+
+  if (detail.summary) {
+    cardHeading.append(
+      createElement('p', 'project-detail-card__summary', detail.summary)
+    );
+  }
+
+  cardHeader.append(cardHeading);
+
+  if (detail.period) {
+    cardHeader.append(
+      createElement('span', 'project-detail-card__period', detail.period)
+    );
+  }
+
+  article.append(cardHeader);
+
+  const metaItems = [];
+  if (detail.role) metaItems.push({ label: '역할', value: detail.role });
+  if (detail.client) metaItems.push({ label: '대상', value: detail.client });
+
+  if (metaItems.length > 0) {
+    const meta = createElement('dl', 'project-detail-card__meta');
+    metaItems.forEach((metaItem) => {
+      const group = createElement('div');
+      group.append(
+        createElement('dt', '', metaItem.label),
+        createElement('dd', '', metaItem.value)
+      );
+      meta.append(group);
+    });
+    article.append(meta);
+  }
+
+  if (Array.isArray(detail.tasks) && detail.tasks.length > 0) {
+    const taskSection = createElement('div', 'project-detail-card__section');
+    taskSection.append(createElement('h5', '', '주요 수행 내용'));
+    const taskList = createElement('ul');
+    detail.tasks.forEach((task) => {
+      taskList.append(createElement('li', '', task));
+    });
+    taskSection.append(taskList);
+    article.append(taskSection);
+  }
+
+  if (Array.isArray(detail.techStack) && detail.techStack.length > 0) {
+    const stackSection = createElement('div', 'project-detail-card__section');
+    stackSection.append(createElement('h5', '', '기술 및 환경'));
+    const stackList = createElement('div', 'project-detail-card__tags');
+    detail.techStack.forEach((technology) => {
+      stackList.append(createElement('span', '', technology));
+    });
+    stackSection.append(stackList);
+    article.append(stackSection);
+  }
+
+  return article;
+}
+
+function createCareerDetailGroup(group, index) {
+  const section = createElement(
+    'section',
+    `career-detail-group career-detail-group--${group.key}`
+  );
+  const heading = createElement('header', 'career-detail-group__heading');
+  const headingText = createElement('div', 'career-detail-group__title');
+  const number = createElement(
+    'span',
+    'career-detail-group__number',
+    String(index + 1).padStart(2, '0')
+  );
+  const title = createElement('h3', '', group.label);
+  const count = createElement(
+    'span',
+    'career-detail-group__count',
+    `${group.items.length}건`
+  );
+
+  headingText.append(number, title);
+  heading.append(headingText, count);
+  section.append(heading);
+
+  const list = createElement('div', 'career-detail-group__list');
+
+  if (group.items.length > 0) {
+    group.items.forEach((detail) => {
+      list.append(createCareerDetailCard(detail));
+    });
+  } else {
+    const empty = createElement('p', 'career-detail-group__empty');
+    empty.textContent = '등록된 내역이 없습니다.';
+    list.append(empty);
+  }
+
+  section.append(list);
+  return section;
+}
+
 function renderProjectModalContent(item) {
   const modal = createProjectModal();
   const title = modal.querySelector('#project-modal-title');
   const subtitle = modal.querySelector('#project-modal-subtitle');
   const body = modal.querySelector('#project-modal-body');
 
-  title.textContent = `${item.company} 프로젝트 수행 내역`;
+  title.textContent = `${item.company} 경력 상세 내역`;
   subtitle.textContent = `${item.position} · ${formatExperiencePeriod(item)}`;
 
-  const projects = Array.isArray(item.projectDetails)
-    ? item.projectDetails
-    : [];
+  const groups = normalizeCareerDetailGroups(item);
+  const hasRegisteredDetail = groups.some((group) => group.items.length > 0);
 
-  const children = [];
-
-  if (projects.length > 0) {
-    projects.forEach((project) => {
-      const article = createElement('article', 'project-detail-card');
-      const cardHeader = createElement('div', 'project-detail-card__header');
-      const cardHeading = createElement('div');
-      const projectTitle = createElement('h3', '', project.title || '프로젝트');
-      cardHeading.append(projectTitle);
-
-      if (project.summary) {
-        cardHeading.append(
-          createElement('p', 'project-detail-card__summary', project.summary)
-        );
-      }
-
-      cardHeader.append(cardHeading);
-
-      if (project.period) {
-        cardHeader.append(
-          createElement('span', 'project-detail-card__period', project.period)
-        );
-      }
-
-      article.append(cardHeader);
-
-      const metaItems = [];
-      if (project.role) metaItems.push({ label: '역할', value: project.role });
-      if (project.client) metaItems.push({ label: '대상', value: project.client });
-
-      if (metaItems.length > 0) {
-        const meta = createElement('dl', 'project-detail-card__meta');
-        metaItems.forEach((metaItem) => {
-          const group = createElement('div');
-          group.append(
-            createElement('dt', '', metaItem.label),
-            createElement('dd', '', metaItem.value)
-          );
-          meta.append(group);
-        });
-        article.append(meta);
-      }
-
-      if (Array.isArray(project.tasks) && project.tasks.length > 0) {
-        const taskSection = createElement('div', 'project-detail-card__section');
-        taskSection.append(createElement('h4', '', '주요 수행 내용'));
-        const taskList = createElement('ul');
-        project.tasks.forEach((task) => {
-          taskList.append(createElement('li', '', task));
-        });
-        taskSection.append(taskList);
-        article.append(taskSection);
-      }
-
-      if (Array.isArray(project.techStack) && project.techStack.length > 0) {
-        const stackSection = createElement('div', 'project-detail-card__section');
-        stackSection.append(createElement('h4', '', '기술 및 환경'));
-        const stackList = createElement('div', 'project-detail-card__tags');
-        project.techStack.forEach((technology) => {
-          stackList.append(createElement('span', '', technology));
-        });
-        stackSection.append(stackList);
-        article.append(stackSection);
-      }
-
-      children.push(article);
+  if (!hasRegisteredDetail && Array.isArray(item.duties) && item.duties.length > 0) {
+    groups[0].items.push({
+      title: '주요 수행 업무',
+      tasks: item.duties
     });
-  } else if (Array.isArray(item.duties) && item.duties.length > 0) {
-    const article = createElement('article', 'project-detail-card');
-    const cardHeader = createElement('div', 'project-detail-card__header');
-    cardHeader.append(
-      createElement('h3', '', '주요 수행 업무')
-    );
-    article.append(cardHeader);
-
-    const taskSection = createElement('div', 'project-detail-card__section');
-    const taskList = createElement('ul');
-    item.duties.forEach((duty) => {
-      taskList.append(createElement('li', '', duty));
-    });
-    taskSection.append(taskList);
-    article.append(taskSection);
-    children.push(article);
-  } else {
-    const emptyState = createElement('div', 'project-modal__empty');
-    emptyState.append(
-      createElement('strong', '', '프로젝트 수행 내역을 준비 중입니다.'),
-      createElement('p', '', 'data.json의 projectDetails 항목에 내용을 추가하면 이 영역에 자동으로 표시됩니다.')
-    );
-    children.push(emptyState);
   }
 
-  body.replaceChildren(...children);
+  body.replaceChildren(
+    ...groups.map((group, index) => createCareerDetailGroup(group, index))
+  );
 }
 
 function openProjectModal(item, triggerElement) {
@@ -544,7 +612,7 @@ function renderExperience(items) {
     detailButton.setAttribute('aria-haspopup', 'dialog');
     detailButton.setAttribute(
       'aria-label',
-      `${item.company} 프로젝트 수행 내역 자세히 보기`
+      `${item.company} 경력 상세 내역 자세히 보기`
     );
     detailButton.addEventListener('click', () => {
       openProjectModal(item, detailButton);
