@@ -222,7 +222,7 @@ function renderProfile(profile, site) {
   const summaryItems = [
     { label: '총 경력', value: '', key: 'total-career' },
     { label: '현 소속', value: profile.currentPosition },
-    { label: '출생', value: '', key: 'birth' },
+    { label: '출생년월', value: '', key: 'birth' },
     { label: '학력', value: profile.educationSummary, multiple: true },
     { label: '이메일', value: profile.email, email: true }
   ];
