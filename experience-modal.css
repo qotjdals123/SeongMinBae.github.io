@@ -399,3 +399,105 @@ body.modal-open {
     transition: none;
   }
 }
+
+/* 경력 상세 팝업: 카테고리 구분 */
+.project-modal__body {
+  gap: 26px;
+}
+
+.career-detail-group {
+  display: grid;
+  gap: 14px;
+}
+
+.career-detail-group + .career-detail-group {
+  padding-top: 24px;
+  border-top: 1px solid #e4e7ec;
+}
+
+.career-detail-group__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.career-detail-group__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.career-detail-group__number {
+  color: #174a9c;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.career-detail-group__heading h3 {
+  margin: 0;
+  color: #182230;
+  font-size: 17px;
+  line-height: 1.45;
+  letter-spacing: -0.025em;
+}
+
+.career-detail-group__count {
+  flex: 0 0 auto;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #174a9c;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.career-detail-group__list {
+  display: grid;
+  gap: 12px;
+}
+
+.career-detail-group__empty {
+  margin: 0;
+  padding: 18px 20px;
+  border: 1px dashed #d7dde6;
+  border-radius: 8px;
+  background: #fafbfc;
+  color: #98a2b3;
+  font-size: 13px;
+  text-align: center;
+}
+
+.project-detail-card h4 {
+  margin: 0;
+  color: #182230;
+  font-size: 16px;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+}
+
+.project-detail-card__section h5 {
+  margin: 0 0 9px;
+  color: #344054;
+  font-size: 13px;
+}
+
+@media (max-width: 720px) {
+  .project-modal__body {
+    gap: 22px;
+  }
+
+  .career-detail-group + .career-detail-group {
+    padding-top: 20px;
+  }
+
+  .career-detail-group__heading h3 {
+    font-size: 15px;
+  }
+
+  .career-detail-group__empty {
+    padding: 15px 16px;
+  }
+}
