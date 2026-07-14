@@ -1,15 +1,15 @@
 {
   "site": {
     "brand": "BAELAB",
-    "title": "BAELAB — 배성민 경력 포트폴리오",
-    "description": "배성민의 학력, 경력, 자격 및 대외활동을 소개하는 경력 포트폴리오 BAELAB입니다."
+    "title": "BAELAB",
+    "description": ""
   },
   "profile": {
     "name": "배성민",
-    "role": "금융 IT 시스템 운영 · 소프트웨어 개발 · 정보보안",
-    "description": "개발 실무에서 출발해 금융권 핵심 업무 시스템의 운영과 프로젝트 관리를 담당하고 있습니다. 정보보안 전문성을 확장하는 동시에 강의, 심사, 멘토링 활동을 통해 현업 경험을 공유하고 있습니다.",
+    "role": "금융 IT 시스템 운영 및 개발 · 금융정보보안",
+    "description": "IT병역특례 개발자를 시작으로 커리어를 시작해, 학업병행 개발자를 거쳐 현재는 금융업권을 대표하는 단체에서 운영PM 업무를 맡고 있습니다.",
     "currentPosition": "금융권협회 전산직 책임",
-    "educationSummary": "고려대학교 정보보호대학원 석사 진행중",
+    "educationSummary": "고려대학교 정보보호대학원 석사 진행중\n충북대학교 소프트웨어학과 학사",
     "email": "bsm9100@naver.com"
   },
   "education": [
