@@ -59,7 +59,7 @@ button { font: inherit; }
 .summary-list dd { margin: 0; font-size: 14px; font-weight: 650; }
 .summary-list a { /*text-decoration: underline;*/ text-underline-offset: 3px; }
 
-.resume-section { padding: 92px 0; scroll-margin-top: var(--header-height); }
+.resume-section { padding: 60px 0; scroll-margin-top: var(--header-height); }
 .section-muted { background: var(--background-muted); }
 .resume-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 78px; }
 .section-heading { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-content: start; }
