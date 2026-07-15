@@ -141,6 +141,52 @@ button { font: inherit; }
   white-space: nowrap;
 }
 
+/* 기타 기여사항 */
+.contribution-list {
+  border-top: 2px solid var(--line-strong);
+}
+
+.contribution-item {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) 72px;
+  align-items: center;
+  gap: 28px;
+  min-height: 82px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.contribution-category {
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.contribution-description {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.contribution-year {
+  color: var(--text-light);
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.5;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.contribution-empty {
+  margin: 0;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
 .activities-section { padding-bottom: 110px; }
 .activity-list { border-top: 2px solid var(--line-strong); }
 .activity-year-group { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 36px; padding: 34px 0; border-bottom: 1px solid var(--line); }
@@ -197,6 +243,32 @@ button { font: inherit; }
   .record-period { margin: 0; }
 
   .certificate-list article { gap: 16px; }
+
+  .contribution-item {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 5px 16px;
+    min-height: 0;
+    padding: 20px 0;
+  }
+
+  .contribution-category {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 14px;
+  }
+
+  .contribution-year {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 13px;
+  }
+
+  .contribution-description {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    font-size: 13px;
+    line-height: 1.65;
+  }
   
   .activity-year-group { grid-template-columns: 1fr; gap: 22px; padding: 30px 0; }
   .activity-year-group > h3 { font-size: 20px; }
