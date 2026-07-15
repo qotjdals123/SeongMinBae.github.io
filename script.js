@@ -620,43 +620,141 @@ function formatTimelineMonth(dateValue) {
 }
 
 function getTimelineItems(items) {
-  return items.map((item) => ({
-    company: item.company,
-    position: item.position || '',
-    status: item.status || '',
-    startDate: item.startDate,
-    endDate: item.endDate
-  }));
+  return items.map((item) => {
+    const hasPositions =
+      Array.isArray(item.positions) &&
+      item.positions.length > 0;
+
+    const sourcePositions = hasPositions
+      ? item.positions
+      : [
+          {
+            title: item.position || '',
+            type: '',
+            startDate: item.startDate,
+            endDate: item.endDate
+          }
+        ];
+
+    const segments = sourcePositions
+      .map((position) => {
+        const startDate =
+          position.startDate ||
+          item.startDate;
+
+        const endDate =
+          position.endDate === undefined
+            ? item.endDate ?? null
+            : position.endDate;
+
+        return {
+          title:
+            position.title ||
+            item.position ||
+            '',
+          type: position.type || '',
+          startDate,
+          endDate,
+          isMilestone:
+            Boolean(startDate) &&
+            Boolean(endDate) &&
+            startDate === endDate
+        };
+      })
+      .filter((position) => position.startDate)
+      .sort(
+        (first, second) =>
+          parseDate(second.startDate) -
+          parseDate(first.startDate)
+      );
+
+    return {
+      company: item.company,
+      position: item.position || '',
+      status: item.status || '',
+      startDate: item.startDate,
+      endDate: item.endDate,
+      segments
+    };
+  });
 }
 
-function drawCanvasRoundRect(context, x, y, width, height, radius) {
-  const safeRadius = Math.min(radius, width / 2, height / 2);
+function drawCanvasRoundRect(
+  context,
+  x,
+  y,
+  width,
+  height,
+  radius
+) {
+  const safeRadius = Math.min(
+    radius,
+    width / 2,
+    height / 2
+  );
 
   context.beginPath();
   context.moveTo(x + safeRadius, y);
-  context.lineTo(x + width - safeRadius, y);
-  context.quadraticCurveTo(x + width, y, x + width, y + safeRadius);
-  context.lineTo(x + width, y + height - safeRadius);
+  context.lineTo(
+    x + width - safeRadius,
+    y
+  );
+  context.quadraticCurveTo(
+    x + width,
+    y,
+    x + width,
+    y + safeRadius
+  );
+  context.lineTo(
+    x + width,
+    y + height - safeRadius
+  );
   context.quadraticCurveTo(
     x + width,
     y + height,
     x + width - safeRadius,
     y + height
   );
-  context.lineTo(x + safeRadius, y + height);
-  context.quadraticCurveTo(x, y + height, x, y + height - safeRadius);
+  context.lineTo(
+    x + safeRadius,
+    y + height
+  );
+  context.quadraticCurveTo(
+    x,
+    y + height,
+    x,
+    y + height - safeRadius
+  );
   context.lineTo(x, y + safeRadius);
-  context.quadraticCurveTo(x, y, x + safeRadius, y);
+  context.quadraticCurveTo(
+    x,
+    y,
+    x + safeRadius,
+    y
+  );
   context.closePath();
 }
 
-function fitCanvasText(context, text, maxWidth) {
-  if (context.measureText(text).width <= maxWidth) return text;
+function fitCanvasText(
+  context,
+  text,
+  maxWidth
+) {
+  const normalizedText = text || '';
 
-  let value = text;
+  if (
+    context.measureText(normalizedText).width <=
+    maxWidth
+  ) {
+    return normalizedText;
+  }
+
+  let value = normalizedText;
+
   while (
     value.length > 1 &&
-    context.measureText(`${value}…`).width > maxWidth
+    context.measureText(`${value}…`).width >
+      maxWidth
   ) {
     value = value.slice(0, -1);
   }
@@ -664,37 +762,211 @@ function fitCanvasText(context, text, maxWidth) {
   return `${value}…`;
 }
 
-function getTimelineX(date, axisStartDate, axisEndDate, axisStartX, axisWidth) {
-  const total = axisEndDate.getTime() - axisStartDate.getTime();
-  const elapsed = date.getTime() - axisStartDate.getTime();
-  const ratio = Math.max(0, Math.min(1, elapsed / total));
+function getTimelineX(
+  date,
+  axisStartDate,
+  axisEndDate,
+  axisStartX,
+  axisWidth
+) {
+  const total =
+    axisEndDate.getTime() -
+    axisStartDate.getTime();
+
+  const elapsed =
+    date.getTime() -
+    axisStartDate.getTime();
+
+  const ratio = Math.max(
+    0,
+    Math.min(1, elapsed / total)
+  );
+
   return axisStartX + axisWidth * ratio;
 }
 
+function drawTimelinePeriodText(
+  context,
+  startText,
+  endText,
+  barX,
+  barY,
+  barWidth,
+  barHeight
+) {
+  context.fillStyle = '#ffffff';
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+
+  if (barWidth >= 126) {
+    context.font =
+      '700 12px Pretendard, Arial, sans-serif';
+
+    context.fillText(
+      `${startText} ~ ${endText}`,
+      barX + barWidth / 2,
+      barY + barHeight / 2
+    );
+
+    return;
+  }
+
+  context.font =
+    '700 9px Pretendard, Arial, sans-serif';
+
+  context.fillText(
+    `${startText} ~`,
+    barX + barWidth / 2,
+    barY + 13
+  );
+
+  context.fillText(
+    endText,
+    barX + barWidth / 2,
+    barY + 27
+  );
+}
+
+function drawTimelineMilestone(
+  context,
+  segment,
+  color,
+  x,
+  slotY,
+  axisEndX
+) {
+  const diamondSize = 7;
+  const labelX = Math.min(
+    x + 13,
+    axisEndX - 155
+  );
+
+  context.save();
+  context.translate(x, slotY + 31);
+  context.rotate(Math.PI / 4);
+  context.fillStyle = color;
+  context.fillRect(
+    -diamondSize / 2,
+    -diamondSize / 2,
+    diamondSize,
+    diamondSize
+  );
+  context.restore();
+
+  context.beginPath();
+  context.moveTo(x, slotY + 12);
+  context.lineTo(x, slotY + 49);
+  context.strokeStyle = color;
+  context.lineWidth = 2;
+  context.stroke();
+
+  context.textAlign = 'left';
+  context.textBaseline = 'middle';
+  context.fillStyle = '#344054';
+  context.font =
+    '700 11px Pretendard, Arial, sans-serif';
+
+  context.fillText(
+    fitCanvasText(
+      context,
+      segment.title,
+      Math.max(80, axisEndX - labelX)
+    ),
+    labelX,
+    slotY + 24
+  );
+
+  context.fillStyle = '#667085';
+  context.font =
+    '600 10px Pretendard, Arial, sans-serif';
+
+  context.fillText(
+    formatTimelineMonth(segment.startDate),
+    labelX,
+    slotY + 42
+  );
+}
+
 function drawCareerTimelineCanvas() {
-  if (!resumeData?.experience?.length) return;
+  if (!resumeData?.experience?.length) {
+    return;
+  }
 
   const modal = createCareerTimelineModal();
-  const canvas = modal.querySelector('#career-timeline-canvas');
-  const viewport = modal.querySelector('.career-timeline-modal__viewport');
-  if (!canvas || !viewport) return;
+  const canvas = modal.querySelector(
+    '#career-timeline-canvas'
+  );
+  const viewport = modal.querySelector(
+    '.career-timeline-modal__viewport'
+  );
 
-  const items = getTimelineItems(resumeData.experience);
+  if (!canvas || !viewport) {
+    return;
+  }
+
+  const items = getTimelineItems(
+    resumeData.experience
+  );
+
   const today = getLocalToday();
-  const devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-  const canvasWidth = Math.max(1040, viewport.clientWidth - 2);
+  const devicePixelRatio = Math.min(
+    window.devicePixelRatio || 1,
+    2
+  );
+
+  const canvasWidth = Math.max(
+    1160,
+    viewport.clientWidth - 2
+  );
+
   const headerHeight = 78;
-  const rowHeight = 116;
+  const segmentSlotHeight = 68;
+  const groupVerticalPadding = 18;
+  const minimumGroupHeight = 112;
   const bottomPadding = 28;
-  const canvasHeight = headerHeight + items.length * rowHeight + bottomPadding;
+
+  const layouts = [];
+  let currentY = headerHeight;
+
+  items.forEach((item) => {
+    const segmentCount = Math.max(
+      item.segments.length,
+      1
+    );
+
+    const height = Math.max(
+      minimumGroupHeight,
+      groupVerticalPadding * 2 +
+        segmentCount * segmentSlotHeight
+    );
+
+    layouts.push({
+      item,
+      y: currentY,
+      height
+    });
+
+    currentY += height;
+  });
+
+  const canvasHeight =
+    currentY + bottomPadding;
 
   canvas.style.width = `${canvasWidth}px`;
   canvas.style.height = `${canvasHeight}px`;
-  canvas.width = Math.round(canvasWidth * devicePixelRatio);
-  canvas.height = Math.round(canvasHeight * devicePixelRatio);
+
+  canvas.width = Math.round(
+    canvasWidth * devicePixelRatio
+  );
+  canvas.height = Math.round(
+    canvasHeight * devicePixelRatio
+  );
 
   const context = canvas.getContext('2d');
-  if (!context) return;
+
+  if (!context) {
+    return;
+  }
 
   context.setTransform(
     devicePixelRatio,
@@ -704,42 +976,110 @@ function drawCareerTimelineCanvas() {
     0,
     0
   );
-  context.clearRect(0, 0, canvasWidth, canvasHeight);
 
-  const startDates = items.map((item) => parseDate(item.startDate));
-  const endDates = items.map((item) =>
-    item.endDate ? parseDate(item.endDate) : today
+  context.clearRect(
+    0,
+    0,
+    canvasWidth,
+    canvasHeight
   );
-  const minimumYear = Math.min(...startDates.map((date) => date.getFullYear()));
+
+  const allSegments = items.flatMap(
+    (item) => item.segments
+  );
+
+  const startDates = allSegments.map(
+    (segment) =>
+      parseDate(segment.startDate)
+  );
+
+  const endDates = allSegments.map(
+    (segment) =>
+      segment.endDate
+        ? parseDate(segment.endDate)
+        : today
+  );
+
+  const minimumYear = Math.min(
+    ...startDates.map(
+      (date) => date.getFullYear()
+    )
+  );
+
   const maximumYear = Math.max(
     today.getFullYear(),
-    ...endDates.map((date) => date.getFullYear())
+    ...endDates.map(
+      (date) => date.getFullYear()
+    )
   );
-  const axisStartDate = new Date(minimumYear, 0, 1);
-  const axisEndDate = new Date(maximumYear + 1, 0, 1);
+
+  const axisStartDate = new Date(
+    minimumYear,
+    0,
+    1
+  );
+
+  const axisEndDate = new Date(
+    maximumYear + 1,
+    0,
+    1
+  );
 
   const cardX = 18;
-  const cardWidth = 224;
-  const cardHeight = 70;
-  const axisStartX = 282;
+  const cardWidth = 232;
+  const axisStartX = 292;
   const axisEndX = canvasWidth - 38;
-  const axisWidth = axisEndX - axisStartX;
+  const axisWidth =
+    axisEndX - axisStartX;
   const axisY = 43;
-  const gridBottom = canvasHeight - 24;
-  const palette = ['#3265df', '#7836e8', '#07966f', '#163f65', '#d97706'];
+  const gridBottom =
+    canvasHeight - 24;
+
+  const palette = [
+    '#3265df',
+    '#7836e8',
+    '#07966f',
+    '#163f65',
+    '#d97706',
+    '#b83280'
+  ];
 
   context.fillStyle = '#ffffff';
-  context.fillRect(0, 0, canvasWidth, canvasHeight);
+  context.fillRect(
+    0,
+    0,
+    canvasWidth,
+    canvasHeight
+  );
 
   context.fillStyle = '#667085';
-  context.font = '700 14px Pretendard, Arial, sans-serif';
+  context.font =
+    '700 14px Pretendard, Arial, sans-serif';
   context.textAlign = 'left';
   context.textBaseline = 'middle';
-  context.fillText('연도', cardX, 21);
+  context.fillText(
+    '연도',
+    cardX,
+    21
+  );
 
-  for (let year = minimumYear; year <= maximumYear; year += 1) {
-    const yearDate = new Date(year, 0, 1);
-    const nextYearDate = new Date(year + 1, 0, 1);
+  for (
+    let year = minimumYear;
+    year <= maximumYear;
+    year += 1
+  ) {
+    const yearDate = new Date(
+      year,
+      0,
+      1
+    );
+
+    const nextYearDate = new Date(
+      year + 1,
+      0,
+      1
+    );
+
     const x = getTimelineX(
       yearDate,
       axisStartDate,
@@ -747,6 +1087,7 @@ function drawCareerTimelineCanvas() {
       axisStartX,
       axisWidth
     );
+
     const nextX = getTimelineX(
       nextYearDate,
       axisStartDate,
@@ -755,9 +1096,16 @@ function drawCareerTimelineCanvas() {
       axisWidth
     );
 
-    if ((year - minimumYear) % 2 === 1) {
+    if (
+      (year - minimumYear) % 2 === 1
+    ) {
       context.fillStyle = '#f8faff';
-      context.fillRect(x, axisY + 1, nextX - x, gridBottom - axisY - 1);
+      context.fillRect(
+        x,
+        axisY + 1,
+        nextX - x,
+        gridBottom - axisY - 1
+      );
     }
 
     context.beginPath();
@@ -768,122 +1116,305 @@ function drawCareerTimelineCanvas() {
     context.stroke();
 
     context.fillStyle = '#667085';
-    context.font = '700 13px Pretendard, Arial, sans-serif';
+    context.font =
+      '700 13px Pretendard, Arial, sans-serif';
     context.textAlign = 'center';
-    context.fillText(String(year), x, 21);
+    context.fillText(
+      String(year),
+      x,
+      21
+    );
   }
 
   context.beginPath();
-  context.moveTo(axisStartX, axisY);
-  context.lineTo(axisEndX + 9, axisY);
+  context.moveTo(
+    axisStartX,
+    axisY
+  );
+  context.lineTo(
+    axisEndX + 9,
+    axisY
+  );
   context.strokeStyle = '#1d2939';
   context.lineWidth = 1.5;
   context.stroke();
 
   context.beginPath();
-  context.moveTo(axisEndX + 9, axisY);
-  context.lineTo(axisEndX, axisY - 5);
-  context.lineTo(axisEndX, axisY + 5);
+  context.moveTo(
+    axisEndX + 9,
+    axisY
+  );
+  context.lineTo(
+    axisEndX,
+    axisY - 5
+  );
+  context.lineTo(
+    axisEndX,
+    axisY + 5
+  );
   context.closePath();
   context.fillStyle = '#1d2939';
   context.fill();
 
-  items.forEach((item, index) => {
-    const color = palette[index % palette.length];
-    const rowY = headerHeight + index * rowHeight;
-    const cardY = rowY + 13;
+  layouts.forEach(
+    ({ item, y: groupY, height }, companyIndex) => {
+      const color =
+        palette[
+          companyIndex % palette.length
+        ];
 
-    context.save();
-    context.shadowColor = 'rgba(16, 24, 40, 0.11)';
-    context.shadowBlur = 8;
-    context.shadowOffsetY = 3;
-    drawCanvasRoundRect(context, cardX, cardY, cardWidth, cardHeight, 6);
-    context.fillStyle = '#ffffff';
-    context.fill();
-    context.restore();
+      const cardY = groupY + 18;
+      const cardHeight =
+        height - 36;
 
-    drawCanvasRoundRect(context, cardX, cardY, cardWidth, cardHeight, 6);
-    context.strokeStyle = '#dde3ec';
-    context.lineWidth = 1;
-    context.stroke();
+      context.save();
+      context.shadowColor =
+        'rgba(16, 24, 40, 0.11)';
+      context.shadowBlur = 8;
+      context.shadowOffsetY = 3;
 
-    context.fillStyle = color;
-    context.fillRect(cardX, cardY, 6, cardHeight);
-
-    context.textAlign = 'left';
-    context.textBaseline = 'middle';
-    context.fillStyle = '#344054';
-    context.font = '700 13px Pretendard, Arial, sans-serif';
-    context.fillText(
-      fitCanvasText(context, item.company, cardWidth - 34),
-      cardX + 18,
-      cardY + 24
-    );
-
-    context.fillStyle = '#7b8494';
-    context.font = '500 10px Pretendard, Arial, sans-serif';
-    context.fillText(
-      fitCanvasText(context, item.position, cardWidth - 34),
-      cardX + 18,
-      cardY + 47
-    );
-
-    const startDate = parseDate(item.startDate);
-    const endDate = item.endDate ? parseDate(item.endDate) : today;
-    const calculatedStartX = getTimelineX(
-      startDate,
-      axisStartDate,
-      axisEndDate,
-      axisStartX,
-      axisWidth
-    );
-    const calculatedEndX = getTimelineX(
-      endDate,
-      axisStartDate,
-      axisEndDate,
-      axisStartX,
-      axisWidth
-    );
-    const barX = calculatedStartX;
-    const barWidth = Math.max(58, calculatedEndX - calculatedStartX);
-    const barY = rowY + 21;
-    const barHeight = 52;
-
-    context.save();
-    context.shadowColor = 'rgba(16, 24, 40, 0.16)';
-    context.shadowBlur = 6;
-    context.shadowOffsetY = 3;
-    drawCanvasRoundRect(context, barX, barY, barWidth, barHeight, 8);
-    context.fillStyle = color;
-    context.fill();
-    context.restore();
-
-    const startText = formatTimelineMonth(item.startDate);
-    const endText = item.endDate ? formatTimelineMonth(item.endDate) : '현재';
-    context.fillStyle = '#ffffff';
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-
-    if (barWidth >= 135) {
-      context.font = '700 14px Pretendard, Arial, sans-serif';
-      context.fillText(
-        `${startText} ~ ${endText}`,
-        barX + barWidth / 2,
-        barY + barHeight / 2
+      drawCanvasRoundRect(
+        context,
+        cardX,
+        cardY,
+        cardWidth,
+        cardHeight,
+        6
       );
-    } else {
-      context.font = '700 10px Pretendard, Arial, sans-serif';
-      context.fillText(`${startText} ~`, barX + barWidth / 2, barY + 18);
-      context.fillText(endText, barX + barWidth / 2, barY + 35);
-    }
 
-    context.beginPath();
-    context.moveTo(cardX, rowY + rowHeight - 8);
-    context.lineTo(canvasWidth - 24, rowY + rowHeight - 8);
-    context.strokeStyle = '#f0f2f5';
-    context.lineWidth = 1;
-    context.stroke();
-  });
+      context.fillStyle = '#ffffff';
+      context.fill();
+      context.restore();
+
+      drawCanvasRoundRect(
+        context,
+        cardX,
+        cardY,
+        cardWidth,
+        cardHeight,
+        6
+      );
+
+      context.strokeStyle = '#dde3ec';
+      context.lineWidth = 1;
+      context.stroke();
+
+      context.fillStyle = color;
+      context.fillRect(
+        cardX,
+        cardY,
+        6,
+        cardHeight
+      );
+
+      context.textAlign = 'left';
+      context.textBaseline = 'middle';
+      context.fillStyle = '#344054';
+      context.font =
+        '700 13px Pretendard, Arial, sans-serif';
+
+      context.fillText(
+        fitCanvasText(
+          context,
+          item.company,
+          cardWidth - 34
+        ),
+        cardX + 18,
+        cardY + 25
+      );
+
+      const positionCount =
+        item.segments.filter(
+          (segment) =>
+            !segment.isMilestone
+        ).length;
+
+      const milestoneCount =
+        item.segments.filter(
+          (segment) =>
+            segment.isMilestone
+        ).length;
+
+      const summaryParts = [];
+
+      if (positionCount > 1) {
+        summaryParts.push(
+          `${positionCount}개 직급 이력`
+        );
+      } else if (
+        item.position
+      ) {
+        summaryParts.push(
+          item.position
+        );
+      }
+
+      if (item.status) {
+        summaryParts.push(
+          item.status
+        );
+      }
+
+      context.fillStyle = '#7b8494';
+      context.font =
+        '500 10px Pretendard, Arial, sans-serif';
+
+      context.fillText(
+        fitCanvasText(
+          context,
+          summaryParts.join(' · '),
+          cardWidth - 34
+        ),
+        cardX + 18,
+        cardY + 48
+      );
+
+      if (milestoneCount > 0) {
+        context.fillStyle = '#174a9c';
+        context.font =
+          '700 10px Pretendard, Arial, sans-serif';
+
+        context.fillText(
+          `주요 이력 ${milestoneCount}건`,
+          cardX + 18,
+          cardY + 68
+        );
+      }
+
+      item.segments.forEach(
+        (segment, segmentIndex) => {
+          const slotY =
+            groupY +
+            groupVerticalPadding +
+            segmentIndex *
+              segmentSlotHeight;
+
+          const startDate = parseDate(
+            segment.startDate
+          );
+
+          const endDate =
+            segment.endDate
+              ? parseDate(
+                  segment.endDate
+                )
+              : today;
+
+          const startX = getTimelineX(
+            startDate,
+            axisStartDate,
+            axisEndDate,
+            axisStartX,
+            axisWidth
+          );
+
+          if (segment.isMilestone) {
+            drawTimelineMilestone(
+              context,
+              segment,
+              color,
+              startX,
+              slotY,
+              axisEndX
+            );
+
+            return;
+          }
+
+          const endX = getTimelineX(
+            endDate,
+            axisStartDate,
+            axisEndDate,
+            axisStartX,
+            axisWidth
+          );
+
+          const barX = startX;
+          const barWidth = Math.max(
+            72,
+            endX - startX
+          );
+
+          const roleLabel = [
+            segment.title,
+            segment.type
+          ]
+            .filter(Boolean)
+            .join(' · ');
+
+          context.fillStyle = '#344054';
+          context.font =
+            '700 10px Pretendard, Arial, sans-serif';
+          context.textAlign = 'left';
+          context.textBaseline = 'middle';
+
+          context.fillText(
+            fitCanvasText(
+              context,
+              roleLabel,
+              Math.max(
+                80,
+                axisEndX - barX
+              )
+            ),
+            barX,
+            slotY + 10
+          );
+
+          const barY = slotY + 21;
+          const barHeight = 38;
+
+          context.save();
+          context.shadowColor =
+            'rgba(16, 24, 40, 0.16)';
+          context.shadowBlur = 6;
+          context.shadowOffsetY = 3;
+
+          drawCanvasRoundRect(
+            context,
+            barX,
+            barY,
+            barWidth,
+            barHeight,
+            8
+          );
+
+          context.fillStyle = color;
+          context.fill();
+          context.restore();
+
+          drawTimelinePeriodText(
+            context,
+            formatTimelineMonth(
+              segment.startDate
+            ),
+            segment.endDate
+              ? formatTimelineMonth(
+                  segment.endDate
+                )
+              : '현재',
+            barX,
+            barY,
+            barWidth,
+            barHeight
+          );
+        }
+      );
+
+      context.beginPath();
+      context.moveTo(
+        cardX,
+        groupY + height - 8
+      );
+      context.lineTo(
+        canvasWidth - 24,
+        groupY + height - 8
+      );
+      context.strokeStyle = '#f0f2f5';
+      context.lineWidth = 1;
+      context.stroke();
+    }
+  );
 }
 
 function createCareerTimelineModal() {
@@ -911,7 +1442,7 @@ function createCareerTimelineModal() {
   const description = createElement(
     'p',
     '',
-    '회사별 재직 기간과 동시에 진행된 경력을 같은 연도축에서 확인할 수 있습니다.'
+    '회사별 재직 기간과 직급·승진 이력, 동시에 진행된 경력을 같은 연도축에서 확인할 수 있습니다.'
   );
   description.id = 'career-timeline-modal-description';
   heading.append(eyebrow, title, description);
