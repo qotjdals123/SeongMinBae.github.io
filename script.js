@@ -634,6 +634,10 @@ function getTimelineTypePriority(value) {
   return priorities[value] || 99;
 }
 
+function isTimelineDisplayType(value) {
+  return ['IT병역특례', '학업병행', '프리랜서'].includes(value);
+}
+
 function getTimelineItems(items) {
   return items.map((item) => {
     const hasPositions =
@@ -690,17 +694,11 @@ function getTimelineItems(items) {
     const latestRegularSegment =
       regularSegments[0] || null;
 
-    const cardTypeLabels = new Set([
-      'IT병역특례',
-      '학업병행',
-      '프리랜서'
-    ]);
-
     const uniqueTypes = [...new Set(
       regularSegments
         .map((segment) => segment.type)
         .filter((type) =>
-          cardTypeLabels.has(type)
+          isTimelineDisplayType(type)
         )
     )].sort(
       (first, second) =>
@@ -1496,7 +1494,9 @@ function drawCareerTimelineCanvas() {
 
           const roleLabel = [
             segment.title,
-            segment.type
+            isTimelineDisplayType(segment.type)
+              ? segment.type
+              : ''
           ]
             .filter(Boolean)
             .join(' · ');
@@ -1655,7 +1655,6 @@ function createCareerTimelineModal() {
   dialog.setAttribute('role', 'dialog');
   dialog.setAttribute('aria-modal', 'true');
   dialog.setAttribute('aria-labelledby', 'career-timeline-modal-title');
-  dialog.setAttribute('aria-describedby', 'career-timeline-modal-description');
   dialog.tabIndex = -1;
 
   const header = createElement('header', 'career-timeline-modal__header');
@@ -1663,13 +1662,7 @@ function createCareerTimelineModal() {
   const eyebrow = createElement('p', 'career-timeline-modal__eyebrow', 'CAREER TIMELINE');
   const title = createElement('h2', '', '전체 경력 타임라인');
   title.id = 'career-timeline-modal-title';
-  const description = createElement(
-    'p',
-    '',
-    '회사별 재직 기간과 직급·승진 이력, 동시에 진행된 경력을 같은 연도축에서 확인할 수 있습니다. 이력 막대에 마우스를 올리면 강조됩니다.'
-  );
-  description.id = 'career-timeline-modal-description';
-  heading.append(eyebrow, title, description);
+  heading.append(eyebrow, title);
 
   const closeButton = createElement('button', 'career-timeline-modal__close');
   closeButton.type = 'button';
