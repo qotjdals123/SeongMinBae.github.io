@@ -593,7 +593,7 @@ function renderExperience(items) {
 
       detailButton.type = 'button';
       detailButton.addEventListener('click', () => {
-        openExperienceModal(item);
+        openProjectModal(item);
       });
 
       companyHeader.append(detailButton);
