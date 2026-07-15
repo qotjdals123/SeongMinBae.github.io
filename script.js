@@ -4,6 +4,7 @@ const menuButton = document.querySelector('.menu-button');
 const primaryNav = document.querySelector('.primary-nav');
 const navLinks = [...document.querySelectorAll('.primary-nav a[href^="#"]')];
 const yearElement = document.querySelector('#current-year');
+const PROJECT_MODAL_HISTORY_KEY = 'projectModalOpen';
 
 let resumeData = null;
 let careerRefreshTimer = null;
@@ -527,6 +528,7 @@ function renderProjectModalContent(item) {
 
 function openProjectModal(item, triggerElement) {
   const modal = createProjectModal();
+
   if (projectModalCloseTimer) {
     clearTimeout(projectModalCloseTimer);
     projectModalCloseTimer = null;
@@ -534,6 +536,19 @@ function openProjectModal(item, triggerElement) {
 
   renderProjectModalContent(item);
   lastFocusedElement = triggerElement || document.activeElement;
+
+  // 팝업이 처음 열릴 때만 방문 기록 한 단계 추가
+  if (!history.state?.[PROJECT_MODAL_HISTORY_KEY]) {
+    history.pushState(
+      {
+        ...(history.state || {}),
+        [PROJECT_MODAL_HISTORY_KEY]: true
+      },
+      '',
+      window.location.href
+    );
+  }
+
   modal.hidden = false;
   modal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('modal-open');
@@ -544,7 +559,7 @@ function openProjectModal(item, triggerElement) {
   });
 }
 
-function closeProjectModal() {
+function hideProjectModal() {
   if (!projectModal || projectModal.hidden) return;
 
   projectModal.classList.remove('is-open');
@@ -556,6 +571,25 @@ function closeProjectModal() {
     projectModalCloseTimer = null;
     lastFocusedElement?.focus();
   }, 180);
+}
+
+function closeProjectModal({ fromHistory = false } = {}) {
+  if (!projectModal || projectModal.hidden) return;
+
+  /*
+   * 닫기 버튼·배경·ESC로 닫는 경우:
+   * 팝업을 열면서 추가한 history를 먼저 제거합니다.
+   * popstate 이벤트에서 실제 팝업이 닫힙니다.
+   */
+  if (
+    !fromHistory &&
+    history.state?.[PROJECT_MODAL_HISTORY_KEY]
+  ) {
+    history.back();
+    return;
+  }
+
+  hideProjectModal();
 }
 
 function renderExperience(items) {
@@ -857,5 +891,13 @@ function updateBirthAge() {
     );
   }
 }
+
+window.addEventListener('popstate', () => {
+  if (projectModal && !projectModal.hidden) {
+    closeProjectModal({
+      fromHistory: true
+    });
+  }
+});
 
 loadResumeData();
