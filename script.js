@@ -623,6 +623,17 @@ function formatTimelineMonth(dateValue) {
   return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`;
 }
 
+function getTimelineTypePriority(value) {
+  const priorities = {
+    'IT병역특례': 1,
+    '학업병행': 2,
+    '프리랜서': 3,
+    '재직중': 4
+  };
+
+  return priorities[value] || 99;
+}
+
 function getTimelineItems(items) {
   return items.map((item) => {
     const hasPositions =
@@ -672,12 +683,56 @@ function getTimelineItems(items) {
           parseDate(first.startDate)
       );
 
+    const regularSegments = segments.filter(
+      (segment) => !segment.isMilestone
+    );
+
+    const latestRegularSegment =
+      regularSegments[0] || null;
+
+    const cardTypeLabels = new Set([
+      'IT병역특례',
+      '학업병행',
+      '프리랜서'
+    ]);
+
+    const uniqueTypes = [...new Set(
+      regularSegments
+        .map((segment) => segment.type)
+        .filter((type) =>
+          cardTypeLabels.has(type)
+        )
+    )].sort(
+      (first, second) =>
+        getTimelineTypePriority(first) -
+          getTimelineTypePriority(second) ||
+        first.localeCompare(second, 'ko')
+    );
+
+    const cardSummary = hasPositions
+      ? [
+          latestRegularSegment?.title ||
+            item.position ||
+            '',
+          ...uniqueTypes,
+          item.status || ''
+        ]
+          .filter(Boolean)
+          .join(' · ')
+      : [
+          item.position || '',
+          item.status || ''
+        ]
+          .filter(Boolean)
+          .join(' · ');
+
     return {
       company: item.company,
       position: item.position || '',
       status: item.status || '',
       startDate: item.startDate,
       endDate: item.endDate,
+      cardSummary,
       segments
     };
   });
@@ -1339,32 +1394,7 @@ function drawCareerTimelineCanvas() {
         cardY + 26
       );
 
-      const regularSegments =
-        item.segments.filter(
-          (segment) =>
-            !segment.isMilestone
-        );
-
-      const milestoneCount =
-        item.segments.filter(
-          (segment) =>
-            segment.isMilestone
-        ).length;
-
-      const summaryParts = [];
-
-      if (
-        regularSegments.length <= 1 &&
-        item.position
-      ) {
-        summaryParts.push(item.position);
-      }
-
-      if (item.status) {
-        summaryParts.push(item.status);
-      }
-
-      const summaryText = summaryParts.join(' · ');
+      const summaryText = item.cardSummary || '';
 
       if (summaryText) {
         context.fillStyle = '#7b8494';
@@ -1379,18 +1409,6 @@ function drawCareerTimelineCanvas() {
           ),
           cardX + 18,
           cardY + 51
-        );
-      }
-
-      if (milestoneCount > 0) {
-        context.fillStyle = '#174a9c';
-        context.font =
-          '700 11px Pretendard, Arial, sans-serif';
-
-        context.fillText(
-          `주요 이력 ${milestoneCount}건`,
-          cardX + 18,
-          summaryText ? cardY + 75 : cardY + 51
         );
       }
 
