@@ -603,12 +603,7 @@
       "year": "2022",
       "items": [
         {
-          "organization": "소프트웨어 마에스트로 13기, 14기",
-          "role": "성실도 평가위원",
-          "period": "2022~2023"
-        },
-        {
-          "organization": "진학사 캐치클래스",
+          "organization": "진학사 캐치클래스 특강",
           "role": "강사",
           "period": "2022"
         },
@@ -618,17 +613,12 @@
           "period": "2022"
         },
         {
-          "organization": "한국정보산업연합회 스마트해상물류",
+          "organization": "한국정보산업연합회 스마트해상물류 프로젝트",
           "role": "멘토",
           "period": "2022~"
         },
         {
-          "organization": "한국정보산업연합회 프로보노",
-          "role": "멘토",
-          "period": "2022~"
-        },
-        {
-          "organization": "한국정보산업연합회 한이음",
+          "organization": "한국정보산업연합회 한이음 프로젝트",
           "role": "멘토",
           "period": "2022~"
         },
@@ -671,11 +661,6 @@
           "organization": "KT DS 신입사원 교육",
           "role": "멘토",
           "period": "2020"
-        },
-        {
-          "organization": "네이버 지식In 코딩",
-          "role": "엑스퍼트",
-          "period": "2020~2021"
         }
       ]
     },
