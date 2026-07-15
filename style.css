@@ -163,7 +163,7 @@ button { font: inherit; }
 .site-footer { padding: 25px 0; border-top: 1px solid #303030; background: #1b1b1b; color: #999; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .site-footer .brand { color: #fff; }
-.site-footer p { margin: 0; font-size: 11px; }
+.site-footer p { margin: 0; font-size: 13px; }
 
 @media (max-width: 920px) {
   .intro-layout { grid-template-columns: 1fr; gap: 54px; }
