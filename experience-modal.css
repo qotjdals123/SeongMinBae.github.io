@@ -823,3 +823,24 @@ body.modal-open {
     padding-bottom: 4px;
   }
 }
+
+/* Canvas 빈 공간 드래그로 상하좌우 이동 */
+.career-timeline-modal__viewport {
+  cursor: grab;
+  overscroll-behavior: contain;
+}
+
+#career-timeline-canvas {
+  cursor: grab;
+  /* 브라우저 기본 터치 스크롤 대신 JS에서 가로·세로 이동을 함께 처리 */
+  touch-action: none;
+}
+
+#career-timeline-canvas.is-dragging {
+  cursor: grabbing !important;
+}
+
+body.modal-open #career-timeline-canvas.is-dragging {
+  user-select: none;
+  -webkit-user-select: none;
+}
