@@ -167,7 +167,11 @@ function formatCareerDuration(duration) {
 function formatExperiencePeriod(item) {
   const start = item.startDate.replaceAll('-', '.');
   const end = item.endDate ? item.endDate.replaceAll('-', '.') : '';
-  return end ? `${start} ~ ${end}` : `${start} ~`;
+  if(item.title == 'IT병역특례 전역'){
+    return start ? `${start}`;
+  }else{
+    return end ? `${start} ~ ${end}` : `${start} ~`;  
+  }
 }
 
 function updateCareerDuration() {
