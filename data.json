@@ -289,10 +289,46 @@
             "title": "국민은행 기업뱅킹 차세대 프로젝트 참여",
             "period": "2019",
             "role": "프론트엔드 개발(SI)"
+          },
+          {
+            "title": "기업은행 개인 · 기업뱅킹 차세대 프로젝트 참여",
+            "period": "2019",
+            "role": "프론트엔드 개발(SI)"
+          },
+          {
+            "title": "서울성모병원 그룹웽어 구축 프로젝트 참여",
+            "period": "2019",
+            "role": "프론트엔드 개발(SI)"
+          },
+          {
+            "title": "산업은행 기업뱅킹 차세대 프로젝트 참여",
+            "period": "2018",
+            "role": "프론트엔드 개발(SI)"
+          },
+          {
+            "title": "한국청소년상담복지개발원 홈페이지 개편 프로젝트 참여",
+            "period": "2018",
+            "role": "프론트엔드 개발(SI)"
+          },
+          {
+            "title": "하나은행 기업뱅킹 차세대 프로젝트 참여",
+            "period": "2018",
+            "role": "프론트엔드 개발(SI)"
           }
         ],
-        "programOperations": [],
-        "solutionOperations": []
+        "programOperations": [
+          {
+            "title": "나고소프트 공식 홈페이지 운영(외부망)",
+            "period": "2017.08~2020.08"
+          }
+        ],
+        "solutionOperations": [
+          {
+            "title": "웹 페이지 프린팅 솔루션 운영(EasyPrint, Printmade3)",
+            "period": "2017.08~2020.08",
+            "role": "솔루션 업체 : 나고소프트"
+          }
+        ]
       }
     },
     {
