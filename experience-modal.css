@@ -782,3 +782,44 @@ body.modal-open {
 #career-timeline-canvas:focus-visible {
   outline: none;
 }
+
+/* 모바일 경력 상세 팝업 하단 잘림 방지 */
+@media (max-width: 720px) {
+  .project-modal {
+    align-items: stretch;
+    padding: 0;
+  }
+
+  .project-modal__dialog {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    max-height: none;
+    border-radius: 0;
+    transform: translateY(28px);
+  }
+
+  .project-modal__header {
+    flex: 0 0 auto;
+    padding-top: calc(22px + env(safe-area-inset-top));
+  }
+
+  .project-modal__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    padding-bottom: calc(36px + env(safe-area-inset-bottom));
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scroll-padding-bottom: calc(36px + env(safe-area-inset-bottom));
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .career-detail-group:last-child {
+    padding-bottom: 4px;
+  }
+}
