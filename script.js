@@ -20,6 +20,8 @@ let timelineHitAreas = [];
 let timelineHoveredKey = null;
 let timelineHoverProgress = 0;
 let timelineHoverAnimationFrame = null;
+let timelineTouchResetTimer = null;
+let timelinePointerStart = null;
 
 if (yearElement) {
   yearElement.textContent = new Date().getFullYear();
@@ -902,29 +904,117 @@ function getTimelineCanvasPoint(canvas, event) {
   };
 }
 
+function findTimelineHitArea(canvas, event) {
+  const point = getTimelineCanvasPoint(canvas, event);
+
+  return [...timelineHitAreas]
+    .reverse()
+    .find((area) =>
+      point.x >= area.x &&
+      point.x <= area.x + area.width &&
+      point.y >= area.y &&
+      point.y <= area.y + area.height
+    );
+}
+
 function bindTimelineCanvasInteractions(canvas) {
   if (canvas.dataset.timelineInteractive === 'true') return;
 
   canvas.dataset.timelineInteractive = 'true';
 
-  canvas.addEventListener('mousemove', (event) => {
-    const point = getTimelineCanvasPoint(canvas, event);
-    const hoveredArea = [...timelineHitAreas]
-      .reverse()
-      .find((area) =>
-        point.x >= area.x &&
-        point.x <= area.x + area.width &&
-        point.y >= area.y &&
-        point.y <= area.y + area.height
-      );
+  /*
+   * 마우스에서는 포인터 이동에 따라 기존 hover 모션을 사용합니다.
+   * 터치 이동은 스크롤로 간주해 hover 처리를 하지 않습니다.
+   */
+  canvas.addEventListener('pointermove', (event) => {
+    if (event.pointerType === 'touch') return;
+
+    const hoveredArea = findTimelineHitArea(canvas, event);
 
     canvas.style.cursor = hoveredArea ? 'pointer' : 'default';
     setTimelineHoveredKey(hoveredArea?.key || null);
   });
 
-  canvas.addEventListener('mouseleave', () => {
+  canvas.addEventListener('pointerleave', (event) => {
+    if (event.pointerType === 'touch') return;
+
     canvas.style.cursor = 'default';
     setTimelineHoveredKey(null);
+  });
+
+  /*
+   * 스마트폰에서는 손가락을 떼었을 때 실제 탭이었는지 확인합니다.
+   * 손가락 이동 거리가 크면 좌우/상하 스크롤이므로 활성화하지 않습니다.
+   */
+  canvas.addEventListener(
+    'pointerdown',
+    (event) => {
+      if (event.pointerType !== 'touch') return;
+
+      timelinePointerStart = {
+        pointerId: event.pointerId,
+        clientX: event.clientX,
+        clientY: event.clientY
+      };
+    },
+    { passive: true }
+  );
+
+  canvas.addEventListener(
+    'pointerup',
+    (event) => {
+      if (
+        event.pointerType !== 'touch' ||
+        !timelinePointerStart ||
+        timelinePointerStart.pointerId !== event.pointerId
+      ) {
+        return;
+      }
+
+      const movement = Math.hypot(
+        event.clientX - timelinePointerStart.clientX,
+        event.clientY - timelinePointerStart.clientY
+      );
+
+      timelinePointerStart = null;
+
+      /* 스크롤 중 발생한 pointerup은 클릭으로 처리하지 않습니다. */
+      if (movement > 10) return;
+
+      const tappedArea = findTimelineHitArea(canvas, event);
+
+      if (timelineTouchResetTimer) {
+        clearTimeout(timelineTouchResetTimer);
+        timelineTouchResetTimer = null;
+      }
+
+      setTimelineHoveredKey(tappedArea?.key || null);
+
+      if (tappedArea) {
+        timelineTouchResetTimer = window.setTimeout(() => {
+          setTimelineHoveredKey(null);
+          timelineTouchResetTimer = null;
+        }, 1100);
+      }
+    },
+    { passive: true }
+  );
+
+  canvas.addEventListener('pointercancel', (event) => {
+    if (
+      timelinePointerStart?.pointerId === event.pointerId
+    ) {
+      timelinePointerStart = null;
+    }
+  });
+
+  /* 길게 눌렀을 때 이미지/텍스트 메뉴가 나타나는 것을 방지합니다. */
+  canvas.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+  });
+
+  canvas.addEventListener('dragstart', (event) => {
+    event.preventDefault();
   });
 }
 
