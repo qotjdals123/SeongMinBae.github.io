@@ -168,7 +168,7 @@ function formatExperiencePeriod(item) {
   const start = item.startDate.replaceAll('-', '.');
   const end = item.endDate ? item.endDate.replaceAll('-', '.') : '';
   if(item.title == 'IT병역특례 전역'){
-    return start ? `${start}`;
+    return `${start}`;
   }else{
     return end ? `${start} ~ ${end}` : `${start} ~`;  
   }
