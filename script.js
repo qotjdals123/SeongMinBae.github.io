@@ -5,12 +5,17 @@ const primaryNav = document.querySelector('.primary-nav');
 const navLinks = [...document.querySelectorAll('.primary-nav a[href^="#"]')];
 const yearElement = document.querySelector('#current-year');
 const PROJECT_MODAL_HISTORY_KEY = 'projectModalOpen';
+const TIMELINE_MODAL_HISTORY_KEY = 'careerTimelineModalOpen';
 
 let resumeData = null;
 let careerRefreshTimer = null;
 let projectModal = null;
 let projectModalCloseTimer = null;
 let lastFocusedElement = null;
+let careerTimelineModal = null;
+let careerTimelineCloseTimer = null;
+let careerTimelineResizeTimer = null;
+let timelineLastFocusedElement = null;
 
 if (yearElement) {
   yearElement.textContent = new Date().getFullYear();
@@ -33,11 +38,25 @@ menuButton?.addEventListener('click', () => {
 navLinks.forEach((link) => link.addEventListener('click', closeMenu));
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') closeMenu();
+  if (event.key !== 'Escape') return;
+
+  closeMenu();
+
+  if (careerTimelineModal && !careerTimelineModal.hidden) {
+    closeCareerTimelineModal();
+  }
 });
 
 window.addEventListener('resize', () => {
   if (window.innerWidth > 720) closeMenu();
+
+  if (careerTimelineModal && !careerTimelineModal.hidden) {
+    clearTimeout(careerTimelineResizeTimer);
+    careerTimelineResizeTimer = window.setTimeout(
+      drawCareerTimelineCanvas,
+      120
+    );
+  }
 });
 
 function createElement(tagName, className, text) {
@@ -564,7 +583,9 @@ function hideProjectModal() {
 
   projectModal.classList.remove('is-open');
   projectModal.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('modal-open');
+  if (!careerTimelineModal || careerTimelineModal.hidden) {
+    document.body.classList.remove('modal-open');
+  }
 
   projectModalCloseTimer = window.setTimeout(() => {
     projectModal.hidden = true;
@@ -590,6 +611,428 @@ function closeProjectModal({ fromHistory = false } = {}) {
   }
 
   hideProjectModal();
+}
+
+
+function formatTimelineMonth(dateValue) {
+  const date = parseDate(dateValue);
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`;
+}
+
+function getTimelineItems(items) {
+  return items.map((item) => ({
+    company: item.company,
+    position: item.position || '',
+    status: item.status || '',
+    startDate: item.startDate,
+    endDate: item.endDate
+  }));
+}
+
+function drawCanvasRoundRect(context, x, y, width, height, radius) {
+  const safeRadius = Math.min(radius, width / 2, height / 2);
+
+  context.beginPath();
+  context.moveTo(x + safeRadius, y);
+  context.lineTo(x + width - safeRadius, y);
+  context.quadraticCurveTo(x + width, y, x + width, y + safeRadius);
+  context.lineTo(x + width, y + height - safeRadius);
+  context.quadraticCurveTo(
+    x + width,
+    y + height,
+    x + width - safeRadius,
+    y + height
+  );
+  context.lineTo(x + safeRadius, y + height);
+  context.quadraticCurveTo(x, y + height, x, y + height - safeRadius);
+  context.lineTo(x, y + safeRadius);
+  context.quadraticCurveTo(x, y, x + safeRadius, y);
+  context.closePath();
+}
+
+function fitCanvasText(context, text, maxWidth) {
+  if (context.measureText(text).width <= maxWidth) return text;
+
+  let value = text;
+  while (
+    value.length > 1 &&
+    context.measureText(`${value}…`).width > maxWidth
+  ) {
+    value = value.slice(0, -1);
+  }
+
+  return `${value}…`;
+}
+
+function getTimelineX(date, axisStartDate, axisEndDate, axisStartX, axisWidth) {
+  const total = axisEndDate.getTime() - axisStartDate.getTime();
+  const elapsed = date.getTime() - axisStartDate.getTime();
+  const ratio = Math.max(0, Math.min(1, elapsed / total));
+  return axisStartX + axisWidth * ratio;
+}
+
+function drawCareerTimelineCanvas() {
+  if (!resumeData?.experience?.length) return;
+
+  const modal = createCareerTimelineModal();
+  const canvas = modal.querySelector('#career-timeline-canvas');
+  const viewport = modal.querySelector('.career-timeline-modal__viewport');
+  if (!canvas || !viewport) return;
+
+  const items = getTimelineItems(resumeData.experience);
+  const today = getLocalToday();
+  const devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+  const canvasWidth = Math.max(1040, viewport.clientWidth - 2);
+  const headerHeight = 78;
+  const rowHeight = 116;
+  const bottomPadding = 28;
+  const canvasHeight = headerHeight + items.length * rowHeight + bottomPadding;
+
+  canvas.style.width = `${canvasWidth}px`;
+  canvas.style.height = `${canvasHeight}px`;
+  canvas.width = Math.round(canvasWidth * devicePixelRatio);
+  canvas.height = Math.round(canvasHeight * devicePixelRatio);
+
+  const context = canvas.getContext('2d');
+  if (!context) return;
+
+  context.setTransform(
+    devicePixelRatio,
+    0,
+    0,
+    devicePixelRatio,
+    0,
+    0
+  );
+  context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+  const startDates = items.map((item) => parseDate(item.startDate));
+  const endDates = items.map((item) =>
+    item.endDate ? parseDate(item.endDate) : today
+  );
+  const minimumYear = Math.min(...startDates.map((date) => date.getFullYear()));
+  const maximumYear = Math.max(
+    today.getFullYear(),
+    ...endDates.map((date) => date.getFullYear())
+  );
+  const axisStartDate = new Date(minimumYear, 0, 1);
+  const axisEndDate = new Date(maximumYear + 1, 0, 1);
+
+  const cardX = 18;
+  const cardWidth = 224;
+  const cardHeight = 70;
+  const axisStartX = 282;
+  const axisEndX = canvasWidth - 38;
+  const axisWidth = axisEndX - axisStartX;
+  const axisY = 43;
+  const gridBottom = canvasHeight - 24;
+  const palette = ['#3265df', '#7836e8', '#07966f', '#163f65', '#d97706'];
+
+  context.fillStyle = '#ffffff';
+  context.fillRect(0, 0, canvasWidth, canvasHeight);
+
+  context.fillStyle = '#667085';
+  context.font = '700 14px Pretendard, Arial, sans-serif';
+  context.textAlign = 'left';
+  context.textBaseline = 'middle';
+  context.fillText('연도', cardX, 21);
+
+  for (let year = minimumYear; year <= maximumYear; year += 1) {
+    const yearDate = new Date(year, 0, 1);
+    const nextYearDate = new Date(year + 1, 0, 1);
+    const x = getTimelineX(
+      yearDate,
+      axisStartDate,
+      axisEndDate,
+      axisStartX,
+      axisWidth
+    );
+    const nextX = getTimelineX(
+      nextYearDate,
+      axisStartDate,
+      axisEndDate,
+      axisStartX,
+      axisWidth
+    );
+
+    if ((year - minimumYear) % 2 === 1) {
+      context.fillStyle = '#f8faff';
+      context.fillRect(x, axisY + 1, nextX - x, gridBottom - axisY - 1);
+    }
+
+    context.beginPath();
+    context.moveTo(x, axisY);
+    context.lineTo(x, gridBottom);
+    context.strokeStyle = '#e3e8f0';
+    context.lineWidth = 1;
+    context.stroke();
+
+    context.fillStyle = '#667085';
+    context.font = '700 13px Pretendard, Arial, sans-serif';
+    context.textAlign = 'center';
+    context.fillText(String(year), x, 21);
+  }
+
+  context.beginPath();
+  context.moveTo(axisStartX, axisY);
+  context.lineTo(axisEndX + 9, axisY);
+  context.strokeStyle = '#1d2939';
+  context.lineWidth = 1.5;
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(axisEndX + 9, axisY);
+  context.lineTo(axisEndX, axisY - 5);
+  context.lineTo(axisEndX, axisY + 5);
+  context.closePath();
+  context.fillStyle = '#1d2939';
+  context.fill();
+
+  items.forEach((item, index) => {
+    const color = palette[index % palette.length];
+    const rowY = headerHeight + index * rowHeight;
+    const cardY = rowY + 13;
+
+    context.save();
+    context.shadowColor = 'rgba(16, 24, 40, 0.11)';
+    context.shadowBlur = 8;
+    context.shadowOffsetY = 3;
+    drawCanvasRoundRect(context, cardX, cardY, cardWidth, cardHeight, 6);
+    context.fillStyle = '#ffffff';
+    context.fill();
+    context.restore();
+
+    drawCanvasRoundRect(context, cardX, cardY, cardWidth, cardHeight, 6);
+    context.strokeStyle = '#dde3ec';
+    context.lineWidth = 1;
+    context.stroke();
+
+    context.fillStyle = color;
+    context.fillRect(cardX, cardY, 6, cardHeight);
+
+    context.textAlign = 'left';
+    context.textBaseline = 'middle';
+    context.fillStyle = '#344054';
+    context.font = '700 13px Pretendard, Arial, sans-serif';
+    context.fillText(
+      fitCanvasText(context, item.company, cardWidth - 34),
+      cardX + 18,
+      cardY + 24
+    );
+
+    context.fillStyle = '#7b8494';
+    context.font = '500 10px Pretendard, Arial, sans-serif';
+    context.fillText(
+      fitCanvasText(context, item.position, cardWidth - 34),
+      cardX + 18,
+      cardY + 47
+    );
+
+    const startDate = parseDate(item.startDate);
+    const endDate = item.endDate ? parseDate(item.endDate) : today;
+    const calculatedStartX = getTimelineX(
+      startDate,
+      axisStartDate,
+      axisEndDate,
+      axisStartX,
+      axisWidth
+    );
+    const calculatedEndX = getTimelineX(
+      endDate,
+      axisStartDate,
+      axisEndDate,
+      axisStartX,
+      axisWidth
+    );
+    const barX = calculatedStartX;
+    const barWidth = Math.max(58, calculatedEndX - calculatedStartX);
+    const barY = rowY + 21;
+    const barHeight = 52;
+
+    context.save();
+    context.shadowColor = 'rgba(16, 24, 40, 0.16)';
+    context.shadowBlur = 6;
+    context.shadowOffsetY = 3;
+    drawCanvasRoundRect(context, barX, barY, barWidth, barHeight, 8);
+    context.fillStyle = color;
+    context.fill();
+    context.restore();
+
+    const startText = formatTimelineMonth(item.startDate);
+    const endText = item.endDate ? formatTimelineMonth(item.endDate) : '현재';
+    context.fillStyle = '#ffffff';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+
+    if (barWidth >= 135) {
+      context.font = '700 14px Pretendard, Arial, sans-serif';
+      context.fillText(
+        `${startText} ~ ${endText}`,
+        barX + barWidth / 2,
+        barY + barHeight / 2
+      );
+    } else {
+      context.font = '700 10px Pretendard, Arial, sans-serif';
+      context.fillText(`${startText} ~`, barX + barWidth / 2, barY + 18);
+      context.fillText(endText, barX + barWidth / 2, barY + 35);
+    }
+
+    context.beginPath();
+    context.moveTo(cardX, rowY + rowHeight - 8);
+    context.lineTo(canvasWidth - 24, rowY + rowHeight - 8);
+    context.strokeStyle = '#f0f2f5';
+    context.lineWidth = 1;
+    context.stroke();
+  });
+}
+
+function createCareerTimelineModal() {
+  if (careerTimelineModal) return careerTimelineModal;
+
+  const modal = createElement('div', 'career-timeline-modal');
+  modal.hidden = true;
+  modal.setAttribute('aria-hidden', 'true');
+
+  const backdrop = createElement('div', 'career-timeline-modal__backdrop');
+  backdrop.dataset.timelineModalClose = 'true';
+
+  const dialog = createElement('section', 'career-timeline-modal__dialog');
+  dialog.setAttribute('role', 'dialog');
+  dialog.setAttribute('aria-modal', 'true');
+  dialog.setAttribute('aria-labelledby', 'career-timeline-modal-title');
+  dialog.setAttribute('aria-describedby', 'career-timeline-modal-description');
+  dialog.tabIndex = -1;
+
+  const header = createElement('header', 'career-timeline-modal__header');
+  const heading = createElement('div', 'career-timeline-modal__heading');
+  const eyebrow = createElement('p', 'career-timeline-modal__eyebrow', 'CAREER TIMELINE');
+  const title = createElement('h2', '', '전체 경력 타임라인');
+  title.id = 'career-timeline-modal-title';
+  const description = createElement(
+    'p',
+    '',
+    '회사별 재직 기간과 동시에 진행된 경력을 같은 연도축에서 확인할 수 있습니다.'
+  );
+  description.id = 'career-timeline-modal-description';
+  heading.append(eyebrow, title, description);
+
+  const closeButton = createElement('button', 'career-timeline-modal__close');
+  closeButton.type = 'button';
+  closeButton.setAttribute('aria-label', '전체 경력 타임라인 팝업 닫기');
+  closeButton.innerHTML = '<span aria-hidden="true"></span>';
+  closeButton.dataset.timelineModalClose = 'true';
+  header.append(heading, closeButton);
+
+  const body = createElement('div', 'career-timeline-modal__body');
+  const guide = createElement(
+    'p',
+    'career-timeline-modal__guide',
+    '좌우로 밀어 전체 연도를 확인할 수 있습니다.'
+  );
+  const viewport = createElement('div', 'career-timeline-modal__viewport');
+  const canvas = document.createElement('canvas');
+  canvas.id = 'career-timeline-canvas';
+  canvas.setAttribute('aria-label', '회사별 전체 경력 기간을 나타낸 연도별 타임라인');
+  canvas.textContent = 'Canvas를 지원하는 브라우저에서 경력 타임라인을 확인할 수 있습니다.';
+  viewport.append(canvas);
+  body.append(guide, viewport);
+  dialog.append(header, body);
+  modal.append(backdrop, dialog);
+  document.body.append(modal);
+
+  modal.addEventListener('click', (event) => {
+    if (event.target.closest('[data-timeline-modal-close="true"]')) {
+      closeCareerTimelineModal();
+    }
+  });
+
+  modal.addEventListener('keydown', (event) => {
+    if (event.key !== 'Tab') return;
+
+    const focusableElements = [...modal.querySelectorAll(
+      'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+    )].filter((element) => !element.hidden && element.offsetParent !== null);
+
+    if (focusableElements.length === 0) {
+      event.preventDefault();
+      dialog.focus();
+      return;
+    }
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements.at(-1);
+
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+    } else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  });
+
+  careerTimelineModal = modal;
+  return modal;
+}
+
+function openCareerTimelineModal(triggerElement) {
+  if (!resumeData?.experience?.length) return;
+
+  const modal = createCareerTimelineModal();
+  if (careerTimelineCloseTimer) {
+    clearTimeout(careerTimelineCloseTimer);
+    careerTimelineCloseTimer = null;
+  }
+
+  timelineLastFocusedElement = triggerElement || document.activeElement;
+
+  if (!history.state?.[TIMELINE_MODAL_HISTORY_KEY]) {
+    history.pushState(
+      {
+        ...(history.state || {}),
+        [TIMELINE_MODAL_HISTORY_KEY]: true
+      },
+      '',
+      window.location.href
+    );
+  }
+
+  modal.hidden = false;
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+
+  window.requestAnimationFrame(() => {
+    modal.classList.add('is-open');
+    drawCareerTimelineCanvas();
+    modal.querySelector('.career-timeline-modal__close')?.focus();
+  });
+}
+
+function hideCareerTimelineModal() {
+  if (!careerTimelineModal || careerTimelineModal.hidden) return;
+
+  careerTimelineModal.classList.remove('is-open');
+  careerTimelineModal.setAttribute('aria-hidden', 'true');
+  if (!projectModal || projectModal.hidden) {
+    document.body.classList.remove('modal-open');
+  }
+
+  careerTimelineCloseTimer = window.setTimeout(() => {
+    careerTimelineModal.hidden = true;
+    careerTimelineCloseTimer = null;
+    timelineLastFocusedElement?.focus();
+  }, 180);
+}
+
+function closeCareerTimelineModal({ fromHistory = false } = {}) {
+  if (!careerTimelineModal || careerTimelineModal.hidden) return;
+
+  if (!fromHistory && history.state?.[TIMELINE_MODAL_HISTORY_KEY]) {
+    history.back();
+    return;
+  }
+
+  hideCareerTimelineModal();
 }
 
 function renderExperience(items) {
@@ -627,7 +1070,7 @@ function renderExperience(items) {
 
       detailButton.type = 'button';
       detailButton.addEventListener('click', () => {
-        openProjectModal(item);
+        openProjectModal(item, detailButton);
       });
 
       companyHeader.append(detailButton);
@@ -892,9 +1335,20 @@ function updateBirthAge() {
   }
 }
 
+document.querySelector('#career-timeline-button')?.addEventListener(
+  'click',
+  (event) => openCareerTimelineModal(event.currentTarget)
+);
+
 window.addEventListener('popstate', () => {
   if (projectModal && !projectModal.hidden) {
     closeProjectModal({
+      fromHistory: true
+    });
+  }
+
+  if (careerTimelineModal && !careerTimelineModal.hidden) {
+    closeCareerTimelineModal({
       fromHistory: true
     });
   }
