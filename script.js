@@ -2032,6 +2032,44 @@ function renderCertifications(items) {
   );
 }
 
+function renderContributions(items = []) {
+  const children = items.map((item) => {
+    const article = createElement('article', 'contribution-item');
+    const category = createElement(
+      'strong',
+      'contribution-category',
+      item.category || '기타'
+    );
+    const description = createElement(
+      'p',
+      'contribution-description',
+      item.description || ''
+    );
+    const year = createElement(
+      'time',
+      'contribution-year',
+      item.year || ''
+    );
+
+    if (item.year) year.dateTime = item.year;
+
+    article.append(category, description, year);
+    return article;
+  });
+
+  const target = document.querySelector('#contribution-list');
+  if (!target) return;
+
+  if (children.length === 0) {
+    target.replaceChildren(
+      createElement('p', 'contribution-empty', '등록된 기여사항이 없습니다.')
+    );
+    return;
+  }
+
+  replaceChildren(target, children);
+}
+
 function renderActivities(groups) {
   const children = groups.map((group) => {
     const section = createElement('section', 'activity-year-group');
@@ -2066,6 +2104,7 @@ function renderError(error) {
     '#education-list',
     '#experience-list',
     '#certification-list',
+    '#contribution-list',
     '#activity-list'
   ];
 
@@ -2112,6 +2151,7 @@ async function loadResumeData() {
     renderEducation(resumeData.education);
     renderExperience(resumeData.experience);
     renderCertifications(resumeData.certifications);
+    renderContributions(resumeData.contributions);
     renderActivities(resumeData.activities);
     updateCareerDuration();
     scheduleCareerRefresh();
