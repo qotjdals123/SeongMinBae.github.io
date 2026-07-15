@@ -762,3 +762,9 @@ body.modal-open {
     transition: none;
   }
 }
+
+/* Canvas 타임라인 상호작용 */
+#career-timeline-canvas {
+  user-select: none;
+  -webkit-user-select: none;
+}
