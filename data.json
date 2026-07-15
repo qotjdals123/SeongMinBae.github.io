@@ -406,6 +406,23 @@
       "issuer": "한국산업인력공단"
     }
   ],
+  "contributions": [
+    {
+      "category": "취약점 제보",
+      "description": "정보통신기획평가원 산하 홈페이지 취약점 제보(2건)",
+      "year": "2020"
+    },
+    {
+      "category": "취약점 제보",
+      "description": "부산은행 인터넷뱅킹 localStorage 취약점 제보",
+      "year": "2020"
+    },
+    {
+      "category": "보안 프로그램 등록",
+      "description": "USB감시보안프로그램 개발 및 저작권 등록 및 네이버 보안프로그램 BEST 30 선정",
+      "year": "2017"
+    }
+  ],
   "activities": [
     {
       "year": "2026",
