@@ -922,90 +922,165 @@ function bindTimelineCanvasInteractions(canvas) {
 
   canvas.dataset.timelineInteractive = 'true';
 
-  /*
-   * 마우스에서는 포인터 이동에 따라 기존 hover 모션을 사용합니다.
-   * 터치 이동은 스크롤로 간주해 hover 처리를 하지 않습니다.
-   */
-  canvas.addEventListener('pointermove', (event) => {
-    if (event.pointerType === 'touch') return;
-
-    const hoveredArea = findTimelineHitArea(canvas, event);
-
-    canvas.style.cursor = hoveredArea ? 'pointer' : 'default';
-    setTimelineHoveredKey(hoveredArea?.key || null);
+  const getScrollTargets = () => ({
+    horizontal: canvas.closest('.career-timeline-modal__viewport'),
+    vertical: canvas.closest('.career-timeline-modal__body')
   });
 
+  const finishTimelinePointer = (event) => {
+    if (
+      !timelinePointerStart ||
+      timelinePointerStart.pointerId !== event.pointerId
+    ) {
+      return null;
+    }
+
+    const completedPointer = timelinePointerStart;
+    timelinePointerStart = null;
+
+    canvas.classList.remove('is-dragging');
+
+    if (canvas.hasPointerCapture?.(event.pointerId)) {
+      canvas.releasePointerCapture(event.pointerId);
+    }
+
+    canvas.style.cursor = completedPointer.wasDragging
+      ? 'grab'
+      : canvas.style.cursor;
+
+    return completedPointer;
+  };
+
+  /*
+   * 빈 Canvas 영역을 누른 채 움직이면 타임라인을 상하좌우로 이동합니다.
+   * 가로 방향은 Canvas viewport, 세로 방향은 팝업 본문을 스크롤합니다.
+   */
+  canvas.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+
+    const hitArea = findTimelineHitArea(canvas, event);
+    const { horizontal, vertical } = getScrollTargets();
+
+    if (!horizontal || !vertical) return;
+
+    /*
+     * PC 마우스는 경력 막대가 없는 배경에서만 드래그합니다.
+     * 스마트폰은 짧게 누르면 경력이 활성화되고, 움직이면 어느 지점에서든
+     * 스크롤로 전환되어 작은 막대 때문에 이동이 막히지 않도록 합니다.
+     */
+    const canDrag = event.pointerType === 'touch' || !hitArea;
+
+    if (!canDrag) return;
+
+    timelinePointerStart = {
+      pointerId: event.pointerId,
+      pointerType: event.pointerType,
+      clientX: event.clientX,
+      clientY: event.clientY,
+      startScrollLeft: horizontal.scrollLeft,
+      startScrollTop: vertical.scrollTop,
+      canDrag,
+      wasDragging: false
+    };
+
+    if (canDrag) {
+      canvas.setPointerCapture?.(event.pointerId);
+    }
+  });
+
+  canvas.addEventListener(
+    'pointermove',
+    (event) => {
+      if (
+        timelinePointerStart &&
+        timelinePointerStart.pointerId === event.pointerId
+      ) {
+        const deltaX = event.clientX - timelinePointerStart.clientX;
+        const deltaY = event.clientY - timelinePointerStart.clientY;
+        const movement = Math.hypot(deltaX, deltaY);
+
+        if (
+          timelinePointerStart.canDrag &&
+          !timelinePointerStart.wasDragging &&
+          movement > 6
+        ) {
+          timelinePointerStart.wasDragging = true;
+          canvas.classList.add('is-dragging');
+          setTimelineHoveredKey(null);
+        }
+
+        if (timelinePointerStart.wasDragging) {
+          const { horizontal, vertical } = getScrollTargets();
+
+          event.preventDefault();
+
+          if (horizontal) {
+            horizontal.scrollLeft =
+              timelinePointerStart.startScrollLeft - deltaX;
+          }
+
+          if (vertical) {
+            vertical.scrollTop =
+              timelinePointerStart.startScrollTop - deltaY;
+          }
+
+          return;
+        }
+      }
+
+      /* 터치에서는 hover 효과를 사용하지 않습니다. */
+      if (event.pointerType === 'touch') return;
+
+      const hoveredArea = findTimelineHitArea(canvas, event);
+
+      canvas.style.cursor = hoveredArea ? 'pointer' : 'grab';
+      setTimelineHoveredKey(hoveredArea?.key || null);
+    },
+    { passive: false }
+  );
+
   canvas.addEventListener('pointerleave', (event) => {
+    if (timelinePointerStart?.wasDragging) return;
     if (event.pointerType === 'touch') return;
 
-    canvas.style.cursor = 'default';
+    canvas.style.cursor = 'grab';
     setTimelineHoveredKey(null);
   });
 
-  /*
-   * 스마트폰에서는 손가락을 떼었을 때 실제 탭이었는지 확인합니다.
-   * 손가락 이동 거리가 크면 좌우/상하 스크롤이므로 활성화하지 않습니다.
-   */
-  canvas.addEventListener(
-    'pointerdown',
-    (event) => {
-      if (event.pointerType !== 'touch') return;
+  canvas.addEventListener('pointerup', (event) => {
+    const completedPointer = finishTimelinePointer(event);
 
-      timelinePointerStart = {
-        pointerId: event.pointerId,
-        clientX: event.clientX,
-        clientY: event.clientY
-      };
-    },
-    { passive: true }
-  );
+    if (!completedPointer) return;
 
-  canvas.addEventListener(
-    'pointerup',
-    (event) => {
-      if (
-        event.pointerType !== 'touch' ||
-        !timelinePointerStart ||
-        timelinePointerStart.pointerId !== event.pointerId
-      ) {
-        return;
-      }
+    const movement = Math.hypot(
+      event.clientX - completedPointer.clientX,
+      event.clientY - completedPointer.clientY
+    );
 
-      const movement = Math.hypot(
-        event.clientX - timelinePointerStart.clientX,
-        event.clientY - timelinePointerStart.clientY
-      );
+    /* 실제 드래그였다면 경력 선택이나 탭 강조를 실행하지 않습니다. */
+    if (completedPointer.wasDragging || movement > 10) return;
 
-      timelinePointerStart = null;
+    if (completedPointer.pointerType !== 'touch') return;
 
-      /* 스크롤 중 발생한 pointerup은 클릭으로 처리하지 않습니다. */
-      if (movement > 10) return;
+    const tappedArea = findTimelineHitArea(canvas, event);
 
-      const tappedArea = findTimelineHitArea(canvas, event);
+    if (timelineTouchResetTimer) {
+      clearTimeout(timelineTouchResetTimer);
+      timelineTouchResetTimer = null;
+    }
 
-      if (timelineTouchResetTimer) {
-        clearTimeout(timelineTouchResetTimer);
+    setTimelineHoveredKey(tappedArea?.key || null);
+
+    if (tappedArea) {
+      timelineTouchResetTimer = window.setTimeout(() => {
+        setTimelineHoveredKey(null);
         timelineTouchResetTimer = null;
-      }
-
-      setTimelineHoveredKey(tappedArea?.key || null);
-
-      if (tappedArea) {
-        timelineTouchResetTimer = window.setTimeout(() => {
-          setTimelineHoveredKey(null);
-          timelineTouchResetTimer = null;
-        }, 1100);
-      }
-    },
-    { passive: true }
-  );
+      }, 1100);
+    }
+  });
 
   canvas.addEventListener('pointercancel', (event) => {
-    if (
-      timelinePointerStart?.pointerId === event.pointerId
-    ) {
-      timelinePointerStart = null;
-    }
+    finishTimelinePointer(event);
   });
 
   /* 길게 눌렀을 때 이미지/텍스트 메뉴가 나타나는 것을 방지합니다. */
@@ -1765,7 +1840,7 @@ function createCareerTimelineModal() {
   const guide = createElement(
     'p',
     'career-timeline-modal__guide',
-    '좌우로 밀어 전체 연도를 확인할 수 있습니다.'
+    '빈 공간을 드래그해 상하좌우로 이동할 수 있습니다.'
   );
   const viewport = createElement('div', 'career-timeline-modal__viewport');
   const canvas = document.createElement('canvas');
