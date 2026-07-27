@@ -408,6 +408,46 @@
   ],
   "contributions": [
     {
+      "category": "수상",
+      "description": "생명보험협회 2026년도 모범직원 표창",
+      "year": "2026"
+    },
+    {
+      "category": "수상",
+      "description": "KISTI HPC-AI 윈터스쿨 아이디어 경진대회 최우수상",
+      "year": "2021"
+    },
+    {
+      "category": "수상",
+      "description": "한국생산성본부 시행 2020년 하반기 TOPCIT(소프트웨어능력검정) 특별평가 최고득점(전자정보대학 학장상)",
+      "year": "2020"
+    },
+    {
+      "category": "수상",
+      "description": "SW중심대학 오픈소스SW 커뮤니티 동상",
+      "year": "2019"
+    },
+    {
+      "category": "수상",
+      "description": "KISA Energy x Security 해커톤 장려상",
+      "year": "2019"
+    },
+    {
+      "category": "수상",
+      "description": "제25회 서울특별시 IT창의성대회 웹프로그래밍부문 장려상",
+      "year": "2019"
+    },
+    {
+      "category": "수상",
+      "description": "한국인터넷전문가협회 인터넷에코어워드 웹표준활성화 분야 대상",
+      "year": "2018"
+    },
+    {
+      "category": "수상",
+      "description": "서울특별시 에코마일리지 홈페이지 개선 공모전 장려상",
+      "year": "2018"
+    },
+    {
       "category": "취약점 제보",
       "description": "정보통신기획평가원 산하 홈페이지 취약점 제보(2건)",
       "year": "2020"
