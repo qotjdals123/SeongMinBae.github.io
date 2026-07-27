@@ -297,10 +297,6 @@ button { font: inherit; }
     font-size: 16px;
   }
 
-  .certificate-issuer,
-  .certificate-year {
-    font-size: 11px;
-  }
   .contact-inner > a { font-size: 18px; }
   .footer-inner { align-items: flex-start; flex-direction: column; }
 }
