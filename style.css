@@ -275,7 +275,7 @@ button { font: inherit; }
   .activity-year-group li { grid-template-columns: 1fr auto; gap: 3px 14px; padding: 15px 0; }
   .activity-year-group strong { grid-column: 1 / -1; }
   .activity-year-group span { grid-column: 1; }
-  .activity-year-group time { grid-column: 2; }
+  .activity-year-group time { grid-column: 2; font-size:13px; }
   .contact-inner { align-items: flex-start; flex-direction: column; gap: 31px; }
 }
 
