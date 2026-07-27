@@ -141,6 +141,12 @@ button { font: inherit; }
   white-space: nowrap;
 }
 
+@media (max-width: 720px) {
+ .certificate-year {
+    font-size: 13px;
+  }
+}
+
 /* 기타 기여사항 */
 .contribution-list {
   border-top: 2px solid var(--line-strong);
