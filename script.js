@@ -23,6 +23,14 @@ let timelineHoverAnimationFrame = null;
 let timelineTouchResetTimer = null;
 let timelinePointerStart = null;
 
+const TIMELINE_MIN_ZOOM = 0.65;
+const TIMELINE_MAX_ZOOM = 2.5;
+let timelineZoom = 1;
+let timelineActivePointers = new Map();
+let timelinePinchState = null;
+let timelineZoomAnimationFrame = null;
+let timelinePendingZoom = null;
+
 if (yearElement) {
   yearElement.textContent = new Date().getFullYear();
 }
@@ -917,15 +925,162 @@ function findTimelineHitArea(canvas, event) {
     );
 }
 
+function clampTimelineZoom(value) {
+  return Math.min(
+    TIMELINE_MAX_ZOOM,
+    Math.max(TIMELINE_MIN_ZOOM, value)
+  );
+}
+
+function getTimelineScrollTargets(canvas) {
+  return {
+    horizontal: canvas.closest('.career-timeline-modal__viewport'),
+    vertical: canvas.closest('.career-timeline-modal__body')
+  };
+}
+
+function getTimelinePinchPoints() {
+  return [...timelineActivePointers.values()].slice(0, 2);
+}
+
+function getTimelinePinchMetrics(points) {
+  if (points.length < 2) return null;
+
+  const [first, second] = points;
+
+  return {
+    distance: Math.max(
+      1,
+      Math.hypot(
+        second.clientX - first.clientX,
+        second.clientY - first.clientY
+      )
+    ),
+    clientX: (first.clientX + second.clientX) / 2,
+    clientY: (first.clientY + second.clientY) / 2
+  };
+}
+
+function beginTimelinePinch(canvas) {
+  const metrics = getTimelinePinchMetrics(
+    getTimelinePinchPoints()
+  );
+
+  if (!metrics) return;
+
+  const bounds = canvas.getBoundingClientRect();
+  const logicalWidth = canvas.__logicalWidth || bounds.width;
+  const logicalHeight = canvas.__logicalHeight || bounds.height;
+
+  timelinePinchState = {
+    startDistance: metrics.distance,
+    startZoom: timelineZoom,
+    anchorX:
+      (metrics.clientX - bounds.left) *
+      (logicalWidth / bounds.width),
+    anchorY:
+      (metrics.clientY - bounds.top) *
+      (logicalHeight / bounds.height)
+  };
+
+  timelinePointerStart = null;
+  canvas.classList.remove('is-dragging');
+  canvas.classList.add('is-pinching');
+  setTimelineHoveredKey(null);
+
+  if (timelineTouchResetTimer) {
+    clearTimeout(timelineTouchResetTimer);
+    timelineTouchResetTimer = null;
+  }
+}
+
+function scheduleTimelineZoom(
+  canvas,
+  zoom,
+  clientX,
+  clientY,
+  anchorX,
+  anchorY
+) {
+  timelinePendingZoom = {
+    canvas,
+    zoom: clampTimelineZoom(zoom),
+    clientX,
+    clientY,
+    anchorX,
+    anchorY
+  };
+
+  if (timelineZoomAnimationFrame) return;
+
+  timelineZoomAnimationFrame = window.requestAnimationFrame(() => {
+    timelineZoomAnimationFrame = null;
+
+    const pending = timelinePendingZoom;
+    timelinePendingZoom = null;
+
+    if (!pending) return;
+
+    const { horizontal, vertical } = getTimelineScrollTargets(
+      pending.canvas
+    );
+
+    if (!horizontal || !vertical) return;
+
+    const viewportBounds = horizontal.getBoundingClientRect();
+    const bodyBounds = vertical.getBoundingClientRect();
+    const canvasBounds = pending.canvas.getBoundingClientRect();
+
+    /*
+     * 확대 전 손가락 중심 아래에 있던 Canvas 좌표를 기억한 뒤,
+     * 확대 후에도 동일한 화면 위치에 남도록 두 스크롤 영역을 보정합니다.
+     */
+    const canvasContentLeft =
+      canvasBounds.left - viewportBounds.left + horizontal.scrollLeft;
+    const canvasContentTop =
+      canvasBounds.top - bodyBounds.top + vertical.scrollTop;
+
+    timelineZoom = pending.zoom;
+    drawCareerTimelineCanvas();
+
+    horizontal.scrollLeft =
+      canvasContentLeft +
+      pending.anchorX * timelineZoom -
+      (pending.clientX - viewportBounds.left);
+
+    vertical.scrollTop =
+      canvasContentTop +
+      pending.anchorY * timelineZoom -
+      (pending.clientY - bodyBounds.top);
+
+    const guide = careerTimelineModal?.querySelector(
+      '.career-timeline-modal__guide'
+    );
+
+    if (guide) {
+      guide.dataset.zoom = `${Math.round(timelineZoom * 100)}%`;
+    }
+  });
+}
+
+function resetTimelineGestureState(canvas) {
+  timelineActivePointers.clear();
+  timelinePinchState = null;
+  timelinePointerStart = null;
+  timelinePendingZoom = null;
+
+  if (timelineZoomAnimationFrame) {
+    cancelAnimationFrame(timelineZoomAnimationFrame);
+    timelineZoomAnimationFrame = null;
+  }
+
+  canvas?.classList.remove('is-dragging', 'is-pinching');
+}
+
 function bindTimelineCanvasInteractions(canvas) {
   if (canvas.dataset.timelineInteractive === 'true') return;
 
   canvas.dataset.timelineInteractive = 'true';
-
-  const getScrollTargets = () => ({
-    horizontal: canvas.closest('.career-timeline-modal__viewport'),
-    vertical: canvas.closest('.career-timeline-modal__body')
-  });
 
   const finishTimelinePointer = (event) => {
     if (
@@ -951,23 +1106,64 @@ function bindTimelineCanvasInteractions(canvas) {
     return completedPointer;
   };
 
+  const continueWithRemainingTouch = () => {
+    const remainingEntry = [...timelineActivePointers.entries()][0];
+
+    if (!remainingEntry) {
+      timelinePointerStart = null;
+      return;
+    }
+
+    const [pointerId, pointer] = remainingEntry;
+    const { horizontal, vertical } = getTimelineScrollTargets(canvas);
+
+    if (!horizontal || !vertical) return;
+
+    timelinePointerStart = {
+      pointerId,
+      pointerType: 'touch',
+      clientX: pointer.clientX,
+      clientY: pointer.clientY,
+      startScrollLeft: horizontal.scrollLeft,
+      startScrollTop: vertical.scrollTop,
+      canDrag: true,
+      /* 핀치 이후 남은 손가락이 탭으로 오인되지 않도록 처리합니다. */
+      wasDragging: true
+    };
+  };
+
   /*
-   * 빈 Canvas 영역을 누른 채 움직이면 타임라인을 상하좌우로 이동합니다.
-   * 가로 방향은 Canvas viewport, 세로 방향은 팝업 본문을 스크롤합니다.
+   * 한 손가락 또는 마우스로는 Canvas를 이동하고,
+   * 두 손가락으로는 손가락 중심을 기준으로 확대·축소합니다.
    */
   canvas.addEventListener('pointerdown', (event) => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
 
     const hitArea = findTimelineHitArea(canvas, event);
-    const { horizontal, vertical } = getScrollTargets();
+    const { horizontal, vertical } = getTimelineScrollTargets(canvas);
 
     if (!horizontal || !vertical) return;
 
-    /*
-     * PC 마우스는 경력 막대가 없는 배경에서만 드래그합니다.
-     * 스마트폰은 짧게 누르면 경력이 활성화되고, 움직이면 어느 지점에서든
-     * 스크롤로 전환되어 작은 막대 때문에 이동이 막히지 않도록 합니다.
-     */
+    if (event.pointerType === 'touch') {
+      timelineActivePointers.set(event.pointerId, {
+        clientX: event.clientX,
+        clientY: event.clientY
+      });
+
+      canvas.setPointerCapture?.(event.pointerId);
+
+      if (timelineActivePointers.size === 2) {
+        beginTimelinePinch(canvas);
+        event.preventDefault();
+        return;
+      }
+
+      if (timelineActivePointers.size > 2) {
+        event.preventDefault();
+        return;
+      }
+    }
+
     const canDrag = event.pointerType === 'touch' || !hitArea;
 
     if (!canDrag) return;
@@ -983,14 +1179,48 @@ function bindTimelineCanvasInteractions(canvas) {
       wasDragging: false
     };
 
-    if (canDrag) {
-      canvas.setPointerCapture?.(event.pointerId);
-    }
+    canvas.setPointerCapture?.(event.pointerId);
   });
 
   canvas.addEventListener(
     'pointermove',
     (event) => {
+      if (
+        event.pointerType === 'touch' &&
+        timelineActivePointers.has(event.pointerId)
+      ) {
+        timelineActivePointers.set(event.pointerId, {
+          clientX: event.clientX,
+          clientY: event.clientY
+        });
+      }
+
+      if (
+        event.pointerType === 'touch' &&
+        timelinePinchState &&
+        timelineActivePointers.size >= 2
+      ) {
+        const metrics = getTimelinePinchMetrics(
+          getTimelinePinchPoints()
+        );
+
+        if (metrics) {
+          event.preventDefault();
+
+          scheduleTimelineZoom(
+            canvas,
+            timelinePinchState.startZoom *
+              (metrics.distance / timelinePinchState.startDistance),
+            metrics.clientX,
+            metrics.clientY,
+            timelinePinchState.anchorX,
+            timelinePinchState.anchorY
+          );
+        }
+
+        return;
+      }
+
       if (
         timelinePointerStart &&
         timelinePointerStart.pointerId === event.pointerId
@@ -1010,7 +1240,7 @@ function bindTimelineCanvasInteractions(canvas) {
         }
 
         if (timelinePointerStart.wasDragging) {
-          const { horizontal, vertical } = getScrollTargets();
+          const { horizontal, vertical } = getTimelineScrollTargets(canvas);
 
           event.preventDefault();
 
@@ -1028,7 +1258,6 @@ function bindTimelineCanvasInteractions(canvas) {
         }
       }
 
-      /* 터치에서는 hover 효과를 사용하지 않습니다. */
       if (event.pointerType === 'touch') return;
 
       const hoveredArea = findTimelineHitArea(canvas, event);
@@ -1040,7 +1269,7 @@ function bindTimelineCanvasInteractions(canvas) {
   );
 
   canvas.addEventListener('pointerleave', (event) => {
-    if (timelinePointerStart?.wasDragging) return;
+    if (timelinePointerStart?.wasDragging || timelinePinchState) return;
     if (event.pointerType === 'touch') return;
 
     canvas.style.cursor = 'grab';
@@ -1048,6 +1277,29 @@ function bindTimelineCanvasInteractions(canvas) {
   });
 
   canvas.addEventListener('pointerup', (event) => {
+    const wasPinching =
+      event.pointerType === 'touch' && Boolean(timelinePinchState);
+
+    if (event.pointerType === 'touch') {
+      timelineActivePointers.delete(event.pointerId);
+    }
+
+    if (wasPinching) {
+      if (canvas.hasPointerCapture?.(event.pointerId)) {
+        canvas.releasePointerCapture(event.pointerId);
+      }
+
+      if (timelineActivePointers.size >= 2) {
+        beginTimelinePinch(canvas);
+      } else {
+        timelinePinchState = null;
+        canvas.classList.remove('is-pinching');
+        continueWithRemainingTouch();
+      }
+
+      return;
+    }
+
     const completedPointer = finishTimelinePointer(event);
 
     if (!completedPointer) return;
@@ -1057,9 +1309,7 @@ function bindTimelineCanvasInteractions(canvas) {
       event.clientY - completedPointer.clientY
     );
 
-    /* 실제 드래그였다면 경력 선택이나 탭 강조를 실행하지 않습니다. */
     if (completedPointer.wasDragging || movement > 10) return;
-
     if (completedPointer.pointerType !== 'touch') return;
 
     const tappedArea = findTimelineHitArea(canvas, event);
@@ -1080,10 +1330,32 @@ function bindTimelineCanvasInteractions(canvas) {
   });
 
   canvas.addEventListener('pointercancel', (event) => {
-    finishTimelinePointer(event);
+    if (event.pointerType === 'touch') {
+      timelineActivePointers.delete(event.pointerId);
+    }
+
+    if (timelinePinchState) {
+      if (timelineActivePointers.size >= 2) {
+        beginTimelinePinch(canvas);
+      } else {
+        timelinePinchState = null;
+        canvas.classList.remove('is-pinching');
+        continueWithRemainingTouch();
+      }
+    } else {
+      finishTimelinePointer(event);
+    }
   });
 
-  /* 길게 눌렀을 때 이미지/텍스트 메뉴가 나타나는 것을 방지합니다. */
+  /* iOS Safari의 비표준 제스처 이벤트가 페이지 확대를 시작하지 않도록 합니다. */
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach((eventName) => {
+    canvas.addEventListener(
+      eventName,
+      (event) => event.preventDefault(),
+      { passive: false }
+    );
+  });
+
   canvas.addEventListener('contextmenu', (event) => {
     event.preventDefault();
   });
@@ -1284,16 +1556,30 @@ function drawCareerTimelineCanvas() {
   const canvasHeight =
     currentY + bottomPadding;
 
-  canvas.style.width = `${canvasWidth}px`;
-  canvas.style.height = `${canvasHeight}px`;
+  const displayWidth = canvasWidth * timelineZoom;
+  const displayHeight = canvasHeight * timelineZoom;
+
+  /*
+   * CSS 크기는 zoom 배율만큼 키우고, Canvas 내부 좌표계는 기존 크기를 유지합니다.
+   * 따라서 글자·막대·카드가 모두 같은 비율로 확대되며 hit-test 좌표도 안정적입니다.
+   */
+  canvas.style.width = `${displayWidth}px`;
+  canvas.style.height = `${displayHeight}px`;
   canvas.__logicalWidth = canvasWidth;
   canvas.__logicalHeight = canvasHeight;
+  canvas.__timelineZoom = timelineZoom;
+
+  /* 과도한 메모리 사용을 막으면서도 확대 시 선명도를 유지합니다. */
+  const renderScale = Math.min(
+    devicePixelRatio * timelineZoom,
+    3
+  );
 
   canvas.width = Math.round(
-    canvasWidth * devicePixelRatio
+    canvasWidth * renderScale
   );
   canvas.height = Math.round(
-    canvasHeight * devicePixelRatio
+    canvasHeight * renderScale
   );
 
   const context = canvas.getContext('2d');
@@ -1303,10 +1589,10 @@ function drawCareerTimelineCanvas() {
   }
 
   context.setTransform(
-    devicePixelRatio,
+    renderScale,
     0,
     0,
-    devicePixelRatio,
+    renderScale,
     0,
     0
   );
@@ -1840,7 +2126,7 @@ function createCareerTimelineModal() {
   const guide = createElement(
     'p',
     'career-timeline-modal__guide',
-    '빈 공간을 드래그해 상하좌우로 이동할 수 있습니다.'
+    '한 손가락으로 이동하고 두 손가락을 벌리거나 오므려 확대·축소할 수 있습니다.'
   );
   const viewport = createElement('div', 'career-timeline-modal__viewport');
   const canvas = document.createElement('canvas');
@@ -1910,6 +2196,13 @@ function openCareerTimelineModal(triggerElement) {
     );
   }
 
+  timelineZoom = 1;
+  const timelineCanvas = modal.querySelector('#career-timeline-canvas');
+  resetTimelineGestureState(timelineCanvas);
+
+  const guide = modal.querySelector('.career-timeline-modal__guide');
+  if (guide) guide.dataset.zoom = '100%';
+
   modal.hidden = false;
   modal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('modal-open');
@@ -1923,6 +2216,10 @@ function openCareerTimelineModal(triggerElement) {
 
 function hideCareerTimelineModal() {
   if (!careerTimelineModal || careerTimelineModal.hidden) return;
+
+  resetTimelineGestureState(
+    careerTimelineModal.querySelector('#career-timeline-canvas')
+  );
 
   careerTimelineModal.classList.remove('is-open');
   careerTimelineModal.setAttribute('aria-hidden', 'true');
