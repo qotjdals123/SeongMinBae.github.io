@@ -23,7 +23,7 @@ let timelineHoverAnimationFrame = null;
 let timelineTouchResetTimer = null;
 let timelinePointerStart = null;
 
-const TIMELINE_MIN_ZOOM = 0.25;
+const TIMELINE_MIN_ZOOM = 0.35;
 const TIMELINE_MAX_ZOOM = 2.5;
 let timelineZoom = 1;
 let timelineActivePointers = new Map();
