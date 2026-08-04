@@ -591,7 +591,10 @@ body.modal-open {
 
 .career-timeline-modal__dialog {
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: min(1180px, 100%);
+  height: min(90vh, 900px);
   max-height: 90vh;
   overflow: hidden;
   border: 1px solid rgba(17, 45, 88, 0.14);
@@ -609,6 +612,7 @@ body.modal-open {
 
 .career-timeline-modal__header {
   display: flex;
+  flex: 0 0 auto;
   align-items: flex-start;
   justify-content: space-between;
   gap: 24px;
@@ -681,7 +685,9 @@ body.modal-open {
 }
 
 .career-timeline-modal__body {
-  max-height: calc(90vh - 112px);
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
   padding: 22px 28px 28px;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -743,7 +749,10 @@ body.modal-open {
 
   .career-timeline-modal__dialog {
     width: 100%;
+    height: 92vh;
+    height: 92dvh;
     max-height: 92vh;
+    max-height: 92dvh;
     border-radius: 18px 18px 0 0;
     transform: translateY(30px);
   }
@@ -761,8 +770,10 @@ body.modal-open {
   }
 
   .career-timeline-modal__body {
-    max-height: calc(92vh - 106px);
-    padding: 15px 14px 22px;
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    padding: 15px 14px calc(22px + env(safe-area-inset-bottom));
   }
 
   .career-timeline-modal__guide {
@@ -843,6 +854,8 @@ body.modal-open {
 .career-timeline-modal__viewport {
   cursor: grab;
   overscroll-behavior: contain;
+  /* Canvas 비율 조절 중 브라우저 페이지/레이어 전체가 확대·축소되지 않도록 제한 */
+  touch-action: none;
 }
 
 #career-timeline-canvas {
