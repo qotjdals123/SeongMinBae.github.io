@@ -442,3 +442,30 @@
     width: calc(50% - 18mm);
   }
 }
+
+/* 인쇄 전용 경력 타임라인 */
+@media print {
+  .print-section--timeline {
+    break-before: page;
+    page-break-before: always;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-timeline {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--print-line);
+    border-radius: 2mm;
+    background: #fff;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-timeline svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 230mm;
+  }
+}
