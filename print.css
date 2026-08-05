@@ -274,6 +274,7 @@
   .print-table--career-summary td:nth-child(2),
   .print-table--positions td:first-child,
   .print-table--details td:first-child,
+  .print-table--contributions td:first-child,
   .print-table--activities td:first-child {
     font-weight: 650;
   }
