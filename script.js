@@ -2558,6 +2558,16 @@ function createPrintSectionHeading(number, title, description = '') {
   return header;
 }
 
+function getPrintDisplayText(value) {
+  if (typeof value !== 'string') return value;
+
+  /*
+   * 화면과 data.json의 원본 값은 유지하고,
+   * 기술경력서 인쇄 결과에서만 기관명을 변경합니다.
+   */
+  return value.replaceAll('금융권협회', '생명보험협회');
+}
+
 function createPrintProfileTable(data) {
   const profile = data.profile || {};
   const table = createElement('table', 'print-profile-table');
@@ -2582,7 +2592,7 @@ function createPrintProfileTable(data) {
    */
   appendRow([
     { label: '성명', value: profile.name },
-    { label: '현 소속', value: profile.currentPosition }
+    { label: '현 소속', value: getPrintDisplayText(profile.currentPosition) }
   ]);
 
   appendRow([
@@ -2680,7 +2690,7 @@ function createPrintCareerSummary(data) {
     }
 
     return [
-      item.company,
+      getPrintDisplayText(item.company),
       formatPrintPeriod(item),
       detail
     ];
@@ -2775,7 +2785,7 @@ function createPrintCompanySection(item, index) {
       'print-company__number',
       String(index + 1).padStart(2, '0')
     ),
-    createElement('h2', '', item.company),
+    createElement('h2', '', getPrintDisplayText(item.company)),
     createElement('p', '', item.position || '')
   );
   heading.append(
