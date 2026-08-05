@@ -3286,7 +3286,7 @@ function createPrintContributions(data) {
       { label: '기여 내용' }
     ],
     rows,
-    'print-table--compact'
+    'print-table--compact print-table--contributions'
   );
 }
 
