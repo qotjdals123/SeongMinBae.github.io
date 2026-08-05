@@ -493,3 +493,33 @@
     max-height: 168mm;
   }
 }
+
+/* 마지막 페이지의 경력 타임라인을 본문과 구분된 참고자료로 표시 */
+@media print {
+  .print-section__heading--reference {
+    align-items: center;
+  }
+
+  .print-section__reference-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18mm;
+    padding: 1mm 2.4mm;
+    border: 1px solid #b9c8e3;
+    border-radius: 10mm;
+    background: var(--print-accent-soft);
+    color: var(--print-accent);
+    font-size: 7pt;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+
+  .print-section--timeline {
+    /* 마지막 참고자료이므로 뒤쪽 강제 페이지 분리는 만들지 않습니다. */
+    break-after: auto;
+    page-break-after: auto;
+  }
+}
