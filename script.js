@@ -2560,9 +2560,6 @@ function createPrintSectionHeading(number, title, description = '') {
 
 function createPrintProfileTable(data) {
   const profile = data.profile || {};
-  const totalCareer = formatCareerDuration(
-    calculateTotalCareer(data.experience || [])
-  );
   const table = createElement('table', 'print-profile-table');
   const tbody = createElement('tbody');
 
@@ -2573,39 +2570,20 @@ function createPrintProfileTable(data) {
       const label = createElement('th', '', item.label);
       const value = createElement('td', '', item.value || '-');
 
-      if (item.colspan) {
-        value.colSpan = item.colspan;
-      }
-
-      if (item.className) {
-        value.classList.add(item.className);
-      }
-
       row.append(label, value);
     });
 
     tbody.append(row);
   };
 
+  /*
+   * 기본정보에서는 별도 영역과 중복되는 '총 경력'과 '학력'을 제외합니다.
+   * 총 경력은 경력 요약에서, 학력은 학력사항 표에서 확인할 수 있습니다.
+   */
   appendRow([
     { label: '성명', value: profile.name },
-    { label: '현 소속', value: profile.currentPosition },
-    { label: '총 경력', value: totalCareer }
+    { label: '현 소속', value: profile.currentPosition }
   ]);
-
-  const highestEducation = Array.isArray(data.education)
-    ? data.education[0]
-    : null;
-
-  const conciseEducation = highestEducation
-    ? [
-        highestEducation.school,
-        highestEducation.major,
-        highestEducation.period
-      ]
-        .filter(Boolean)
-        .join(' · ')
-    : profile.educationSummary || '';
 
   appendRow([
     {
@@ -2614,14 +2592,8 @@ function createPrintProfileTable(data) {
         ? formatBirthInfo(profile.birthDate)
         : ''
     },
-    { label: '이메일', value: profile.email },
-    {
-      label: '학력',
-      value: conciseEducation,
-      className: 'print-profile-table__education'
-    }
+    { label: '이메일', value: profile.email }
   ]);
-
 
   table.append(tbody);
   return table;
