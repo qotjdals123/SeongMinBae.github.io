@@ -3294,13 +3294,15 @@ function createPrintActivities(data) {
   const rows = [];
 
   (data.activities || []).forEach((group) => {
-    group.items.forEach((item) => {
-      rows.push([
-        item.period || group.year,
-        item.organization,
-        item.role
-      ]);
-    });
+    (group.items || [])
+      .filter((item) => item.includeInPrint === true)
+      .forEach((item) => {
+        rows.push([
+          item.period || group.year,
+          item.organization || '',
+          item.role || ''
+        ]);
+      });
   });
 
   if (rows.length === 0) return null;
@@ -3368,15 +3370,18 @@ function renderPrintResume() {
   }
 
   const activityTable = createPrintActivities(resumeData);
-  const activitySection = createElement(
-    'section',
-    'print-section print-section--appendix'
-  );
-  activitySection.append(
-    createPrintSectionHeading(4, '외부 활동')
-  );
-  if (activityTable) {
-    activitySection.append(activityTable);
+  const activitySection = activityTable
+    ? createElement(
+        'section',
+        'print-section print-section--appendix'
+      )
+    : null;
+
+  if (activitySection) {
+    activitySection.append(
+      createPrintSectionHeading(4, '외부 활동'),
+      activityTable
+    );
   }
 
   const footer = createElement('footer', 'print-resume__footer');
@@ -3407,16 +3412,20 @@ function renderPrintResume() {
     timelineSection.append(printTimeline);
   }
 
-  printResume.replaceChildren(
+  const printSections = [
     header,
     overview,
     summary,
     companyDetails,
-    contributionSection,
-    activitySection,
-    footer,
-    timelineSection
-  );
+    contributionSection
+  ];
+
+  if (activitySection) {
+    printSections.push(activitySection);
+  }
+
+  printSections.push(footer, timelineSection);
+  printResume.replaceChildren(...printSections);
 }
 
 function printTechnicalResume() {
