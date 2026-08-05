@@ -447,3 +447,114 @@ button { font: inherit; }
   color: #53606f;
   font-size: 14px;
 }
+
+/* 기술경력서 인쇄 버튼 */
+/* 기본 비공개 상태: 개발자도구에서 hidden 속성을 제거하면 표시됩니다. */
+.site-print-button[hidden] {
+  display: none !important;
+}
+
+.site-print-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #c9d3e5;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .18s ease, background-color .18s ease,
+    border-color .18s ease, transform .18s ease;
+}
+
+.site-print-button:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.site-print-button:focus-visible {
+  outline: 3px solid rgba(36, 77, 161, .22);
+  outline-offset: 3px;
+}
+
+.site-print-button__icon {
+  position: relative;
+  width: 14px;
+  height: 12px;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+}
+
+.site-print-button__icon::before {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 7px;
+  height: 7px;
+  border: 1.5px solid currentColor;
+  border-bottom: 0;
+  background: #fff;
+  content: '';
+}
+
+.site-print-button:hover .site-print-button__icon::before {
+  background: var(--accent);
+}
+
+.site-print-button__icon::after {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: -5px;
+  height: 6px;
+  border: 1.5px solid currentColor;
+  background: #fff;
+  content: '';
+}
+
+.site-print-button:hover .site-print-button__icon::after {
+  background: #fff;
+}
+
+/* 화면에서는 인쇄 전용 문서를 노출하지 않습니다. */
+.print-resume {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .site-print-button {
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+
+  .site-print-button:hover {
+    background: transparent;
+    color: var(--text);
+    transform: none;
+  }
+
+  .site-print-button__icon {
+    margin-left: 1px;
+  }
+}
+
+.site-print-button:disabled {
+  cursor: wait;
+  opacity: .45;
+  transform: none;
+}
