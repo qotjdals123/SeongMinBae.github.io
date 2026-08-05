@@ -477,7 +477,7 @@
           "organization": "2026년도 글로벌 피우다 프로젝트",
           "role": "전문 멘토",
           "period": "2026",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "한국정보산업연합회",
@@ -489,7 +489,7 @@
           "organization": "서강대학교 캡스톤디자인",
           "role": "멘토",
           "period": "2026",
-          "includeInPrint": true
+          "includeInPrint": false
         }
       ]
     },
@@ -500,35 +500,35 @@
           "organization": "오즈코딩스쿨 개발자 양성 부트캠프",
           "role": "취업특강 강사, 이력서·포트폴리오 멘토",
           "period": "2025~2026",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "제로베이스 '취업정보회사'",
           "role": "멘토",
           "period": "2025",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "IA(이노베이션아카데미) × AI(인공지능) 해커톤",
           "role": "멘토",
           "period": "2025",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "ICT콤플렉스",
           "role": "전문가 멘토",
           "period": "2025~2027",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "성결대학교 특강(7.15)",
           "role": "강사",
           "period": "2025",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "서울핀테크랩",
-          "role": "IT멘토",
+          "role": "멘토",
           "period": "2025",
           "includeInPrint": true
         },
@@ -536,25 +536,25 @@
           "organization": "제로베이스 부트캠프",
           "role": "프론트엔드 멘토",
           "period": "2025",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "구름 Deep Dive Full-stack 개발자 과정",
           "role": "특강 강사",
           "period": "2025",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "Play4JOB 프로그램",
           "role": "현직자 멘토",
           "period": "2025",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "숭실대학교 특강(1.6)",
           "role": "강사",
           "period": "2025",
-          "includeInPrint": true
+          "includeInPrint": false
         }
       ]
     },
@@ -565,37 +565,37 @@
           "organization": "연세대학교 현직자 특강(11.14)",
           "role": "강사",
           "period": "2024",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "원광대학교 SW벤처인재양성사업단",
           "role": "멘토",
           "period": "2024",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "2024년도 벤처스타트업 SW개발인재 매칭 페스티벌",
           "role": "오프라인 멘토",
           "period": "2024",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "이노베이션아카데미(42Seoul)",
           "role": "SW현업전문가",
           "period": "2024~",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "2024년도 씨티은행-JA Korea 온라인 특별한 JOB담",
           "role": "멘토",
           "period": "2024",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "양천구 Y취업멘토단",
           "role": "IT멘토",
           "period": "2024~2026",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "벤처기업협회 2024년도 벤처스타트업 아카데미(SW/콘텐츠) 사업",
@@ -607,7 +607,7 @@
           "organization": "오즈코딩스쿨 2기, 4기, 6기",
           "role": "프론트엔드 개발 멘토",
           "period": "2024~2025",
-          "includeInPrint": true
+          "includeInPrint": false
         }
       ]
     },
@@ -618,13 +618,13 @@
           "organization": "강원대학교 현직자 특강(11.29)",
           "role": "강사",
           "period": "2023",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "한국외국어대학교 글로벌캠퍼스 캡스톤 특강(23.10, 24.11)",
           "role": "강사",
           "period": "2023~2024",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "TTA 국제회의 지원",
@@ -636,7 +636,7 @@
           "organization": "충북바이오헬스산업혁신센터 정밀의료·의료기기사업단 한국교통대학교 직무부트캠프 5주과정",
           "role": "멘토",
           "period": "2023",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "한국정보보호산업협회 2023년 개인정보보호관리운영 분야 국가직무능력표준(NCS)",
@@ -646,7 +646,7 @@
         },
         {
           "organization": "코리아스타트업포럼",
-          "role": "SW개발자 멘토",
+          "role": "SW멘토",
           "period": "2023~",
           "includeInPrint": true
         },
@@ -654,19 +654,19 @@
           "organization": "충북대학교 취업지원본부",
           "role": "졸업생멘토",
           "period": "2023~",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "한국정보보호산업협회",
           "role": "정보보호 전문강사",
           "period": "2023~",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "스마트인재개발원 현직자 특강",
           "role": "강사",
           "period": "2023",
-          "includeInPrint": true
+          "includeInPrint": false
         }
       ]
     },
@@ -677,31 +677,31 @@
           "organization": "진학사 캐치클래스 특강",
           "role": "강사",
           "period": "2022",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "한국코드페어 공모전 초등부",
           "role": "심사위원",
           "period": "2022",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "한국정보산업연합회 스마트해상물류 프로젝트",
           "role": "멘토",
           "period": "2022~",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "한국정보산업연합회 한이음 프로젝트",
           "role": "멘토",
           "period": "2022~",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "코멘토 직무부트캠프·실무PT",
           "role": "리드멘토",
           "period": "2022~",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "소프트웨어 마에스트로 13기, 14기",
@@ -718,19 +718,19 @@
           "organization": "네이버커넥트재단 SEF2021(Software Edu Festival)",
           "role": "코드리뷰 연사",
           "period": "2021",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "충북대학교 소프트웨어중심대학",
           "role": "가디언(멘토)",
           "period": "2021~2024",
-          "includeInPrint": true
+          "includeInPrint": false
         },
         {
           "organization": "부스트코스 웹UI 개발 코칭스터디 1기",
           "role": "코치",
           "period": "2021",
-          "includeInPrint": true
+          "includeInPrint": false
         }
       ]
     },
@@ -741,7 +741,7 @@
           "organization": "KT DS 신입사원 교육",
           "role": "멘토",
           "period": "2020",
-          "includeInPrint": true
+          "includeInPrint": false
         }
       ]
     },
@@ -758,7 +758,7 @@
           "organization": "한국코드페어",
           "role": "IT멘토",
           "period": "2019",
-          "includeInPrint": true
+          "includeInPrint": false
         }
       ]
     }
