@@ -2568,6 +2568,16 @@ function getPrintDisplayText(value) {
   return value.replaceAll('금융권협회', '생명보험협회');
 }
 
+function getPrintExperienceItems(data) {
+  /*
+   * 웹사이트와 data.json의 원본 경력은 그대로 유지하고,
+   * 기술경력서 인쇄 결과에서만 '슈어엠' 경력을 제외합니다.
+   */
+  return (data?.experience || []).filter(
+    (item) => item?.company !== '슈어엠'
+  );
+}
+
 function createPrintProfileTable(data) {
   const profile = data.profile || {};
   const table = createElement('table', 'print-profile-table');
@@ -2675,7 +2685,7 @@ function createPrintEducationAndCertification(data) {
 }
 
 function createPrintCareerSummary(data) {
-  const rows = (data.experience || []).map((item) => {
+  const rows = getPrintExperienceItems(data).map((item) => {
     const detail = createElement('div');
     detail.append(
       createElement('strong', '', item.position || '')
@@ -2940,7 +2950,7 @@ function renderPrintResume() {
     'div',
     'print-company-list'
   );
-  (resumeData.experience || []).forEach((item, index) => {
+  getPrintExperienceItems(resumeData).forEach((item, index) => {
     companyDetails.append(
       createPrintCompanySection(item, index)
     );
