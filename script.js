@@ -3248,12 +3248,7 @@ function createPrintCompanySection(item, index) {
         'print-company__subheading'
       );
       headingRow.append(
-        createElement('h3', '', group.label),
-        createElement(
-          'span',
-          '',
-          `${group.items.length}건`
-        )
+        createElement('h3', '', group.label)
       );
       detailBlock.append(
         headingRow,
