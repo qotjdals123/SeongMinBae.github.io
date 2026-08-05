@@ -2684,6 +2684,379 @@ function createPrintEducationAndCertification(data) {
   return layout;
 }
 
+
+function createPrintSvgElement(tagName, attributes = {}, text = '') {
+  const element = document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    tagName
+  );
+
+  Object.entries(attributes).forEach(([name, value]) => {
+    element.setAttribute(name, String(value));
+  });
+
+  if (text !== undefined && text !== null && text !== '') {
+    element.textContent = text;
+  }
+
+  return element;
+}
+
+function createPrintTimeline(data) {
+  const experienceItems = getPrintExperienceItems(data);
+  const items = getTimelineItems(experienceItems);
+
+  if (items.length === 0) return null;
+
+  const today = getLocalToday();
+  const allSegments = items.flatMap((item) => item.segments);
+
+  if (allSegments.length === 0) return null;
+
+  const startDates = allSegments.map((segment) =>
+    parseDate(segment.startDate)
+  );
+  const endDates = allSegments.map((segment) =>
+    segment.endDate ? parseDate(segment.endDate) : today
+  );
+
+  const minimumYear = Math.min(
+    ...startDates.map((date) => date.getFullYear())
+  );
+  const maximumYear = Math.max(
+    today.getFullYear(),
+    ...endDates.map((date) => date.getFullYear())
+  );
+
+  const axisStartDate = new Date(minimumYear, 0, 1);
+  const axisEndDate = new Date(maximumYear + 1, 0, 1);
+
+  const svgWidth = 1040;
+  const labelX = 18;
+  const labelWidth = 222;
+  const axisStartX = 270;
+  const axisEndX = svgWidth - 24;
+  const axisWidth = axisEndX - axisStartX;
+  const headerHeight = 58;
+  const segmentHeight = 48;
+  const groupPadding = 16;
+  const groupGap = 8;
+  const minimumGroupHeight = 86;
+  const bottomPadding = 18;
+
+  const layouts = [];
+  let currentY = headerHeight;
+
+  items.forEach((item) => {
+    const segmentCount = Math.max(item.segments.length, 1);
+    const height = Math.max(
+      minimumGroupHeight,
+      groupPadding * 2 + segmentCount * segmentHeight
+    );
+
+    layouts.push({ item, y: currentY, height });
+    currentY += height + groupGap;
+  });
+
+  const svgHeight = currentY + bottomPadding - groupGap;
+  const palette = [
+    '#3265df',
+    '#7836e8',
+    '#07966f',
+    '#163f65',
+    '#d97706',
+    '#b83280'
+  ];
+
+  const wrapper = createElement('div', 'print-timeline');
+  const svg = createPrintSvgElement('svg', {
+    viewBox: `0 0 ${svgWidth} ${svgHeight}`,
+    role: 'img',
+    'aria-label': '회사별 재직 기간과 직급 이력을 표시한 경력 타임라인',
+    preserveAspectRatio: 'xMidYMid meet'
+  });
+
+  svg.append(
+    createPrintSvgElement('rect', {
+      x: 0,
+      y: 0,
+      width: svgWidth,
+      height: svgHeight,
+      fill: '#ffffff'
+    })
+  );
+
+  const getX = (date) =>
+    getTimelineX(
+      date,
+      axisStartDate,
+      axisEndDate,
+      axisStartX,
+      axisWidth
+    );
+
+  for (let year = minimumYear; year <= maximumYear; year += 1) {
+    const yearDate = new Date(year, 0, 1);
+    const nextYearDate = new Date(year + 1, 0, 1);
+    const x = getX(yearDate);
+    const nextX = getX(nextYearDate);
+
+    if ((year - minimumYear) % 2 === 1) {
+      svg.append(
+        createPrintSvgElement('rect', {
+          x,
+          y: 43,
+          width: Math.max(0, nextX - x),
+          height: svgHeight - 55,
+          fill: '#f7f9fd'
+        })
+      );
+    }
+
+    svg.append(
+      createPrintSvgElement('line', {
+        x1: x,
+        y1: 43,
+        x2: x,
+        y2: svgHeight - 14,
+        stroke: '#dfe5ee',
+        'stroke-width': 1
+      }),
+      createPrintSvgElement(
+        'text',
+        {
+          x,
+          y: 25,
+          fill: '#5d687b',
+          'font-size': 13,
+          'font-weight': 700,
+          'text-anchor': 'middle',
+          'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
+        },
+        String(year)
+      )
+    );
+  }
+
+  svg.append(
+    createPrintSvgElement('line', {
+      x1: axisStartX,
+      y1: 43,
+      x2: axisEndX,
+      y2: 43,
+      stroke: '#27364f',
+      'stroke-width': 2
+    }),
+    createPrintSvgElement(
+      'text',
+      {
+        x: labelX,
+        y: 25,
+        fill: '#5d687b',
+        'font-size': 13,
+        'font-weight': 700,
+        'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
+      },
+      '회사·직급'
+    )
+  );
+
+  layouts.forEach(({ item, y: groupY, height }, companyIndex) => {
+    const color = palette[companyIndex % palette.length];
+    const cardY = groupY + 8;
+    const cardHeight = height - 16;
+
+    svg.append(
+      createPrintSvgElement('rect', {
+        x: labelX,
+        y: cardY,
+        width: labelWidth,
+        height: cardHeight,
+        rx: 5,
+        fill: '#ffffff',
+        stroke: '#d7deea',
+        'stroke-width': 1
+      }),
+      createPrintSvgElement('rect', {
+        x: labelX,
+        y: cardY,
+        width: 6,
+        height: cardHeight,
+        fill: color
+      }),
+      createPrintSvgElement(
+        'text',
+        {
+          x: labelX + 18,
+          y: cardY + 27,
+          fill: '#26354c',
+          'font-size': 14,
+          'font-weight': 800,
+          'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
+        },
+        getPrintDisplayText(item.company)
+      )
+    );
+
+    if (item.cardSummary) {
+      svg.append(
+        createPrintSvgElement(
+          'text',
+          {
+            x: labelX + 18,
+            y: cardY + 49,
+            fill: '#6b7688',
+            'font-size': 10.5,
+            'font-weight': 500,
+            'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
+          },
+          item.cardSummary
+        )
+      );
+    }
+
+    item.segments.forEach((segment, segmentIndex) => {
+      const slotY = groupY + groupPadding + segmentIndex * segmentHeight;
+      const startDate = parseDate(segment.startDate);
+      const endDate = segment.endDate
+        ? parseDate(segment.endDate)
+        : today;
+      const startX = getX(startDate);
+      const roleLabel = [
+        segment.title,
+        isTimelineDisplayType(segment.type) ? segment.type : ''
+      ]
+        .filter(Boolean)
+        .join(' · ');
+
+      if (segment.isMilestone) {
+        const centerY = slotY + 26;
+        const labelOnRight = axisEndX - startX >= 150;
+        const textX = labelOnRight ? startX + 13 : startX - 13;
+        const anchor = labelOnRight ? 'start' : 'end';
+
+        svg.append(
+          createPrintSvgElement('line', {
+            x1: startX,
+            y1: centerY - 14,
+            x2: startX,
+            y2: centerY + 14,
+            stroke: color,
+            'stroke-width': 2
+          }),
+          createPrintSvgElement('rect', {
+            x: startX - 4.5,
+            y: centerY - 4.5,
+            width: 9,
+            height: 9,
+            fill: color,
+            transform: `rotate(45 ${startX} ${centerY})`
+          }),
+          createPrintSvgElement(
+            'text',
+            {
+              x: textX,
+              y: centerY - 3,
+              fill: '#26354c',
+              'font-size': 10.5,
+              'font-weight': 700,
+              'text-anchor': anchor,
+              'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
+            },
+            roleLabel
+          ),
+          createPrintSvgElement(
+            'text',
+            {
+              x: textX,
+              y: centerY + 12,
+              fill: '#6b7688',
+              'font-size': 9.5,
+              'font-weight': 600,
+              'text-anchor': anchor,
+              'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
+            },
+            formatTimelineMonth(segment.startDate)
+          )
+        );
+
+        return;
+      }
+
+      const endX = getX(endDate);
+      const naturalWidth = endX - startX;
+      const minimumWidth = 66;
+      const barWidth = Math.min(
+        Math.max(minimumWidth, naturalWidth),
+        axisWidth
+      );
+      const barX = Math.max(
+        axisStartX,
+        Math.min(startX, axisEndX - barWidth)
+      );
+      const barY = slotY + 19;
+      const barHeight = 24;
+      const labelOnRight = axisEndX - barX < 165;
+      const labelX = labelOnRight ? barX + barWidth : barX;
+      const labelAnchor = labelOnRight ? 'end' : 'start';
+      const periodText = `${formatTimelineMonth(segment.startDate)} ~ ${
+        segment.endDate ? formatTimelineMonth(segment.endDate) : '현재'
+      }`;
+
+      svg.append(
+        createPrintSvgElement(
+          'text',
+          {
+            x: labelX,
+            y: slotY + 12,
+            fill: '#26354c',
+            'font-size': 10.5,
+            'font-weight': 700,
+            'text-anchor': labelAnchor,
+            'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
+          },
+          roleLabel
+        ),
+        createPrintSvgElement('rect', {
+          x: barX,
+          y: barY,
+          width: barWidth,
+          height: barHeight,
+          rx: 5,
+          fill: color
+        }),
+        createPrintSvgElement(
+          'text',
+          {
+            x: barX + barWidth / 2,
+            y: barY + 16,
+            fill: '#ffffff',
+            'font-size': barWidth < 95 ? 8.5 : 10.5,
+            'font-weight': 800,
+            'text-anchor': 'middle',
+            'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
+          },
+          periodText
+        )
+      );
+    });
+
+    svg.append(
+      createPrintSvgElement('line', {
+        x1: labelX,
+        y1: groupY + height + 3,
+        x2: axisEndX,
+        y2: groupY + height + 3,
+        stroke: '#edf0f5',
+        'stroke-width': 1
+      })
+    );
+  });
+
+  wrapper.append(svg);
+  return wrapper;
+}
+
 function createPrintCareerSummary(data) {
   const rows = getPrintExperienceItems(data).map((item) => {
     const detail = createElement('div');
@@ -2946,6 +3319,18 @@ function renderPrintResume() {
     createPrintCareerSummary(resumeData)
   );
 
+  const timelineSection = createElement(
+    'section',
+    'print-section print-section--timeline'
+  );
+  timelineSection.append(
+    createPrintSectionHeading(3, '경력 타임라인')
+  );
+  const printTimeline = createPrintTimeline(resumeData);
+  if (printTimeline) {
+    timelineSection.append(printTimeline);
+  }
+
   const companyDetails = createElement(
     'div',
     'print-company-list'
@@ -2962,7 +3347,7 @@ function renderPrintResume() {
     'print-section print-section--appendix'
   );
   contributionSection.append(
-    createPrintSectionHeading(3, '기타 기여사항')
+    createPrintSectionHeading(4, '기타 기여사항')
   );
   if (contributionTable) {
     contributionSection.append(contributionTable);
@@ -2974,7 +3359,7 @@ function renderPrintResume() {
     'print-section print-section--appendix'
   );
   activitySection.append(
-    createPrintSectionHeading(4, '외부 활동')
+    createPrintSectionHeading(5, '외부 활동')
   );
   if (activityTable) {
     activitySection.append(activityTable);
@@ -2995,6 +3380,7 @@ function renderPrintResume() {
     header,
     overview,
     summary,
+    timelineSection,
     companyDetails,
     contributionSection,
     activitySection,
