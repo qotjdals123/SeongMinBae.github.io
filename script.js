@@ -2588,7 +2588,7 @@ function getPrintDisplayText(value) {
 
   /*
    * 화면과 data.json의 원본 값은 유지하고,
-   * 기술경력서 인쇄 결과에서만 기관명을 변경합니다.
+   * 경력기술서 인쇄 결과에서만 기관명을 변경합니다.
    */
   return value.replaceAll('금융권협회', '생명보험협회');
 }
@@ -2596,7 +2596,7 @@ function getPrintDisplayText(value) {
 function getPrintExperienceItems(data) {
   /*
    * 웹사이트와 data.json의 원본 경력은 그대로 유지하고,
-   * 기술경력서 인쇄 결과에서만 '슈어엠' 경력을 제외합니다.
+   * 경력기술서 인쇄 결과에서만 '슈어엠' 경력을 제외합니다.
    */
   return (data?.experience || []).filter(
     (item) => item?.company !== '슈어엠'
@@ -3324,7 +3324,7 @@ function renderPrintResume() {
   const header = createElement('header', 'print-resume__header');
   const titleArea = createElement('div', 'print-resume__title-area');
   titleArea.append(
-    createElement('h1', '', '기술경력서')
+    createElement('h1', '', '경력기술서')
   );
   header.append(titleArea);
 
@@ -3435,7 +3435,7 @@ function printTechnicalResume() {
   renderPrintResume();
 
   originalDocumentTitle = document.title;
-  document.title = `${resumeData.profile?.name || 'BAELAB'}_기술경력서`;
+  document.title = `${resumeData.profile?.name || 'BAELAB'}_경력기술서`;
 
   window.requestAnimationFrame(() => {
     window.setTimeout(() => {
