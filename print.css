@@ -61,54 +61,22 @@
   }
 
   .print-resume__header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 12mm;
+    display: block;
     margin-bottom: 7mm;
-    padding-bottom: 5mm;
+    padding-bottom: 4.5mm;
     border-bottom: 2px solid var(--print-line-strong);
     break-inside: avoid;
   }
 
-  .print-resume__eyebrow {
-    margin: 0 0 2.8mm;
-    color: var(--print-accent);
-    font-size: 7pt;
-    font-weight: 800;
-    line-height: 1.2;
-    letter-spacing: .16em;
+  .print-resume__title-area {
+    display: block;
   }
 
   .print-resume__header h1 {
     margin: 0;
     font-size: 25pt;
-    line-height: 1.12;
+    line-height: 1.08;
     letter-spacing: -.04em;
-  }
-
-  .print-resume__subtitle {
-    margin: 3.4mm 0 0;
-    color: var(--print-muted);
-    font-size: 9pt;
-    line-height: 1.35;
-  }
-
-  .print-resume__issued {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    min-width: 42mm;
-    text-align: right;
-  }
-
-  .print-resume__issued strong {
-    font-size: 14pt;
-  }
-
-  .print-resume__issued span {
-    color: var(--print-muted);
-    font-size: 7.5pt;
   }
 
   .print-section {
@@ -153,7 +121,7 @@
   }
 
   .print-profile-table {
-    margin-bottom: 5mm;
+    margin-bottom: 4mm;
     border-top: 1.5px solid var(--print-line-strong);
   }
 
