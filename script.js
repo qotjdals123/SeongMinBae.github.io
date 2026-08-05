@@ -4,6 +4,8 @@ const menuButton = document.querySelector('.menu-button');
 const primaryNav = document.querySelector('.primary-nav');
 const navLinks = [...document.querySelectorAll('.primary-nav a[href^="#"]')];
 const yearElement = document.querySelector('#current-year');
+const printButton = document.querySelector('#site-print-button');
+const printResume = document.querySelector('#print-resume');
 const PROJECT_MODAL_HISTORY_KEY = 'projectModalOpen';
 const TIMELINE_MODAL_HISTORY_KEY = 'careerTimelineModalOpen';
 
@@ -30,6 +32,11 @@ let timelineActivePointers = new Map();
 let timelinePinchState = null;
 let timelineZoomAnimationFrame = null;
 let timelinePendingZoom = null;
+let originalDocumentTitle = null;
+
+if (printButton) {
+  printButton.disabled = true;
+}
 
 if (yearElement) {
   yearElement.textContent = new Date().getFullYear();
@@ -2468,6 +2475,594 @@ function renderActivities(groups) {
   replaceChildren(document.querySelector('#activity-list'), children);
 }
 
+
+function formatPrintPeriod(item) {
+  if (!item?.startDate) return '';
+
+  const start = formatTimelineMonth(item.startDate);
+
+  if (
+    item.endDate &&
+    item.endDate === item.startDate
+  ) {
+    return start;
+  }
+
+  const end = item.endDate
+    ? formatTimelineMonth(item.endDate)
+    : '현재';
+
+  return `${start} ~ ${end}`;
+}
+
+function createPrintTable(headers, rows, className = '') {
+  const table = createElement(
+    'table',
+    `print-table${className ? ` ${className}` : ''}`
+  );
+  const thead = createElement('thead');
+  const headerRow = createElement('tr');
+
+  headers.forEach((header) => {
+    const cell = createElement('th', '', header.label);
+    if (header.width) cell.style.width = header.width;
+    headerRow.append(cell);
+  });
+
+  thead.append(headerRow);
+  table.append(thead);
+
+  const tbody = createElement('tbody');
+
+  rows.forEach((row) => {
+    const tableRow = createElement('tr');
+
+    row.forEach((value) => {
+      const cell = createElement('td');
+
+      if (value instanceof Node) {
+        cell.append(value);
+      } else {
+        cell.textContent = value ?? '';
+      }
+
+      tableRow.append(cell);
+    });
+
+    tbody.append(tableRow);
+  });
+
+  table.append(tbody);
+  return table;
+}
+
+function createPrintSectionHeading(number, title, description = '') {
+  const header = createElement('header', 'print-section__heading');
+  const numberElement = createElement(
+    'span',
+    'print-section__number',
+    String(number).padStart(2, '0')
+  );
+  const textArea = createElement('div');
+  const heading = createElement('h2', '', title);
+
+  textArea.append(heading);
+
+  if (description) {
+    textArea.append(
+      createElement('p', '', description)
+    );
+  }
+
+  header.append(numberElement, textArea);
+  return header;
+}
+
+function createPrintProfileTable(data) {
+  const profile = data.profile || {};
+  const totalCareer = formatCareerDuration(
+    calculateTotalCareer(data.experience || [])
+  );
+  const table = createElement('table', 'print-profile-table');
+  const tbody = createElement('tbody');
+
+  const appendRow = (items) => {
+    const row = createElement('tr');
+
+    items.forEach((item) => {
+      const label = createElement('th', '', item.label);
+      const value = createElement('td', '', item.value || '-');
+
+      if (item.colspan) {
+        value.colSpan = item.colspan;
+      }
+
+      if (item.className) {
+        value.classList.add(item.className);
+      }
+
+      row.append(label, value);
+    });
+
+    tbody.append(row);
+  };
+
+  appendRow([
+    { label: '성명', value: profile.name },
+    { label: '현 소속', value: profile.currentPosition },
+    { label: '총 경력', value: totalCareer }
+  ]);
+
+  appendRow([
+    {
+      label: '출생년월',
+      value: profile.birthDate
+        ? formatBirthInfo(profile.birthDate)
+        : ''
+    },
+    { label: '이메일', value: profile.email },
+    {
+      label: '학력',
+      value: profile.educationSummary,
+      className: 'print-pre-line'
+    }
+  ]);
+
+  appendRow([
+    {
+      label: '전문 분야',
+      value: profile.role,
+      colspan: 5
+    }
+  ]);
+
+  appendRow([
+    {
+      label: '경력 개요',
+      value: profile.description,
+      colspan: 5
+    }
+  ]);
+
+  table.append(tbody);
+  return table;
+}
+
+function createPrintEducationAndCertification(data) {
+  const layout = createElement(
+    'div',
+    'print-two-column'
+  );
+
+  const educationSection = createElement(
+    'section',
+    'print-compact-block'
+  );
+  educationSection.append(
+    createElement('h3', '', '학력사항')
+  );
+  educationSection.append(
+    createPrintTable(
+      [
+        { label: '구분', width: '22%' },
+        { label: '학교 및 전공' }
+      ],
+      (data.education || []).map((item) => {
+        const detail = createElement('div');
+        detail.append(
+          createElement('strong', '', item.school),
+          createElement('p', '', item.major)
+        );
+        if (item.note) {
+          detail.append(
+            createElement('small', '', item.note)
+          );
+        }
+        return [item.period, detail];
+      }),
+      'print-table--compact'
+    )
+  );
+
+  const certificationSection = createElement(
+    'section',
+    'print-compact-block'
+  );
+  certificationSection.append(
+    createElement('h3', '', '자격사항')
+  );
+  certificationSection.append(
+    createPrintTable(
+      [
+        { label: '연도', width: '18%' },
+        { label: '자격 및 발급기관' }
+      ],
+      (data.certifications || []).map((item) => {
+        const detail = createElement('div');
+        detail.append(
+          createElement('strong', '', item.name),
+          createElement('p', '', item.issuer || '')
+        );
+        return [item.year, detail];
+      }),
+      'print-table--compact'
+    )
+  );
+
+  layout.append(educationSection, certificationSection);
+  return layout;
+}
+
+function createPrintCareerSummary(data) {
+  const rows = (data.experience || []).map((item) => {
+    const detail = createElement('div');
+    detail.append(
+      createElement('strong', '', item.position || '')
+    );
+
+    if (Array.isArray(item.duties) && item.duties.length > 0) {
+      const duties = createElement('ul', 'print-inline-list');
+      item.duties.forEach((duty) => {
+        duties.append(createElement('li', '', duty));
+      });
+      detail.append(duties);
+    }
+
+    return [
+      item.company,
+      formatPrintPeriod(item),
+      detail
+    ];
+  });
+
+  return createPrintTable(
+    [
+      { label: '회사명', width: '20%' },
+      { label: '재직기간', width: '23%' },
+      { label: '직급 및 주요업무' }
+    ],
+    rows,
+    'print-table--career-summary'
+  );
+}
+
+function createPrintPositions(item) {
+  if (!Array.isArray(item.positions) || item.positions.length === 0) {
+    return null;
+  }
+
+  const rows = item.positions.map((position) => [
+    formatPrintPeriod(position),
+    position.title || '',
+    position.type || ''
+  ]);
+
+  return createPrintTable(
+    [
+      { label: '기간', width: '25%' },
+      { label: '직급·직책', width: '38%' },
+      { label: '근무 형태 및 비고' }
+    ],
+    rows,
+    'print-table--positions'
+  );
+}
+
+function createPrintDetailTable(group) {
+  const rows = group.items.map((detail) => {
+    const content = createElement('div', 'print-detail-content');
+    content.append(
+      createElement('strong', '', detail.title || '상세 내역')
+    );
+
+    if (detail.summary) {
+      content.append(
+        createElement('p', '', detail.summary)
+      );
+    }
+
+    if (Array.isArray(detail.tasks) && detail.tasks.length > 0) {
+      const list = createElement('ul', 'print-inline-list');
+      detail.tasks.forEach((task) => {
+        list.append(createElement('li', '', task));
+      });
+      content.append(list);
+    }
+
+    return [
+      detail.period || '',
+      detail.role || detail.client || '',
+      content
+    ];
+  });
+
+  return createPrintTable(
+    [
+      { label: '기간', width: '20%' },
+      { label: '역할·구분', width: '27%' },
+      { label: '수행 내용' }
+    ],
+    rows,
+    'print-table--details'
+  );
+}
+
+function createPrintCompanySection(item, index) {
+  const section = createElement(
+    'section',
+    'print-company'
+  );
+
+  const heading = createElement(
+    'header',
+    'print-company__heading'
+  );
+  const titleArea = createElement('div');
+  titleArea.append(
+    createElement(
+      'span',
+      'print-company__number',
+      String(index + 1).padStart(2, '0')
+    ),
+    createElement('h2', '', item.company),
+    createElement('p', '', item.position || '')
+  );
+  heading.append(
+    titleArea,
+    createElement(
+      'strong',
+      'print-company__period',
+      formatPrintPeriod(item)
+    )
+  );
+  section.append(heading);
+
+  const positionTable = createPrintPositions(item);
+  if (positionTable) {
+    const positionBlock = createElement(
+      'div',
+      'print-company__subsection'
+    );
+    positionBlock.append(
+      createElement('h3', '', '직급·직책 이력'),
+      positionTable
+    );
+    section.append(positionBlock);
+  }
+
+  if (Array.isArray(item.duties) && item.duties.length > 0) {
+    const dutiesBlock = createElement(
+      'div',
+      'print-company__subsection print-company__duties'
+    );
+    dutiesBlock.append(
+      createElement('h3', '', '주요 수행 업무')
+    );
+    const list = createElement('ul');
+    item.duties.forEach((duty) => {
+      list.append(createElement('li', '', duty));
+    });
+    dutiesBlock.append(list);
+    section.append(dutiesBlock);
+  }
+
+  normalizeCareerDetailGroups(item)
+    .filter((group) => group.items.length > 0)
+    .forEach((group, groupIndex) => {
+      const detailBlock = createElement(
+        'div',
+        'print-company__subsection print-company__detail-group'
+      );
+      const headingRow = createElement(
+        'div',
+        'print-company__subheading'
+      );
+      headingRow.append(
+        createElement('h3', '', group.label),
+        createElement(
+          'span',
+          '',
+          `${group.items.length}건`
+        )
+      );
+      detailBlock.append(
+        headingRow,
+        createPrintDetailTable(group)
+      );
+
+      if (groupIndex > 0) {
+        detailBlock.classList.add('print-company__detail-group--continued');
+      }
+
+      section.append(detailBlock);
+    });
+
+  return section;
+}
+
+function createPrintContributions(data) {
+  const rows = (data.contributions || []).map((item) => [
+    item.year || '',
+    item.category || '기타',
+    item.description || ''
+  ]);
+
+  if (rows.length === 0) return null;
+
+  return createPrintTable(
+    [
+      { label: '연도', width: '13%' },
+      { label: '구분', width: '22%' },
+      { label: '기여 내용' }
+    ],
+    rows,
+    'print-table--compact'
+  );
+}
+
+function createPrintActivities(data) {
+  const rows = [];
+
+  (data.activities || []).forEach((group) => {
+    group.items.forEach((item) => {
+      rows.push([
+        item.period || group.year,
+        item.organization,
+        item.role
+      ]);
+    });
+  });
+
+  if (rows.length === 0) return null;
+
+  return createPrintTable(
+    [
+      { label: '기간', width: '18%' },
+      { label: '기관 및 활동', width: '58%' },
+      { label: '역할' }
+    ],
+    rows,
+    'print-table--activities'
+  );
+}
+
+function renderPrintResume() {
+  if (!printResume || !resumeData) return;
+
+  const header = createElement('header', 'print-resume__header');
+  const titleArea = createElement('div');
+  titleArea.append(
+    createElement(
+      'p',
+      'print-resume__eyebrow',
+      'TECHNICAL CAREER PROFILE'
+    ),
+    createElement('h1', '', '기술경력서'),
+    createElement(
+      'p',
+      'print-resume__subtitle',
+      resumeData.profile?.role || ''
+    )
+  );
+
+  const issuedArea = createElement(
+    'div',
+    'print-resume__issued'
+  );
+  const today = getLocalToday();
+  issuedArea.append(
+    createElement(
+      'strong',
+      '',
+      resumeData.profile?.name || ''
+    ),
+    createElement(
+      'span',
+      '',
+      `작성일 ${today.getFullYear()}.${String(
+        today.getMonth() + 1
+      ).padStart(2, '0')}.${String(
+        today.getDate()
+      ).padStart(2, '0')}`
+    )
+  );
+  header.append(titleArea, issuedArea);
+
+  const overview = createElement(
+    'section',
+    'print-section print-section--overview'
+  );
+  overview.append(
+    createPrintSectionHeading(1, '기본정보'),
+    createPrintProfileTable(resumeData),
+    createPrintEducationAndCertification(resumeData)
+  );
+
+  const summary = createElement(
+    'section',
+    'print-section print-section--summary'
+  );
+  summary.append(
+    createPrintSectionHeading(
+      2,
+      '경력 요약',
+      '중복 재직 기간은 총 경력 산정 시 하나의 기간으로 계산했습니다.'
+    ),
+    createPrintCareerSummary(resumeData)
+  );
+
+  const companyDetails = createElement(
+    'div',
+    'print-company-list'
+  );
+  (resumeData.experience || []).forEach((item, index) => {
+    companyDetails.append(
+      createPrintCompanySection(item, index)
+    );
+  });
+
+  const contributionTable = createPrintContributions(resumeData);
+  const contributionSection = createElement(
+    'section',
+    'print-section print-section--appendix'
+  );
+  contributionSection.append(
+    createPrintSectionHeading(3, '기타 기여사항')
+  );
+  if (contributionTable) {
+    contributionSection.append(contributionTable);
+  }
+
+  const activityTable = createPrintActivities(resumeData);
+  const activitySection = createElement(
+    'section',
+    'print-section print-section--appendix'
+  );
+  activitySection.append(
+    createPrintSectionHeading(4, '외부 활동')
+  );
+  if (activityTable) {
+    activitySection.append(activityTable);
+  }
+
+  const footer = createElement('footer', 'print-resume__footer');
+  footer.append(
+    createElement(
+      'p',
+      '',
+      `${resumeData.site?.brand || 'BAELAB'} · ${
+        resumeData.profile?.email || ''
+      }`
+    )
+  );
+
+  printResume.replaceChildren(
+    header,
+    overview,
+    summary,
+    companyDetails,
+    contributionSection,
+    activitySection,
+    footer
+  );
+}
+
+function printTechnicalResume() {
+  if (!resumeData) return;
+
+  closeMenu();
+  renderPrintResume();
+
+  originalDocumentTitle = document.title;
+  document.title = `${resumeData.profile?.name || 'BAELAB'}_기술경력서`;
+
+  window.requestAnimationFrame(() => {
+    window.setTimeout(() => {
+      window.print();
+    }, 50);
+  });
+}
+
 function renderError(error) {
   console.error('이력 데이터를 불러오지 못했습니다.', error);
 
@@ -2525,6 +3120,8 @@ async function loadResumeData() {
     renderCertifications(resumeData.certifications);
     renderContributions(resumeData.contributions);
     renderActivities(resumeData.activities);
+    renderPrintResume();
+    if (printButton) printButton.disabled = false;
     updateCareerDuration();
     scheduleCareerRefresh();
   } catch (error) {
@@ -2589,6 +3186,19 @@ document.querySelector('#career-timeline-button')?.addEventListener(
   'click',
   (event) => openCareerTimelineModal(event.currentTarget)
 );
+
+printButton?.addEventListener('click', printTechnicalResume);
+
+window.addEventListener('beforeprint', () => {
+  renderPrintResume();
+});
+
+window.addEventListener('afterprint', () => {
+  if (originalDocumentTitle !== null) {
+    document.title = originalDocumentTitle;
+    originalDocumentTitle = null;
+  }
+});
 
 window.addEventListener('popstate', () => {
   if (projectModal && !projectModal.hidden) {
