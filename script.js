@@ -2593,6 +2593,20 @@ function createPrintProfileTable(data) {
     { label: '총 경력', value: totalCareer }
   ]);
 
+  const highestEducation = Array.isArray(data.education)
+    ? data.education[0]
+    : null;
+
+  const conciseEducation = highestEducation
+    ? [
+        highestEducation.school,
+        highestEducation.major,
+        highestEducation.period
+      ]
+        .filter(Boolean)
+        .join(' · ')
+    : profile.educationSummary || '';
+
   appendRow([
     {
       label: '출생년월',
@@ -2603,8 +2617,8 @@ function createPrintProfileTable(data) {
     { label: '이메일', value: profile.email },
     {
       label: '학력',
-      value: profile.educationSummary,
-      className: 'print-pre-line'
+      value: conciseEducation,
+      className: 'print-profile-table__education'
     }
   ]);
 
@@ -2949,21 +2963,11 @@ function renderPrintResume() {
     'div',
     'print-resume__issued'
   );
-  const today = getLocalToday();
   issuedArea.append(
     createElement(
       'strong',
       '',
       resumeData.profile?.name || ''
-    ),
-    createElement(
-      'span',
-      '',
-      `작성일 ${today.getFullYear()}.${String(
-        today.getMonth() + 1
-      ).padStart(2, '0')}.${String(
-        today.getDate()
-      ).padStart(2, '0')}`
     )
   );
   header.append(titleArea, issuedArea);
