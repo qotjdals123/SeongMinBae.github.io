@@ -2558,6 +2558,31 @@ function createPrintSectionHeading(number, title, description = '') {
   return header;
 }
 
+function createPrintReferenceHeading(title, description = '') {
+  const header = createElement(
+    'header',
+    'print-section__heading print-section__heading--reference'
+  );
+  const label = createElement(
+    'span',
+    'print-section__reference-label',
+    '참고자료'
+  );
+  const textArea = createElement('div');
+  const heading = createElement('h2', '', title);
+
+  textArea.append(heading);
+
+  if (description) {
+    textArea.append(
+      createElement('p', '', description)
+    );
+  }
+
+  header.append(label, textArea);
+  return header;
+}
+
 function getPrintDisplayText(value) {
   if (typeof value !== 'string') return value;
 
@@ -3320,18 +3345,6 @@ function renderPrintResume() {
     createPrintCareerSummary(resumeData)
   );
 
-  const timelineSection = createElement(
-    'section',
-    'print-section print-section--timeline'
-  );
-  timelineSection.append(
-    createPrintSectionHeading(3, '경력 타임라인')
-  );
-  const printTimeline = createPrintTimeline(resumeData);
-  if (printTimeline) {
-    timelineSection.append(printTimeline);
-  }
-
   const companyDetails = createElement(
     'div',
     'print-company-list'
@@ -3348,7 +3361,7 @@ function renderPrintResume() {
     'print-section print-section--appendix'
   );
   contributionSection.append(
-    createPrintSectionHeading(4, '기타 기여사항')
+    createPrintSectionHeading(3, '기타 기여사항')
   );
   if (contributionTable) {
     contributionSection.append(contributionTable);
@@ -3360,7 +3373,7 @@ function renderPrintResume() {
     'print-section print-section--appendix'
   );
   activitySection.append(
-    createPrintSectionHeading(5, '외부 활동')
+    createPrintSectionHeading(4, '외부 활동')
   );
   if (activityTable) {
     activitySection.append(activityTable);
@@ -3377,15 +3390,32 @@ function renderPrintResume() {
     )
   );
 
+  /*
+   * 경력 타임라인은 본문 뒤에 배치하는 별도 참고자료입니다.
+   * 인쇄 결과에서 마지막 A4 가로 페이지로 출력되며,
+   * getPrintExperienceItems()를 사용하므로 슈어엠 경력은 제외됩니다.
+   */
+  const timelineSection = createElement(
+    'section',
+    'print-section print-section--timeline print-section--reference'
+  );
+  timelineSection.append(
+    createPrintReferenceHeading('경력 타임라인')
+  );
+  const printTimeline = createPrintTimeline(resumeData);
+  if (printTimeline) {
+    timelineSection.append(printTimeline);
+  }
+
   printResume.replaceChildren(
     header,
     overview,
     summary,
-    timelineSection,
     companyDetails,
     contributionSection,
     activitySection,
-    footer
+    footer,
+    timelineSection
   );
 }
 
