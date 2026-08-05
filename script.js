@@ -2731,18 +2731,19 @@ function createPrintTimeline(data) {
   const axisStartDate = new Date(minimumYear, 0, 1);
   const axisEndDate = new Date(maximumYear + 1, 0, 1);
 
-  const svgWidth = 1040;
+  // 인쇄 타임라인은 A4 가로 페이지 전체를 활용합니다.
+  const svgWidth = 1500;
   const labelX = 18;
-  const labelWidth = 222;
-  const axisStartX = 270;
-  const axisEndX = svgWidth - 24;
+  const labelWidth = 292;
+  const axisStartX = 348;
+  const axisEndX = svgWidth - 34;
   const axisWidth = axisEndX - axisStartX;
-  const headerHeight = 58;
-  const segmentHeight = 48;
-  const groupPadding = 16;
-  const groupGap = 8;
-  const minimumGroupHeight = 86;
-  const bottomPadding = 18;
+  const headerHeight = 76;
+  const segmentHeight = 68;
+  const groupPadding = 20;
+  const groupGap = 12;
+  const minimumGroupHeight = 122;
+  const bottomPadding = 24;
 
   const layouts = [];
   let currentY = headerHeight;
@@ -2805,9 +2806,9 @@ function createPrintTimeline(data) {
       svg.append(
         createPrintSvgElement('rect', {
           x,
-          y: 43,
+          y: 56,
           width: Math.max(0, nextX - x),
-          height: svgHeight - 55,
+          height: svgHeight - 72,
           fill: '#f7f9fd'
         })
       );
@@ -2816,9 +2817,9 @@ function createPrintTimeline(data) {
     svg.append(
       createPrintSvgElement('line', {
         x1: x,
-        y1: 43,
+        y1: 56,
         x2: x,
-        y2: svgHeight - 14,
+        y2: svgHeight - 18,
         stroke: '#dfe5ee',
         'stroke-width': 1
       }),
@@ -2826,9 +2827,9 @@ function createPrintTimeline(data) {
         'text',
         {
           x,
-          y: 25,
+          y: 32,
           fill: '#5d687b',
-          'font-size': 13,
+          'font-size': 17,
           'font-weight': 700,
           'text-anchor': 'middle',
           'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
@@ -2841,9 +2842,9 @@ function createPrintTimeline(data) {
   svg.append(
     createPrintSvgElement('line', {
       x1: axisStartX,
-      y1: 43,
+      y1: 56,
       x2: axisEndX,
-      y2: 43,
+      y2: 56,
       stroke: '#27364f',
       'stroke-width': 2
     }),
@@ -2851,9 +2852,9 @@ function createPrintTimeline(data) {
       'text',
       {
         x: labelX,
-        y: 25,
+        y: 32,
         fill: '#5d687b',
-        'font-size': 13,
+        'font-size': 17,
         'font-weight': 700,
         'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
       },
@@ -2863,8 +2864,8 @@ function createPrintTimeline(data) {
 
   layouts.forEach(({ item, y: groupY, height }, companyIndex) => {
     const color = palette[companyIndex % palette.length];
-    const cardY = groupY + 8;
-    const cardHeight = height - 16;
+    const cardY = groupY + 10;
+    const cardHeight = height - 20;
 
     svg.append(
       createPrintSvgElement('rect', {
@@ -2888,9 +2889,9 @@ function createPrintTimeline(data) {
         'text',
         {
           x: labelX + 18,
-          y: cardY + 27,
+          y: cardY + 36,
           fill: '#26354c',
-          'font-size': 14,
+          'font-size': 18,
           'font-weight': 800,
           'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
         },
@@ -2904,9 +2905,9 @@ function createPrintTimeline(data) {
           'text',
           {
             x: labelX + 18,
-            y: cardY + 49,
+            y: cardY + 64,
             fill: '#6b7688',
-            'font-size': 10.5,
+            'font-size': 15,
             'font-weight': 500,
             'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
           },
@@ -2930,25 +2931,25 @@ function createPrintTimeline(data) {
         .join(' · ');
 
       if (segment.isMilestone) {
-        const centerY = slotY + 26;
-        const labelOnRight = axisEndX - startX >= 150;
-        const textX = labelOnRight ? startX + 13 : startX - 13;
+        const centerY = slotY + 35;
+        const labelOnRight = axisEndX - startX >= 210;
+        const textX = labelOnRight ? startX + 17 : startX - 17;
         const anchor = labelOnRight ? 'start' : 'end';
 
         svg.append(
           createPrintSvgElement('line', {
             x1: startX,
-            y1: centerY - 14,
+            y1: centerY - 21,
             x2: startX,
-            y2: centerY + 14,
+            y2: centerY + 21,
             stroke: color,
             'stroke-width': 2
           }),
           createPrintSvgElement('rect', {
-            x: startX - 4.5,
-            y: centerY - 4.5,
-            width: 9,
-            height: 9,
+            x: startX - 6,
+            y: centerY - 6,
+            width: 12,
+            height: 12,
             fill: color,
             transform: `rotate(45 ${startX} ${centerY})`
           }),
@@ -2956,9 +2957,9 @@ function createPrintTimeline(data) {
             'text',
             {
               x: textX,
-              y: centerY - 3,
+              y: centerY - 5,
               fill: '#26354c',
-              'font-size': 10.5,
+              'font-size': 15,
               'font-weight': 700,
               'text-anchor': anchor,
               'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
@@ -2969,9 +2970,9 @@ function createPrintTimeline(data) {
             'text',
             {
               x: textX,
-              y: centerY + 12,
+              y: centerY + 17,
               fill: '#6b7688',
-              'font-size': 9.5,
+              'font-size': 13,
               'font-weight': 600,
               'text-anchor': anchor,
               'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
@@ -2985,7 +2986,7 @@ function createPrintTimeline(data) {
 
       const endX = getX(endDate);
       const naturalWidth = endX - startX;
-      const minimumWidth = 66;
+      const minimumWidth = 112;
       const barWidth = Math.min(
         Math.max(minimumWidth, naturalWidth),
         axisWidth
@@ -2994,9 +2995,9 @@ function createPrintTimeline(data) {
         axisStartX,
         Math.min(startX, axisEndX - barWidth)
       );
-      const barY = slotY + 19;
-      const barHeight = 24;
-      const labelOnRight = axisEndX - barX < 165;
+      const barY = slotY + 27;
+      const barHeight = 34;
+      const labelOnRight = axisEndX - barX < 235;
       const labelX = labelOnRight ? barX + barWidth : barX;
       const labelAnchor = labelOnRight ? 'end' : 'start';
       const periodText = `${formatTimelineMonth(segment.startDate)} ~ ${
@@ -3008,9 +3009,9 @@ function createPrintTimeline(data) {
           'text',
           {
             x: labelX,
-            y: slotY + 12,
+            y: slotY + 17,
             fill: '#26354c',
-            'font-size': 10.5,
+            'font-size': 15,
             'font-weight': 700,
             'text-anchor': labelAnchor,
             'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
@@ -3029,9 +3030,9 @@ function createPrintTimeline(data) {
           'text',
           {
             x: barX + barWidth / 2,
-            y: barY + 16,
+            y: barY + 22,
             fill: '#ffffff',
-            'font-size': barWidth < 95 ? 8.5 : 10.5,
+            'font-size': barWidth < 140 ? 12 : 14,
             'font-weight': 800,
             'text-anchor': 'middle',
             'font-family': 'Pretendard, Noto Sans KR, Arial, sans-serif'
