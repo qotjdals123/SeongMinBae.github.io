@@ -2622,21 +2622,6 @@ function createPrintProfileTable(data) {
     }
   ]);
 
-  appendRow([
-    {
-      label: '전문 분야',
-      value: profile.role,
-      colspan: 5
-    }
-  ]);
-
-  appendRow([
-    {
-      label: '경력 개요',
-      value: profile.description,
-      colspan: 5
-    }
-  ]);
 
   table.append(tbody);
   return table;
@@ -2944,33 +2929,11 @@ function renderPrintResume() {
   if (!printResume || !resumeData) return;
 
   const header = createElement('header', 'print-resume__header');
-  const titleArea = createElement('div');
+  const titleArea = createElement('div', 'print-resume__title-area');
   titleArea.append(
-    createElement(
-      'p',
-      'print-resume__eyebrow',
-      'TECHNICAL CAREER PROFILE'
-    ),
-    createElement('h1', '', '기술경력서'),
-    createElement(
-      'p',
-      'print-resume__subtitle',
-      resumeData.profile?.role || ''
-    )
+    createElement('h1', '', '기술경력서')
   );
-
-  const issuedArea = createElement(
-    'div',
-    'print-resume__issued'
-  );
-  issuedArea.append(
-    createElement(
-      'strong',
-      '',
-      resumeData.profile?.name || ''
-    )
-  );
-  header.append(titleArea, issuedArea);
+  header.append(titleArea);
 
   const overview = createElement(
     'section',
@@ -2987,11 +2950,7 @@ function renderPrintResume() {
     'print-section print-section--summary'
   );
   summary.append(
-    createPrintSectionHeading(
-      2,
-      '경력 요약',
-      '중복 재직 기간은 총 경력 산정 시 하나의 기간으로 계산했습니다.'
-    ),
+    createPrintSectionHeading(2, '경력 요약'),
     createPrintCareerSummary(resumeData)
   );
 
