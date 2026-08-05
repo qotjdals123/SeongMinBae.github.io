@@ -386,15 +386,6 @@
     margin: 0;
   }
 
-  .print-company__subheading span {
-    padding: .8mm 2mm;
-    border-radius: 10mm;
-    background: var(--print-accent-soft);
-    color: var(--print-accent);
-    font-size: 7.8pt;
-    font-weight: 750;
-  }
-
   .print-detail-content strong {
     color: #182230;
   }
