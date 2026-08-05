@@ -403,3 +403,14 @@
     text-decoration: none !important;
   }
 }
+
+/* 기본정보 표: 총 경력·학력 제거 후 2개 항목씩 균형 배치 */
+@media print {
+  .print-profile-table th {
+    width: 18mm;
+  }
+
+  .print-profile-table td {
+    width: calc(50% - 18mm);
+  }
+}
