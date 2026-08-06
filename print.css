@@ -1,5 +1,5 @@
 @page {
-  size: A4 portrait;
+  size: 210mm 297mm;
   margin: 12mm 12mm 14mm;
 
   /*
@@ -441,9 +441,24 @@
   }
 }
 
+/* 본문용 A4 세로 페이지를 명시적으로 이름 붙여 혼합 방향 출력을 안정화합니다. */
+@page resume-page {
+  size: 210mm 297mm;
+  page-orientation: upright;
+  margin: 12mm 12mm 14mm;
+
+  @top-left { content: ""; }
+  @top-center { content: ""; }
+  @top-right { content: ""; }
+  @bottom-left { content: ""; }
+  @bottom-center { content: ""; }
+  @bottom-right { content: ""; }
+}
+
 /* 경력 타임라인: 한 장짜리 A4 가로 전용 페이지 */
 @page timeline-page {
-  size: A4 landscape;
+  size: 297mm 210mm;
+  page-orientation: upright;
   margin: 9mm 10mm 10mm;
 
   @top-left { content: ""; }
@@ -455,14 +470,22 @@
 }
 
 @media print {
+  /* 본문은 세로 페이지, 마지막 타임라인만 가로 페이지를 사용합니다. */
+  .print-resume > :not(.print-section--timeline) {
+    page: resume-page;
+  }
+
   .print-section--timeline {
-    page: timeline-page;
+    display: block !important;
+    page: timeline-page !important;
     break-before: page;
     page-break-before: always;
     break-after: page;
     page-break-after: always;
     break-inside: avoid;
     page-break-inside: avoid;
+    width: 277mm;
+    min-height: 190mm;
     margin: 0;
   }
 
@@ -488,6 +511,7 @@
     display: block;
     width: 100%;
     height: auto;
+    max-width: 277mm;
     max-height: 168mm;
   }
 }
