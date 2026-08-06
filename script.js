@@ -3392,8 +3392,8 @@ function createPrintActivities(data) {
 
   return createPrintTable(
     [
-      { label: '기간', width: '18%' },
-      { label: '기관 및 활동', width: '58%' },
+      { label: '기간', width: '20%' },
+      { label: '기관 및 활동', width: '56%' },
       { label: '역할' }
     ],
     rows,
