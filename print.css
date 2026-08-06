@@ -626,3 +626,31 @@
   }
 }
 
+
+
+/* 자격사항의 자격명과 발급기관을 한 줄로 표시 */
+@media print {
+  .print-certification-inline {
+    display: flex;
+    align-items: baseline;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .print-certification-inline__name {
+    display: inline !important;
+    flex: 0 0 auto;
+    margin: 0;
+    font-size: 8.7pt !important;
+    font-weight: 650;
+    line-height: 1.45 !important;
+  }
+
+  .print-certification-inline__issuer {
+    display: inline;
+    min-width: 0;
+    color: var(--print-muted);
+    font-size: 7.8pt;
+    line-height: 1.45;
+  }
+}
