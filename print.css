@@ -798,3 +798,31 @@
     font-weight: 400 !important;
   }
 }
+
+/* 수상내역 등 다음에 외부활동을 같은 페이지 흐름으로 연속 배치 */
+@media print {
+  .print-activity-block {
+    width: 100%;
+    margin-top: 4.5mm;
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .print-activity-block > h3 {
+    margin: 0 0 2mm;
+    color: #25334a;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    break-after: avoid-page;
+    page-break-after: avoid;
+  }
+
+  .print-activity-block .print-table--activities {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .print-activity-block .print-table--activities thead {
+    display: table-header-group;
+  }
+}
