@@ -3478,17 +3478,6 @@ function renderPrintResume() {
     );
   });
 
-  const footer = createElement('footer', 'print-resume__footer');
-  footer.append(
-    createElement(
-      'p',
-      '',
-      `${resumeData.site?.brand || 'BAELAB'} · ${
-        resumeData.profile?.email || ''
-      }`
-    )
-  );
-
   /*
    * 경력 타임라인은 본문 뒤에 배치하는 별도 참고자료입니다.
    * 인쇄 결과에서 마지막 A4 가로 페이지로 출력되며,
@@ -3512,7 +3501,7 @@ function renderPrintResume() {
     companyDetails
   ];
 
-  printSections.push(footer, timelineSection);
+  printSections.push(timelineSection);
   printResume.replaceChildren(...printSections);
 }
 
