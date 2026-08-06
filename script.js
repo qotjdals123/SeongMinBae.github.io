@@ -3352,45 +3352,25 @@ function createPrintContributions(data) {
   if (items.length === 0) return null;
 
   /*
-   * 첫 페이지의 공간을 효율적으로 사용하면서도 표 머리글이 보이도록
-   * 항목을 좌우 두 개의 동일한 표로 나누어 출력합니다.
+   * 기타사항은 좌우 분할 없이 페이지 전체 너비를 사용하는 단일 표로
+   * 출력합니다. 항목이 첫 페이지를 넘으면 다음 페이지로 자연스럽게
+   * 이어지고, 표 머리글은 새 페이지에서도 반복됩니다.
    */
-  const columnRows = [[], []];
+  const rows = items.map((item) => [
+    item.year || '',
+    item.category || '기타',
+    item.description || ''
+  ]);
 
-  items.forEach((item, index) => {
-    columnRows[index % 2].push([
-      item.year || '',
-      item.category || '기타',
-      item.description || ''
-    ]);
-  });
-
-  const wrapper = createElement(
-    'div',
-    'print-contribution-tables'
+  return createPrintTable(
+    [
+      { label: '연도', width: '13%' },
+      { label: '구분', width: '18%' },
+      { label: '기타 내용' }
+    ],
+    rows,
+    'print-table--contribution-compact'
   );
-
-  columnRows
-    .filter((rows) => rows.length > 0)
-    .forEach((rows) => {
-      wrapper.append(
-        createPrintTable(
-          [
-            { label: '연도', width: '17%' },
-            { label: '구분', width: '24%' },
-            { label: '기타 내용' }
-          ],
-          rows,
-          'print-table--contribution-compact'
-        )
-      );
-    });
-
-  if (wrapper.children.length === 1) {
-    wrapper.classList.add('print-contribution-tables--single');
-  }
-
-  return wrapper;
 }
 
 function createPrintActivities(data) {
