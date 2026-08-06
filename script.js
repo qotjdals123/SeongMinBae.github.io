@@ -2747,11 +2747,25 @@ function createPrintCertificationSection(data) {
         { label: '자격 및 발급기관' }
       ],
       (data.certifications || []).map((item) => {
-        const detail = createElement('div');
+        const detail = createElement('div', 'print-certification-inline');
         detail.append(
-          createElement('strong', '', item.name),
-          createElement('p', '', item.issuer || '')
+          createElement(
+            'strong',
+            'print-certification-inline__name',
+            item.name
+          )
         );
+
+        if (item.issuer) {
+          detail.append(
+            createElement(
+              'span',
+              'print-certification-inline__issuer',
+              ` · ${item.issuer}`
+            )
+          );
+        }
+
         return [item.year, detail];
       }),
       'print-table--compact print-table--certifications'
