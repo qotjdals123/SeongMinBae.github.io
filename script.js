@@ -3400,7 +3400,6 @@ function renderPrintResume() {
     'print-section print-section--overview'
   );
   overview.append(
-    createPrintSectionHeading(1, '기본정보'),
     createPrintProfileTable(resumeData),
     createPrintEducationSection(resumeData)
   );
@@ -3410,7 +3409,7 @@ function renderPrintResume() {
     'print-section print-section--summary'
   );
   summary.append(
-    createPrintSectionHeading(2, '경력 요약'),
+    createElement('h3', 'print-block-title', '경력사항'),
     createPrintCareerSummary(resumeData),
     createPrintCertificationSection(resumeData)
   );
