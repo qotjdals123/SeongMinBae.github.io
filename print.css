@@ -826,3 +826,18 @@
     display: table-header-group;
   }
 }
+
+/* 외부활동 기간 칼럼: 다른 첫 번째 칼럼과 동일한 너비 및 가운데 정렬 */
+@media print {
+  .print-table--activities th:first-child,
+  .print-table--activities td:first-child {
+    width: 20% !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: nowrap;
+  }
+
+  .print-table--activities td:first-child {
+    font-weight: 400 !important;
+  }
+}
