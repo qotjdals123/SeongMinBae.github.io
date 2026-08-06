@@ -790,3 +790,11 @@
     display: table-header-group;
   }
 }
+
+
+/* 학력사항 학교명 볼드 제거 */
+@media print {
+  .print-education-inline__school {
+    font-weight: 400 !important;
+  }
+}
