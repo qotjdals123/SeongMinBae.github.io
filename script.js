@@ -2701,16 +2701,28 @@ function createPrintEducationSection(data) {
         { label: '학교 및 전공' }
       ],
       (data.education || []).map((item) => {
-        const detail = createElement('div');
-        detail.append(
-          createElement('strong', '', item.school),
-          createElement('p', '', item.major)
+        const detail = createElement('div', 'print-education-inline');
+        const school = createElement(
+          'strong',
+          'print-education-inline__school',
+          item.school
         );
-        if (item.note) {
+        const additionalInfo = [item.major, item.note]
+          .filter(Boolean)
+          .join(' · ');
+
+        detail.append(school);
+
+        if (additionalInfo) {
           detail.append(
-            createElement('small', '', item.note)
+            createElement(
+              'span',
+              'print-education-inline__meta',
+              ` · ${additionalInfo}`
+            )
           );
         }
+
         return [item.period, detail];
       }),
       'print-table--compact print-table--education'
