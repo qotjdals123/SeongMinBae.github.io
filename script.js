@@ -3351,39 +3351,46 @@ function createPrintContributions(data) {
 
   if (items.length === 0) return null;
 
-  const grid = createElement(
-    'div',
-    'print-contribution-grid'
-  );
+  /*
+   * 첫 페이지의 공간을 효율적으로 사용하면서도 표 머리글이 보이도록
+   * 항목을 좌우 두 개의 동일한 표로 나누어 출력합니다.
+   */
+  const columnRows = [[], []];
 
-  items.forEach((item) => {
-    const row = createElement(
-      'div',
-      'print-contribution-grid__item'
-    );
-
-    row.append(
-      createElement(
-        'span',
-        'print-contribution-grid__year',
-        item.year || ''
-      ),
-      createElement(
-        'span',
-        'print-contribution-grid__category',
-        item.category || '기타'
-      ),
-      createElement(
-        'span',
-        'print-contribution-grid__description',
-        item.description || ''
-      )
-    );
-
-    grid.append(row);
+  items.forEach((item, index) => {
+    columnRows[index % 2].push([
+      item.year || '',
+      item.category || '기타',
+      item.description || ''
+    ]);
   });
 
-  return grid;
+  const wrapper = createElement(
+    'div',
+    'print-contribution-tables'
+  );
+
+  columnRows
+    .filter((rows) => rows.length > 0)
+    .forEach((rows) => {
+      wrapper.append(
+        createPrintTable(
+          [
+            { label: '연도', width: '17%' },
+            { label: '구분', width: '24%' },
+            { label: '기타 내용' }
+          ],
+          rows,
+          'print-table--contribution-compact'
+        )
+      );
+    });
+
+  if (wrapper.children.length === 1) {
+    wrapper.classList.add('print-contribution-tables--single');
+  }
+
+  return wrapper;
 }
 
 function createPrintActivities(data) {
