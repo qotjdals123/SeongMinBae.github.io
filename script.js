@@ -3198,6 +3198,7 @@ function createPrintPositions(item) {
 }
 
 function createPrintDetailTable(group) {
+  const isProjects = group.key === 'projects';
   const isProgramOperations = group.key === 'programOperations';
 
   const rows = group.items.map((detail) => {
@@ -3220,6 +3221,10 @@ function createPrintDetailTable(group) {
       content.append(list);
     }
 
+    if (isProjects) {
+      return [content];
+    }
+
     if (isProgramOperations) {
       return [
         detail.period || '',
@@ -3233,6 +3238,16 @@ function createPrintDetailTable(group) {
       content
     ];
   });
+
+  if (isProjects) {
+    return createPrintTable(
+      [
+        { label: '수행 내용' }
+      ],
+      rows,
+      'print-table--details print-table--projects'
+    );
+  }
 
   if (isProgramOperations) {
     return createPrintTable(
