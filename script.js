@@ -2697,7 +2697,7 @@ function createPrintEducationSection(data) {
   educationSection.append(
     createPrintTable(
       [
-        { label: '구분', width: '17%' },
+        { label: '구분', width: '15%' },
         { label: '학교 및 전공' }
       ],
       (data.education || []).map((item) => {
@@ -2743,7 +2743,7 @@ function createPrintCertificationSection(data) {
   certificationSection.append(
     createPrintTable(
       [
-        { label: '연도', width: '17%' },
+        { label: '연도', width: '15%' },
         { label: '자격 및 발급기관' }
       ],
       (data.certifications || []).map((item) => {
@@ -3166,8 +3166,8 @@ function createPrintCareerSummary(data) {
 
   return createPrintTable(
     [
-      { label: '회사명', width: '17%' },
-      { label: '재직기간', width: '23%' },
+      { label: '회사명', width: '15%' },
+      { label: '재직기간', width: '15%' },
       { label: '직급' }
     ],
     rows,
@@ -3364,8 +3364,8 @@ function createPrintContributions(data) {
 
   return createPrintTable(
     [
-      { label: '연도', width: '17%' },
-      { label: '구분', width: '18%' },
+      { label: '연도', width: '15%' },
+      { label: '구분', width: '15%' },
       { label: '기타 내용' }
     ],
     rows,
