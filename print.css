@@ -724,7 +724,7 @@
 }
 
 
-/* 학력·경력·자격·기타사항의 첫 번째 칼럼 너비(16%)와 정렬 통일 */
+/* 학력·경력·자격·기타사항의 첫 번째 칼럼 너비(18%)와 정렬 통일 */
 @media print {
   .print-table--education th:first-child,
   .print-table--education td:first-child,
@@ -734,7 +734,7 @@
   .print-table--certifications td:first-child,
   .print-table--contribution-compact th:first-child,
   .print-table--contribution-compact td:first-child {
-    width: 16% !important;
+    width: 18% !important;
     text-align: center !important;
   }
 
