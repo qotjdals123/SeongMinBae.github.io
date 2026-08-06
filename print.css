@@ -521,3 +521,12 @@
     page-break-after: auto;
   }
 }
+
+@media print {
+  .print-inline-list--military {
+    margin-top: 1.1mm;
+    margin-bottom: 1.1mm;
+    padding-bottom: 1.1mm;
+    border-bottom: 1px dotted var(--print-line);
+  }
+}
