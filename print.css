@@ -202,6 +202,7 @@
   }
 
   .print-compact-block h3,
+  .print-block-title,
   .print-company__subsection > h3,
   .print-company__subheading h3 {
     margin: 0 0 2mm;
@@ -555,7 +556,22 @@
   }
 }
 
-/* 첫 페이지 재배치: 학력 → 경력 요약 → 자격사항을 각각 전체 너비로 표시 */
+/* 기본정보·경력 섹션 번호 제목 제거 후 소제목 체계로 통일 */
+@media print {
+  .print-section--overview {
+    margin-top: 0;
+  }
+
+  .print-section--summary {
+    margin-top: 4.5mm;
+  }
+
+  .print-block-title {
+    margin-bottom: 2mm;
+  }
+}
+
+/* 첫 페이지 재배치: 학력 → 경력사항 → 자격사항을 각각 전체 너비로 표시 */
 @media print {
   .print-full-width-block {
     display: block;
