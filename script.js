@@ -3393,8 +3393,8 @@ function createPrintActivities(data) {
   return createPrintTable(
     [
       { label: '기간', width: '20%' },
-      { label: '기관 및 활동', width: '64%' },
-      { label: '역할', width: '16%' }
+      { label: '기관 및 활동', width: '62%' },
+      { label: '역할', width: '18%' }
     ],
     rows,
     'print-table--activities'
