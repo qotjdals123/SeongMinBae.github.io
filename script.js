@@ -3345,23 +3345,45 @@ function createPrintCompanySection(item, index) {
 }
 
 function createPrintContributions(data) {
-  const rows = (data.contributions || []).map((item) => [
-    item.year || '',
-    item.category || '기타',
-    item.description || ''
-  ]);
+  const items = Array.isArray(data.contributions)
+    ? data.contributions
+    : [];
 
-  if (rows.length === 0) return null;
+  if (items.length === 0) return null;
 
-  return createPrintTable(
-    [
-      { label: '연도', width: '13%' },
-      { label: '구분', width: '22%' },
-      { label: '기여 내용' }
-    ],
-    rows,
-    'print-table--compact print-table--contributions'
+  const grid = createElement(
+    'div',
+    'print-contribution-grid'
   );
+
+  items.forEach((item) => {
+    const row = createElement(
+      'div',
+      'print-contribution-grid__item'
+    );
+
+    row.append(
+      createElement(
+        'span',
+        'print-contribution-grid__year',
+        item.year || ''
+      ),
+      createElement(
+        'span',
+        'print-contribution-grid__category',
+        item.category || '기타'
+      ),
+      createElement(
+        'span',
+        'print-contribution-grid__description',
+        item.description || ''
+      )
+    );
+
+    grid.append(row);
+  });
+
+  return grid;
 }
 
 function createPrintActivities(data) {
@@ -3421,6 +3443,23 @@ function renderPrintResume() {
     createPrintCertificationSection(resumeData)
   );
 
+  /*
+   * 기타 기여사항은 첫 페이지의 자격사항 바로 아래에 배치합니다.
+   * 전체 항목을 두 단으로 압축해 첫 페이지 안에서 읽기 좋게 표시합니다.
+   */
+  const contributionTable = createPrintContributions(resumeData);
+  if (contributionTable) {
+    const contributionBlock = createElement(
+      'div',
+      'print-contribution-block'
+    );
+    contributionBlock.append(
+      createPrintSectionHeading(3, '기타 기여사항'),
+      contributionTable
+    );
+    summary.append(contributionBlock);
+  }
+
   const companyDetails = createElement(
     'div',
     'print-company-list'
@@ -3430,18 +3469,6 @@ function renderPrintResume() {
       createPrintCompanySection(item, index)
     );
   });
-
-  const contributionTable = createPrintContributions(resumeData);
-  const contributionSection = createElement(
-    'section',
-    'print-section print-section--appendix'
-  );
-  contributionSection.append(
-    createPrintSectionHeading(3, '기타 기여사항')
-  );
-  if (contributionTable) {
-    contributionSection.append(contributionTable);
-  }
 
   const activityTable = createPrintActivities(resumeData);
   const activitySection = activityTable
@@ -3490,8 +3517,7 @@ function renderPrintResume() {
     header,
     overview,
     summary,
-    companyDetails,
-    contributionSection
+    companyDetails
   ];
 
   if (activitySection) {
