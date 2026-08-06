@@ -583,3 +583,30 @@
     page-break-inside: avoid;
   }
 }
+
+/* 학력사항은 학교명·전공·학점을 줄바꿈 없이 한 줄로 표시 */
+@media print {
+  .print-education-inline {
+    display: flex;
+    align-items: baseline;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .print-education-inline__school {
+    display: inline !important;
+    flex: 0 0 auto;
+    margin: 0;
+    font-size: 8.7pt !important;
+    line-height: 1.45 !important;
+  }
+
+  .print-education-inline__meta {
+    display: inline;
+    min-width: 0;
+    color: var(--print-muted);
+    font-size: 7.8pt;
+    line-height: 1.45;
+  }
+}
+
