@@ -2686,15 +2686,10 @@ function createPrintProfileTable(data) {
   return table;
 }
 
-function createPrintEducationAndCertification(data) {
-  const layout = createElement(
-    'div',
-    'print-two-column'
-  );
-
+function createPrintEducationSection(data) {
   const educationSection = createElement(
     'section',
-    'print-compact-block'
+    'print-compact-block print-full-width-block print-education-block'
   );
   educationSection.append(
     createElement('h3', '', '학력사항')
@@ -2702,7 +2697,7 @@ function createPrintEducationAndCertification(data) {
   educationSection.append(
     createPrintTable(
       [
-        { label: '구분', width: '22%' },
+        { label: '구분', width: '18%' },
         { label: '학교 및 전공' }
       ],
       (data.education || []).map((item) => {
@@ -2718,13 +2713,17 @@ function createPrintEducationAndCertification(data) {
         }
         return [item.period, detail];
       }),
-      'print-table--compact'
+      'print-table--compact print-table--education'
     )
   );
 
+  return educationSection;
+}
+
+function createPrintCertificationSection(data) {
   const certificationSection = createElement(
     'section',
-    'print-compact-block'
+    'print-compact-block print-full-width-block print-certification-block'
   );
   certificationSection.append(
     createElement('h3', '', '자격사항')
@@ -2743,12 +2742,11 @@ function createPrintEducationAndCertification(data) {
         );
         return [item.year, detail];
       }),
-      'print-table--compact'
+      'print-table--compact print-table--certifications'
     )
   );
 
-  layout.append(educationSection, certificationSection);
-  return layout;
+  return certificationSection;
 }
 
 
@@ -3392,7 +3390,7 @@ function renderPrintResume() {
   overview.append(
     createPrintSectionHeading(1, '기본정보'),
     createPrintProfileTable(resumeData),
-    createPrintEducationAndCertification(resumeData)
+    createPrintEducationSection(resumeData)
   );
 
   const summary = createElement(
@@ -3401,7 +3399,8 @@ function renderPrintResume() {
   );
   summary.append(
     createPrintSectionHeading(2, '경력 요약'),
-    createPrintCareerSummary(resumeData)
+    createPrintCareerSummary(resumeData),
+    createPrintCertificationSection(resumeData)
   );
 
   const companyDetails = createElement(
