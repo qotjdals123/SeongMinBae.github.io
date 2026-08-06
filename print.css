@@ -745,3 +745,15 @@
     word-break: keep-all;
   }
 }
+
+/* 경력사항 재직기간, 기타사항 구분 칼럼 가운데 정렬 */
+@media print {
+  .print-table--career-summary th:nth-child(2),
+  .print-table--career-summary td:nth-child(2),
+  .print-table--contribution-compact th:nth-child(2),
+  .print-table--contribution-compact td:nth-child(2) {
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: nowrap;
+  }
+}
