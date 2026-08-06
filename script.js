@@ -2476,18 +2476,32 @@ function renderActivities(groups) {
 }
 
 
+function formatPrintDate(dateValue) {
+  if (!dateValue) return '';
+
+  const date = parseDate(dateValue);
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, '0'),
+    String(date.getDate()).padStart(2, '0')
+  ].join('.');
+}
+
 function formatPrintPeriod(item) {
   if (!item?.startDate) return '';
 
-  const start = formatTimelineMonth(item.startDate);
-
+  /*
+   * 전역일처럼 시작일과 종료일이 같은 단일 날짜 이력은
+   * 월 단위가 아닌 YYYY.MM.DD 형식으로 표시합니다.
+   */
   if (
     item.endDate &&
     item.endDate === item.startDate
   ) {
-    return start;
+    return formatPrintDate(item.startDate);
   }
 
+  const start = formatTimelineMonth(item.startDate);
   const end = item.endDate
     ? formatTimelineMonth(item.endDate)
     : '현재';
@@ -3089,6 +3103,56 @@ function createPrintCareerSummary(data) {
     detail.append(
       createElement('strong', '', item.position || '')
     );
+
+    /*
+     * positions에 저장된 IT병역특례 근무 이력과 전역일을
+     * 경력 요약에서도 누락 없이 표시합니다.
+     */
+    const positionHistory = Array.isArray(item.positions)
+      ? item.positions
+      : [];
+    const militaryService = positionHistory.find((position) =>
+      String(position.type || '').includes('IT병역특례')
+    );
+    const militaryDischarge = positionHistory.find((position) =>
+      String(position.title || '').includes('IT병역특례 전역')
+    );
+
+    if (militaryService || militaryDischarge) {
+      const militaryNotes = createElement(
+        'ul',
+        'print-inline-list print-inline-list--military'
+      );
+
+      if (militaryService) {
+        const serviceTitle = militaryService.title
+          ? `${militaryService.title} · IT병역특례`
+          : 'IT병역특례 근무';
+        militaryNotes.append(
+          createElement(
+            'li',
+            '',
+            `${serviceTitle} (${formatPrintDate(militaryService.startDate)} ~ ${
+              militaryService.endDate
+                ? formatPrintDate(militaryService.endDate)
+                : '현재'
+            })`
+          )
+        );
+      }
+
+      if (militaryDischarge?.startDate) {
+        militaryNotes.append(
+          createElement(
+            'li',
+            '',
+            `IT병역특례 전역일 ${formatPrintDate(militaryDischarge.startDate)}`
+          )
+        );
+      }
+
+      detail.append(militaryNotes);
+    }
 
     if (Array.isArray(item.duties) && item.duties.length > 0) {
       const duties = createElement('ul', 'print-inline-list');
