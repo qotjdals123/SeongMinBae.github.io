@@ -3137,23 +3137,16 @@ function createPrintTimeline(data) {
 
 function createPrintCareerSummary(data) {
   const rows = getPrintExperienceItems(data).map((item) => {
-    const detail = createElement('div');
-    detail.append(
-      createElement('strong', '', getPrintPositionText(item))
+    const position = createElement(
+      'strong',
+      '',
+      getPrintPositionText(item)
     );
-
-    if (Array.isArray(item.duties) && item.duties.length > 0) {
-      const duties = createElement('ul', 'print-inline-list');
-      item.duties.forEach((duty) => {
-        duties.append(createElement('li', '', duty));
-      });
-      detail.append(duties);
-    }
 
     return [
       getPrintDisplayText(item.company),
       formatPrintPeriod(item),
-      detail
+      position
     ];
   });
 
@@ -3161,7 +3154,7 @@ function createPrintCareerSummary(data) {
     [
       { label: '회사명', width: '20%' },
       { label: '재직기간', width: '23%' },
-      { label: '직급 및 주요업무' }
+      { label: '직급' }
     ],
     rows,
     'print-table--career-summary'
