@@ -3444,7 +3444,7 @@ function renderPrintResume() {
       'print-compact-block print-contribution-block'
     );
     contributionBlock.append(
-      createElement('h3', '', '기타사항'),
+      createElement('h3', '', '수상내역 등'),
       contributionTable
     );
     overview.append(contributionBlock);
