@@ -411,19 +411,6 @@
     padding-bottom: 1.7mm;
   }
 
-  .print-resume__footer {
-    margin-top: 7mm;
-    padding-top: 3mm;
-    border-top: 1px solid var(--print-line);
-    color: var(--print-muted);
-    font-size: 7pt;
-    text-align: right;
-  }
-
-  .print-resume__footer p {
-    margin: 0;
-  }
-
   a,
   a:visited {
     color: inherit !important;
