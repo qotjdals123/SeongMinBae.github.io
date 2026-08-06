@@ -3139,6 +3139,8 @@ function createPrintPositions(item) {
 }
 
 function createPrintDetailTable(group) {
+  const isProgramOperations = group.key === 'programOperations';
+
   const rows = group.items.map((detail) => {
     const content = createElement('div', 'print-detail-content');
     content.append(
@@ -3159,12 +3161,30 @@ function createPrintDetailTable(group) {
       content.append(list);
     }
 
+    if (isProgramOperations) {
+      return [
+        detail.period || '',
+        content
+      ];
+    }
+
     return [
       detail.period || '',
       detail.role || detail.client || '',
       content
     ];
   });
+
+  if (isProgramOperations) {
+    return createPrintTable(
+      [
+        { label: '기간', width: '20%' },
+        { label: '수행 내용' }
+      ],
+      rows,
+      'print-table--details print-table--program-operations'
+    );
+  }
 
   return createPrintTable(
     [
