@@ -554,3 +554,32 @@
     border-bottom: 1px dotted var(--print-line);
   }
 }
+
+/* 첫 페이지 재배치: 학력 → 경력 요약 → 자격사항을 각각 전체 너비로 표시 */
+@media print {
+  .print-full-width-block {
+    display: block;
+    width: 100%;
+    max-width: none;
+  }
+
+  .print-education-block {
+    margin-top: 3.5mm;
+  }
+
+  .print-certification-block {
+    margin-top: 4.5mm;
+  }
+
+  .print-table--education,
+  .print-table--certifications {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .print-section--overview,
+  .print-section--summary {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
