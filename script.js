@@ -2743,7 +2743,7 @@ function createPrintCertificationSection(data) {
   certificationSection.append(
     createPrintTable(
       [
-        { label: '연도', width: '18%' },
+        { label: '연도', width: '13%' },
         { label: '자격 및 발급기관' }
       ],
       (data.certifications || []).map((item) => {
@@ -3166,7 +3166,7 @@ function createPrintCareerSummary(data) {
 
   return createPrintTable(
     [
-      { label: '회사명', width: '20%' },
+      { label: '회사명', width: '13%' },
       { label: '재직기간', width: '23%' },
       { label: '직급' }
     ],
