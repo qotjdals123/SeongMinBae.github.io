@@ -835,3 +835,27 @@
     font-weight: 700 !important;
   }
 }
+
+/* 학력사항 행 경계선 중첩 및 텍스트 밀착 현상 보정 */
+@media print {
+  .print-table--education tbody td {
+    border-bottom: 0 !important;
+    padding-top: 2.3mm !important;
+    padding-bottom: 2.3mm !important;
+    vertical-align: middle !important;
+  }
+
+  .print-table--education tbody tr:not(:last-child) td {
+    border-bottom: 0.5px solid var(--print-line) !important;
+  }
+
+  .print-table--education tbody tr:last-child td {
+    border-bottom: 1px solid var(--print-line) !important;
+  }
+
+  .print-table--education .print-education-inline,
+  .print-table--education .print-education-inline__school,
+  .print-table--education .print-education-inline__meta {
+    line-height: 1.4 !important;
+  }
+}
