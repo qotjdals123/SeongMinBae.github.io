@@ -3144,7 +3144,7 @@ function createPrintDetailTable(group) {
   const rows = group.items.map((detail) => {
     const content = createElement('div', 'print-detail-content');
     content.append(
-      createElement('strong', '', detail.title || '상세 내역')
+      createElement('span', 'print-detail-title', detail.title || '상세 내역')
     );
 
     if (detail.summary) {
