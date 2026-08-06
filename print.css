@@ -654,3 +654,63 @@
     line-height: 1.45;
   }
 }
+
+/* 기타 기여사항을 첫 페이지 자격사항 아래에 배치하는 압축형 2단 목록 */
+@media print {
+  .print-contribution-block {
+    width: 100%;
+    margin-top: 4.5mm;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-contribution-block .print-section__heading {
+    margin-bottom: 2mm;
+    padding-bottom: 1.5mm;
+  }
+
+  .print-contribution-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 4mm;
+    width: 100%;
+    border-top: 1.5px solid var(--print-line-strong);
+  }
+
+  .print-contribution-grid__item {
+    display: grid;
+    grid-template-columns: 12mm 19mm minmax(0, 1fr);
+    align-items: start;
+    min-width: 0;
+    padding: 1.05mm 1.2mm;
+    border-bottom: 1px solid var(--print-line);
+    font-size: 7.35pt;
+    line-height: 1.34;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-contribution-grid__year {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .print-contribution-grid__category {
+    color: #39475e;
+    white-space: nowrap;
+  }
+
+  .print-contribution-grid__description {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  /* 첫 페이지의 마지막 블록까지 안정적으로 유지합니다. */
+  .print-section--summary {
+    margin-top: 3.5mm;
+  }
+
+  .print-certification-block {
+    margin-top: 3.5mm;
+  }
+}
