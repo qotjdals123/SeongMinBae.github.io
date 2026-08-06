@@ -859,3 +859,14 @@
     line-height: 1.4 !important;
   }
 }
+
+/* 수행 프로젝트 기간: 연도만 표시되는 첫 번째 칼럼 */
+@media print {
+  .print-table--projects th:first-child,
+  .print-table--projects td:first-child {
+    width: 18% !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: nowrap;
+  }
+}
