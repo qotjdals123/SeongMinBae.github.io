@@ -713,3 +713,12 @@
   }
 }
 
+
+/* 경력사항 및 자격사항 본문 강조 제거 */
+@media print {
+  .print-table--career-summary td,
+  .print-table--career-summary td strong,
+  .print-certification-inline__name {
+    font-weight: 400 !important;
+  }
+}
