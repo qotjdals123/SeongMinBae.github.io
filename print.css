@@ -828,3 +828,10 @@
     font-weight: 400 !important;
   }
 }
+
+/* 인쇄용 수행 프로젝트의 프로젝트명 강조 */
+@media print {
+  .print-table--projects .print-detail-title {
+    font-weight: 700 !important;
+  }
+}
