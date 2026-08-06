@@ -655,25 +655,13 @@
   }
 }
 
-/* 기타사항: 표 머리글이 있는 읽기 쉬운 2단 표 */
+/* 기타사항: 페이지 전체 너비를 사용하는 단일 표 */
 @media print {
   .print-contribution-block {
     width: 100%;
     margin-top: 4.5mm;
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .print-contribution-tables {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 4mm;
-    width: 100%;
-    align-items: start;
-  }
-
-  .print-contribution-tables--single {
-    grid-template-columns: 1fr;
+    break-inside: auto;
+    page-break-inside: auto;
   }
 
   .print-table--contribution-compact {
@@ -681,18 +669,22 @@
     table-layout: fixed;
   }
 
+  .print-table--contribution-compact thead {
+    display: table-header-group;
+  }
+
   .print-table--contribution-compact th {
-    padding: 1.25mm 1.3mm;
-    font-size: 8pt;
-    line-height: 1.35;
+    padding: 1.6mm 1.8mm;
+    font-size: 8.2pt;
+    line-height: 1.4;
     white-space: nowrap;
   }
 
   .print-table--contribution-compact td {
-    padding: 1.2mm 1.3mm;
-    font-size: 8pt;
+    padding: 1.55mm 1.8mm;
+    font-size: 8.2pt;
     font-weight: 400;
-    line-height: 1.38;
+    line-height: 1.45;
     vertical-align: top;
     overflow-wrap: anywhere;
   }
@@ -707,7 +699,11 @@
     white-space: nowrap;
   }
 
-  /* 첫 페이지의 마지막 블록까지 안정적으로 유지합니다. */
+  .print-table--contribution-compact tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
   .print-section--summary {
     margin-top: 3.5mm;
   }
