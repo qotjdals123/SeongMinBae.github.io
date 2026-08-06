@@ -3197,6 +3197,22 @@ function createPrintPositions(item) {
   );
 }
 
+function formatPrintProjectYearPeriod(period) {
+  const source = String(period || '').trim();
+  if (!source) return '';
+
+  const years = source.match(/(?:19|20)\d{2}/g) || [];
+  if (years.length === 0) return source;
+
+  const startYear = years[0];
+  const endYear = years[years.length - 1];
+  const isOpenEnded = /[~～]\s*$/.test(source);
+
+  if (isOpenEnded) return `${startYear} ~`;
+  if (startYear === endYear) return startYear;
+  return `${startYear} ~ ${endYear}`;
+}
+
 function createPrintDetailTable(group) {
   const isProjects = group.key === 'projects';
   const isProgramOperations = group.key === 'programOperations';
@@ -3222,7 +3238,10 @@ function createPrintDetailTable(group) {
     }
 
     if (isProjects) {
-      return [content];
+      return [
+        formatPrintProjectYearPeriod(detail.period),
+        content
+      ];
     }
 
     if (isProgramOperations) {
@@ -3242,6 +3261,7 @@ function createPrintDetailTable(group) {
   if (isProjects) {
     return createPrintTable(
       [
+        { label: '기간', width: '18%' },
         { label: '수행 내용' }
       ],
       rows,
