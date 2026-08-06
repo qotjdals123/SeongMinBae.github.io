@@ -2617,6 +2617,34 @@ function getPrintExperienceItems(data) {
   );
 }
 
+
+function getPrintPositionText(item) {
+  const position = String(item?.position || '');
+
+  /*
+   * 나고소프트 경력은 인쇄 결과의 대표 직책에
+   * IT병역특례 이력을 함께 표시합니다.
+   */
+  if (item?.company === '나고소프트') {
+    if (position.includes('IT병역특례')) {
+      return position;
+    }
+
+    if (position.includes('학업병행')) {
+      return position.replace(
+        '학업병행',
+        'IT병역특례 · 학업병행'
+      );
+    }
+
+    return position
+      ? `${position} · IT병역특례`
+      : 'IT병역특례';
+  }
+
+  return position;
+}
+
 function createPrintProfileTable(data) {
   const profile = data.profile || {};
   const table = createElement('table', 'print-profile-table');
@@ -3101,58 +3129,8 @@ function createPrintCareerSummary(data) {
   const rows = getPrintExperienceItems(data).map((item) => {
     const detail = createElement('div');
     detail.append(
-      createElement('strong', '', item.position || '')
+      createElement('strong', '', getPrintPositionText(item))
     );
-
-    /*
-     * positions에 저장된 IT병역특례 근무 이력과 전역일을
-     * 경력 요약에서도 누락 없이 표시합니다.
-     */
-    const positionHistory = Array.isArray(item.positions)
-      ? item.positions
-      : [];
-    const militaryService = positionHistory.find((position) =>
-      String(position.type || '').includes('IT병역특례')
-    );
-    const militaryDischarge = positionHistory.find((position) =>
-      String(position.title || '').includes('IT병역특례 전역')
-    );
-
-    if (militaryService || militaryDischarge) {
-      const militaryNotes = createElement(
-        'ul',
-        'print-inline-list print-inline-list--military'
-      );
-
-      if (militaryService) {
-        const serviceTitle = militaryService.title
-          ? `${militaryService.title} · IT병역특례`
-          : 'IT병역특례 근무';
-        militaryNotes.append(
-          createElement(
-            'li',
-            '',
-            `${serviceTitle} (${formatPrintDate(militaryService.startDate)} ~ ${
-              militaryService.endDate
-                ? formatPrintDate(militaryService.endDate)
-                : '현재'
-            })`
-          )
-        );
-      }
-
-      if (militaryDischarge?.startDate) {
-        militaryNotes.append(
-          createElement(
-            'li',
-            '',
-            `IT병역특례 전역일 ${formatPrintDate(militaryDischarge.startDate)}`
-          )
-        );
-      }
-
-      detail.append(militaryNotes);
-    }
 
     if (Array.isArray(item.duties) && item.duties.length > 0) {
       const duties = createElement('ul', 'print-inline-list');
@@ -3279,7 +3257,7 @@ function createPrintCompanySection(item, index) {
       String(index + 1).padStart(2, '0')
     ),
     createElement('h2', '', getPrintDisplayText(item.company)),
-    createElement('p', '', item.position || '')
+    createElement('p', '', getPrintPositionText(item))
   );
   heading.append(
     titleArea,
