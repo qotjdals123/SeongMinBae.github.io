@@ -724,15 +724,17 @@
 }
 
 
-/* 경력·자격·기타사항의 첫 번째 칼럼 너비를 동일하게 정렬 */
+/* 학력·경력·자격·기타사항의 첫 번째 칼럼 너비를 동일하게 정렬 */
 @media print {
+  .print-table--education th:first-child,
+  .print-table--education td:first-child,
   .print-table--career-summary th:first-child,
   .print-table--career-summary td:first-child,
   .print-table--certifications th:first-child,
   .print-table--certifications td:first-child,
   .print-table--contribution-compact th:first-child,
   .print-table--contribution-compact td:first-child {
-    width: 20% !important;
+    width: 17% !important;
   }
 
   /* 회사명이 두 줄로 나뉘지 않도록 한 줄로 유지 */
