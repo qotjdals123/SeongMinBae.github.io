@@ -3331,7 +3331,9 @@ function createPrintCompanySection(item, index) {
   }
 
   normalizeCareerDetailGroups(item)
-    .filter((group) => group.items.length > 0)
+    // 인쇄본에는 수행 프로젝트만 표시하고, 프로그램 운영 및
+    // 솔루션 운영·관리 경험 섹션은 제외합니다.
+    .filter((group) => group.key === 'projects' && group.items.length > 0)
     .forEach((group, groupIndex) => {
       const detailBlock = createElement(
         'div',
