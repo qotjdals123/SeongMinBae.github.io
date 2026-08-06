@@ -757,3 +757,36 @@
     white-space: nowrap;
   }
 }
+
+/* 첫 페이지 흐름: 학력사항 아래에 경력사항·자격사항·기타사항을 연속 배치 */
+@media print {
+  .print-section--overview {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  .print-education-block,
+  .print-career-block,
+  .print-certification-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .print-career-block {
+    margin-top: 3.5mm;
+  }
+
+  .print-contribution-block {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  .print-contribution-block > h3 {
+    break-after: avoid-page;
+    page-break-after: avoid;
+  }
+
+  .print-table--contribution-compact thead {
+    display: table-header-group;
+  }
+}
