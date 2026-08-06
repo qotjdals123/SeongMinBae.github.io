@@ -3415,24 +3415,27 @@ function renderPrintResume() {
     'section',
     'print-section print-section--overview'
   );
-  overview.append(
-    createPrintProfileTable(resumeData),
-    createPrintEducationSection(resumeData)
+
+  const careerBlock = createElement(
+    'div',
+    'print-compact-block print-full-width-block print-career-block'
+  );
+  careerBlock.append(
+    createElement('h3', 'print-block-title', '경력사항'),
+    createPrintCareerSummary(resumeData)
   );
 
-  const summary = createElement(
-    'section',
-    'print-section print-section--summary'
-  );
-  summary.append(
-    createElement('h3', 'print-block-title', '경력사항'),
-    createPrintCareerSummary(resumeData),
+  overview.append(
+    createPrintProfileTable(resumeData),
+    createPrintEducationSection(resumeData),
+    careerBlock,
     createPrintCertificationSection(resumeData)
   );
 
   /*
-   * 기타 기여사항은 첫 페이지의 자격사항 바로 아래에 배치합니다.
-   * 전체 항목을 두 단으로 압축해 첫 페이지 안에서 읽기 좋게 표시합니다.
+   * 기타사항은 학력·경력·자격사항 바로 아래에서 시작합니다.
+   * 첫 페이지에 들어가는 만큼 출력하고, 남은 행은 표 머리글과 함께
+   * 다음 페이지로 자연스럽게 이어집니다.
    */
   const contributionTable = createPrintContributions(resumeData);
   if (contributionTable) {
@@ -3444,7 +3447,7 @@ function renderPrintResume() {
       createElement('h3', '', '기타사항'),
       contributionTable
     );
-    summary.append(contributionBlock);
+    overview.append(contributionBlock);
   }
 
   const companyDetails = createElement(
@@ -3503,7 +3506,6 @@ function renderPrintResume() {
   const printSections = [
     header,
     overview,
-    summary,
     companyDetails
   ];
 
