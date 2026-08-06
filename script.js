@@ -3451,10 +3451,10 @@ function renderPrintResume() {
   if (contributionTable) {
     const contributionBlock = createElement(
       'div',
-      'print-contribution-block'
+      'print-compact-block print-contribution-block'
     );
     contributionBlock.append(
-      createPrintSectionHeading(3, '기타 기여사항'),
+      createElement('h3', '', '기타사항'),
       contributionTable
     );
     summary.append(contributionBlock);
