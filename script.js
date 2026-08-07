@@ -2286,6 +2286,8 @@ function renderExperience(items) {
       );
 
       detailButton.type = 'button';
+      detailButton.hidden = true;
+      detailButton.setAttribute('aria-hidden', 'true');
       detailButton.addEventListener('click', () => {
         openProjectModal(item, detailButton);
       });
