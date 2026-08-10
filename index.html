@@ -16,6 +16,10 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="experience-modal.css">
   <link rel="stylesheet" href="print.css">
+  <style>
+    /* 개인용 인쇄 버튼: 개발자도구에서 hidden 속성을 제거할 때만 표시 */
+    .site-print-button[hidden] { display: none !important; }
+  </style>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -37,11 +41,13 @@
         <a href="#certification">자격증</a>
         <a href="#contributions">기타 기여사항</a>
         <a href="#activities">대외활동</a>
+        <!-- 개인용 인쇄 버튼: 개발자도구에서 hidden 속성을 제거하면 표시됩니다. -->
         <button
           class="site-print-button"
           id="site-print-button"
           type="button"
-          aria-label="기술경력서 인쇄"
+          aria-label="경력기술서 인쇄"
+          hidden
         >
           <span class="site-print-button__icon" aria-hidden="true"></span>
           <span>인쇄</span>
