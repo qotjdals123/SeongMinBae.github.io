@@ -3490,8 +3490,8 @@ function renderPrintResume() {
   }
 
   /*
-   * 외부활동은 수상내역 등 표 바로 다음에 이어서 출력합니다.
-   * 수상내역이 2페이지로 넘어가면 외부활동도 같은 흐름으로 그 아래에
+   * 대외활동은 수상내역 등 표 바로 다음에 이어서 출력합니다.
+   * 수상내역이 2페이지로 넘어가면 대외활동도 같은 흐름으로 그 아래에
    * 배치되며, 별도의 강제 페이지 분리는 적용하지 않습니다.
    */
   const activityTable = createPrintActivities(resumeData);
@@ -3501,7 +3501,7 @@ function renderPrintResume() {
       'print-compact-block print-activity-block'
     );
     activityBlock.append(
-      createElement('h3', '', '외부활동'),
+      createElement('h3', '', '대외활동'),
       activityTable
     );
     overview.append(activityBlock);
