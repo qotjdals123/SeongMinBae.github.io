@@ -5,6 +5,20 @@ const primaryNav = document.querySelector('.primary-nav');
 const navLinks = [...document.querySelectorAll('.primary-nav a[href^="#"]')];
 const yearElement = document.querySelector('#current-year');
 const printButton = document.querySelector('#site-print-button');
+
+// 개인용 인쇄 버튼은 기본적으로 숨깁니다.
+// 개발자도구에서 #site-print-button의 hidden 속성을 제거하면 즉시 표시됩니다.
+if (printButton) {
+  printButton.hidden = true;
+  printButton.setAttribute('hidden', '');
+
+  if (!document.querySelector('#private-print-button-style')) {
+    const privatePrintStyle = document.createElement('style');
+    privatePrintStyle.id = 'private-print-button-style';
+    privatePrintStyle.textContent = '.site-print-button[hidden]{display:none!important;}';
+    document.head.appendChild(privatePrintStyle);
+  }
+}
 const printResume = document.querySelector('#print-resume');
 const PROJECT_MODAL_HISTORY_KEY = 'projectModalOpen';
 const TIMELINE_MODAL_HISTORY_KEY = 'careerTimelineModalOpen';
