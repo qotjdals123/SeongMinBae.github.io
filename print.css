@@ -942,3 +942,12 @@
     vertical-align: middle !important;
   }
 }
+
+
+/* 수행 프로젝트 표 헤더 가운데 정렬 */
+@media print {
+  .print-table--projects thead th:nth-child(2) {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+}
