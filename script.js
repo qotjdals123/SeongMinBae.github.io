@@ -3202,15 +3202,24 @@ function createPrintPositions(item) {
     position.type || ''
   ]);
 
-  return createPrintTable(
+  const table = createPrintTable(
     [
-      { label: '기간', width: '25%' },
-      { label: '직급·직책', width: '38%' },
+      { label: '기간', width: '18%' },
+      { label: '직급·직책', width: '45%' },
       { label: '근무 형태 및 비고' }
     ],
     rows,
     'print-table--positions'
   );
+
+  // 인쇄용 직급·직책 이력의 기간 열은 CSS 우선순위와 관계없이 가운데 정렬한다.
+  table.querySelectorAll('tr > :first-child').forEach((cell) => {
+    cell.style.setProperty('text-align', 'center', 'important');
+    cell.style.setProperty('vertical-align', 'middle', 'important');
+    cell.style.setProperty('white-space', 'nowrap');
+  });
+
+  return table;
 }
 
 function formatPrintProjectYearPeriod(period) {
