@@ -870,3 +870,13 @@
     white-space: nowrap;
   }
 }
+
+/* 인쇄용 직급·직책 이력의 기간 열 가운데 정렬 */
+@media print {
+  .print-table--positions th:first-child,
+  .print-table--positions td:first-child {
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: nowrap;
+  }
+}
