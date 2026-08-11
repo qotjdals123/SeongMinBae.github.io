@@ -880,3 +880,21 @@
     white-space: nowrap;
   }
 }
+
+/* 직급·직책 이력 기간 열 강제 가운데 정렬 - 브라우저/기존 규칙 우선순위 대응 */
+@media print {
+  table.print-table.print-table--positions > thead > tr > th:first-child,
+  table.print-table.print-table--positions > tbody > tr > td:first-child {
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* 직급·직책 이력 기간 열 너비를 수행 프로젝트 기간 열(18%)과 일치 */
+@media print {
+  table.print-table.print-table--positions > thead > tr > th:first-child,
+  table.print-table.print-table--positions > tbody > tr > td:first-child {
+    width: 18% !important;
+  }
+}
