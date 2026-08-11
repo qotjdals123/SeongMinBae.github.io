@@ -907,3 +907,21 @@
     vertical-align: middle !important;
   }
 }
+
+/* 첫 페이지 인쇄 표의 항목명/헤더 가운데 정렬 */
+@media print {
+  /* 기본정보: 성명, 출생년월, 현 소속, 이메일 */
+  .print-profile-table th {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+
+  /* 학력/경력/자격/수상내역 표의 머리글 */
+  .print-table--education thead th,
+  .print-table--career-summary thead th,
+  .print-table--certifications thead th,
+  .print-table--contribution-compact thead th {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+}
