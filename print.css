@@ -898,3 +898,12 @@
     width: 18% !important;
   }
 }
+
+/* 직급·직책 이력: 전체 칼럼 가운데 정렬 */
+@media print {
+  table.print-table.print-table--positions > thead > tr > th,
+  table.print-table.print-table--positions > tbody > tr > td {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+}
