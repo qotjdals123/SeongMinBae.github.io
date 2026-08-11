@@ -925,3 +925,20 @@
     vertical-align: middle !important;
   }
 }
+
+
+/* 인쇄용 대외활동 표: 요청된 헤더 및 역할 칼럼 가운데 정렬 */
+@media print {
+  /* "기관 및 활동" 헤더 가운데 정렬 */
+  .print-table--activities thead th:nth-child(2) {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+
+  /* "역할" 헤더 및 전체 값 가운데 정렬 */
+  .print-table--activities thead th:nth-child(3),
+  .print-table--activities tbody td:nth-child(3) {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+}
