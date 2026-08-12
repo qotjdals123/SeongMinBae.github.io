@@ -951,3 +951,11 @@
     vertical-align: middle !important;
   }
 }
+
+/* 인쇄용 기간 표기: 직급·직책 이력 / 수행 프로젝트 기간의 볼드 제거 */
+@media print {
+  .print-table--positions tbody td:first-child,
+  .print-table--projects tbody td:first-child {
+    font-weight: 400 !important;
+  }
+}
