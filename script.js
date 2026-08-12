@@ -3174,16 +3174,16 @@ function createPrintCareerSummary(data) {
     );
 
     return [
-      getPrintDisplayText(item.company),
       formatPrintPeriod(item),
+      getPrintDisplayText(item.company),
       position
     ];
   });
 
   return createPrintTable(
     [
-      { label: '회사명', width: '20%' },
       { label: '재직기간', width: '20%' },
+      { label: '회사명', width: '20%' },
       { label: '직급' }
     ],
     rows,
