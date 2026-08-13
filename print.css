@@ -959,3 +959,37 @@
     font-weight: 400 !important;
   }
 }
+
+
+/* 제도·가이드·규정 개선 주요 참여: 수행 프로젝트 위 인쇄 전용 표 */
+@media print {
+  .print-table--policy-improvements th:first-child,
+  .print-table--policy-improvements td:first-child {
+    width: 18% !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+  }
+
+  .print-table--policy-improvements tbody td:first-child {
+    font-weight: 400 !important;
+  }
+
+  .print-table--policy-improvements thead th:nth-child(2) {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+}
+
+
+/* 제도·가이드·규정 개선 주요 참여: 프로젝트와 동일하게 제목 + 설명 구조 */
+@media print {
+  .print-table--policy-improvements .print-detail-title {
+    font-weight: 700 !important;
+  }
+
+  .print-table--policy-improvements .print-policy-improvement-content p {
+    margin-top: 0.8mm !important;
+    font-weight: 400 !important;
+  }
+}
