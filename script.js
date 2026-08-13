@@ -3222,6 +3222,49 @@ function createPrintPositions(item) {
   return table;
 }
 
+function createPrintPolicyImprovements(item) {
+  const items = Array.isArray(item.policyImprovements)
+    ? item.policyImprovements
+    : [];
+
+  const rows = items
+    .filter((entry) => entry && (entry.period || entry.title || entry.content))
+    .map((entry) => {
+      const content = createElement(
+        'div',
+        'print-detail-content print-policy-improvement-content'
+      );
+
+      if (entry.title) {
+        content.append(
+          createElement('span', 'print-detail-title', entry.title)
+        );
+      }
+
+      if (entry.content) {
+        content.append(
+          createElement('p', '', entry.content)
+        );
+      }
+
+      return [
+        entry.period || '',
+        content
+      ];
+    });
+
+  if (rows.length === 0) return null;
+
+  return createPrintTable(
+    [
+      { label: '기간', width: '18%' },
+      { label: '수행 내용' }
+    ],
+    rows,
+    'print-table--policy-improvements'
+  );
+}
+
 function formatPrintProjectYearPeriod(period) {
   const source = String(period || '').trim();
   if (!source) return '';
@@ -3373,6 +3416,19 @@ function createPrintCompanySection(item, index) {
     });
     dutiesBlock.append(list);
     section.append(dutiesBlock);
+  }
+
+  const policyImprovementTable = createPrintPolicyImprovements(item);
+  if (policyImprovementTable) {
+    const policyImprovementBlock = createElement(
+      'div',
+      'print-company__subsection print-company__policy-improvements'
+    );
+    policyImprovementBlock.append(
+      createElement('h3', '', '제도·가이드·규정 개선 주요 참여'),
+      policyImprovementTable
+    );
+    section.append(policyImprovementBlock);
   }
 
   normalizeCareerDetailGroups(item)
