@@ -5,6 +5,7 @@ const primaryNav = document.querySelector('.primary-nav');
 const navLinks = [...document.querySelectorAll('.primary-nav a[href^="#"]')];
 const yearElement = document.querySelector('#current-year');
 const printButton = document.querySelector('#site-print-button');
+const initialLocationHash = window.location.hash;
 
 // 개인용 인쇄 버튼은 기본적으로 숨깁니다.
 // 개발자도구에서 #site-print-button의 hidden 속성을 제거하면 즉시 표시됩니다.
@@ -3682,6 +3683,56 @@ function initSectionObserver() {
   sections.forEach((section) => sectionObserver.observe(section));
 }
 
+function waitForWindowLoad() {
+  if (document.readyState === 'complete') {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve) => {
+    window.addEventListener('load', resolve, { once: true });
+  });
+}
+
+function waitForNextLayout() {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  });
+}
+
+async function restoreInitialHashPosition() {
+  // Dynamic resume content changes section offsets after the browser's native
+  // fragment navigation, so restore the original target once layout is stable.
+  if (!initialLocationHash || window.location.hash !== initialLocationHash) {
+    return;
+  }
+
+  let targetId;
+
+  try {
+    targetId = decodeURIComponent(initialLocationHash.slice(1));
+  } catch {
+    return;
+  }
+
+  const target = document.getElementById(targetId);
+  if (!target) return;
+
+  await waitForWindowLoad();
+
+  if (document.fonts?.ready) {
+    await document.fonts.ready;
+  }
+
+  await waitForNextLayout();
+
+  if (window.location.hash !== initialLocationHash) return;
+
+  target.scrollIntoView({
+    behavior: 'instant',
+    block: 'start'
+  });
+}
+
 async function loadResumeData() {
   try {
     const response = await fetch(DATA_URL, { cache: 'no-store' });
@@ -3700,6 +3751,7 @@ async function loadResumeData() {
     if (printButton) printButton.disabled = false;
     updateCareerDuration();
     scheduleCareerRefresh();
+    await restoreInitialHashPosition();
   } catch (error) {
     renderError(error);
   } finally {
