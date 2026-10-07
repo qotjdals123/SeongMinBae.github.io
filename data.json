@@ -373,6 +373,11 @@
   ],
   "contributions": [
     {
+      "category": "취약점 제보",
+      "description": "금융채권자조정위원회 홈페이지 취약점 제보(1건)",
+      "year": "2026"
+    },
+    {
       "category": "수상",
       "description": "생명보험협회 2026년도 모범직원 표창",
       "year": "2026"
@@ -419,7 +424,7 @@
     },
     {
       "category": "취약점 제보",
-      "description": "부산은행 인터넷뱅킹 localStorage 취약점 제보",
+      "description": "부산은행 인터넷뱅킹 localStorage 취약점 제보(1건)",
       "year": "2020"
     },
     {
