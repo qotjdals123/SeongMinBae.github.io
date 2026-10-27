@@ -443,6 +443,12 @@
       "year": "2026",
       "items": [
         {
+          "organization": "코디세이 AI해커톤",
+          "role": "멘토",
+          "period": "2026",
+          "includeInPrint": true
+        },
+        {
           "organization": "한국정보산업연합회 발주용역 선정위원회",
           "role": "평가위원",
           "period": "2026",
